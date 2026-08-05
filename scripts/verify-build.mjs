@@ -36,11 +36,27 @@ for (const requiredText of [
   }
 }
 
+const homeHeadingCount = (home.match(/<h1\b/g) ?? []).length;
+if (homeHeadingCount !== 1) {
+  throw new Error(`home must contain exactly one h1, found ${homeHeadingCount}`);
+}
+
+const notFound = await readFile(new URL('404.html', distUrl), 'utf8');
+if (!notFound.includes('길을 잃은 것 같습니다')) {
+  throw new Error('custom Korean 404 content was not rendered');
+}
+
 const article = await readFile(
   new URL('projects/developer-hub/index.html', distUrl),
   'utf8',
 );
-for (const requiredText of ['<graph-component', 'slsg-backlinks-panel', '목차']) {
+for (const requiredText of [
+  '<graph-component',
+  'slsg-backlinks-panel',
+  '그래프 뷰',
+  '백링크',
+  '목차',
+]) {
   if (!article.includes(requiredText)) {
     throw new Error(`project detail is missing theme UI: ${requiredText}`);
   }

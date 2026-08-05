@@ -56,7 +56,11 @@ body {
 .home-shell {
   width: min(100%, 72rem);
   margin-inline: auto;
-  padding: clamp(1rem, 4vw, 3.5rem) 0 4rem;
+  padding: 0 0 4rem;
+}
+
+main:has(.home-shell) > .content-panel:first-child {
+  display: none;
 }
 
 .home-hero {

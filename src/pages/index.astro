@@ -26,11 +26,13 @@ const hrefFor = (id: string) => `/${id.replace(/\/index$/, '')}/`;
 
 <StarlightPage
   frontmatter={{
-    title: "oxix97's Dev Log",
+    title: 'Home',
     description: '문제 해결 과정과 기술적 판단을 기록하는 백엔드 개발자 포트폴리오',
     contentType: 'page',
     template: 'splash',
     editUrl: false,
+    prev: false,
+    next: false,
     graph: { visible: false },
     backlinks: { visible: false },
   }}
