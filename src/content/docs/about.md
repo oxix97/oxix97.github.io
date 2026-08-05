@@ -1,0 +1,36 @@
+---
+title: About
+description: 문제를 구조화하고 운영 가능한 해법을 만드는 백엔드 개발자 oxix97를 소개합니다.
+contentType: page
+sidebar:
+  hidden: true
+graph:
+  visible: false
+backlinks:
+  visible: false
+---
+
+저는 문제를 재현 가능한 단위로 나누고, 선택의 근거를 기록하며, 배포 후의
+운영까지 생각하는 백엔드 개발자 **oxix97**입니다.
+
+## 일하는 원칙
+
+1. 구현 전에 사용자와 시스템이 겪는 문제를 한 문장으로 정의합니다.
+2. 선택지의 장점뿐 아니라 포기하는 것과 운영 비용을 함께 기록합니다.
+3. 테스트와 관찰 가능한 지표로 결과를 확인합니다.
+4. 회고에서 얻은 교훈을 다음 작업의 규칙으로 바꿉니다.
+
+## 관심 영역
+
+- Java와 Spring 기반의 API·배치 시스템
+- 관계형 데이터 모델링과 쿼리 성능
+- 장애 격리, 재처리, 관측 가능성
+- 자동화된 테스트와 배포 파이프라인
+
+대표 작업은 [Projects](/projects/)에서, 학습 과정은 [Study](/study/)에서 볼 수
+있습니다.
+
+## Links
+
+- [GitHub](https://github.com/oxix97)
+- [이력서 PDF](/resume.pdf)
