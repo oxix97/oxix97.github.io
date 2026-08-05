@@ -80,8 +80,8 @@ rather than a technology list alone.
 
 ## Technical Architecture
 
-- **Framework:** Astro 7 in static-output mode.
-- **Documentation framework:** `@astrojs/starlight` 0.41 or a compatible locked
+- **Framework:** Astro 5 in static-output mode.
+- **Documentation framework:** `@astrojs/starlight` 0.35 or a compatible locked
   version.
 - **Theme:** `starlight-theme-obsidian` 0.4.1, used as a real Starlight plugin
   under its MIT license.
@@ -100,8 +100,10 @@ rather than a technology list alone.
 - **Hosting:** GitHub Pages at the user-site root.
 - **Deployment:** GitHub Actions using the official Astro Pages workflow.
 
-The verified package compatibility baseline on 2026-08-05 is Astro 7.1.6,
-Starlight 0.41.6, Starlight Obsidian 0.4.1, and starlight-site-graph 0.5.0. Exact
+The build-verified compatibility baseline on 2026-08-05 is Astro 5.18.2,
+Starlight 0.35.3, Starlight Obsidian 0.4.1, and starlight-site-graph 0.5.0. Astro
+7.1.6 and Starlight 0.41.6 satisfy the declared peer range but fail at runtime
+because the theme's graph integration still uses an Astro 5 integration API. Exact
 versions will be locked in `package-lock.json` and verified by a production
 build before delivery.
 
@@ -236,7 +238,7 @@ The implementation includes checks for:
 
 ## Delivery Sequence
 
-1. Scaffold Astro, Starlight, Starlight Obsidian, and the graph dependency.
+1. Scaffold the locked Astro 5, Starlight, Starlight Obsidian, and graph stack.
 2. Extend the Starlight docs schema and add representative Korean Markdown.
 3. Apply oxix97 branding and build the custom splash-style home components.
 4. Configure sidebar groups, About, projects, RSS, robots, and 404.

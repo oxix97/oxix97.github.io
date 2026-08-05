@@ -1,0 +1,31 @@
+{
+  "name": "oxix97.github.io",
+  "version": "1.0.0",
+  "description": "oxix97 developer portfolio and knowledge base",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "ASTRO_TELEMETRY_DISABLED=1 astro dev",
+    "check": "ASTRO_TELEMETRY_DISABLED=1 astro check",
+    "test": "vitest run",
+    "build": "ASTRO_TELEMETRY_DISABLED=1 astro build",
+    "preview": "ASTRO_TELEMETRY_DISABLED=1 astro preview",
+    "verify:build": "node scripts/verify-build.mjs",
+    "verify": "npm run check && npm run test && npm run build && npm run verify:build"
+  },
+  "keywords": ["astro", "starlight", "portfolio", "blog"],
+  "author": "oxix97",
+  "license": "MIT",
+  "dependencies": {
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/starlight": "0.35.3",
+    "astro": "5.18.2",
+    "starlight-site-graph": "0.5.0",
+    "starlight-theme-obsidian": "0.4.1"
+  },
+  "devDependencies": {
+    "@astrojs/check": "0.9.6",
+    "typescript": "5.9.3",
+    "vitest": "3.2.4"
+  }
+}

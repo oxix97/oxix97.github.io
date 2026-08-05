@@ -16,7 +16,7 @@ search, graph, and backlink experience. A custom Astro home page uses
 featured projects, and recent records. GitHub Actions validates and deploys the
 static artifact from `main`.
 
-**Tech Stack:** Astro 7.1.6, TypeScript, `@astrojs/starlight` 0.41.6,
+**Tech Stack:** Astro 5.18.2, TypeScript, `@astrojs/starlight` 0.35.3,
 `starlight-theme-obsidian` 0.4.1, `starlight-site-graph` 0.5.0, Markdown/MDX,
 Vitest, `@astrojs/check`, `@astrojs/rss`, GitHub Actions, GitHub Pages
 
@@ -113,7 +113,7 @@ Run:
 
 ```bash
 npm init -y
-npm install astro@7.1.6 @astrojs/starlight@0.41.6 starlight-theme-obsidian@0.4.1 starlight-site-graph@0.5.0 @astrojs/rss
+npm install --save-exact astro@5.18.2 @astrojs/starlight@0.35.3 starlight-theme-obsidian@0.4.1 starlight-site-graph@0.5.0 @astrojs/rss@4.0.19
 npm install --save-dev @astrojs/check typescript vitest
 ```
 
