@@ -1,26 +1,27 @@
-# Developer Hub on GitHub Pages — Design
+# Developer Hub on GitHub Pages — Revised Design
 
 ## Summary
 
-Build a new personal developer hub from scratch with Astro and deploy it as the
-GitHub user site `https://oxix97.github.io`. The local working destination will
-be `/Users/chan/Desktop/gongbu/Github Pages`.
+Build a new Korean personal developer hub from scratch with Astro, Starlight,
+and the Starlight Obsidian theme, then deploy it as the GitHub user site
+`https://oxix97.github.io`. The requested local delivery destination is
+`/Users/chan/Desktop/gongbu/Github Pages`.
 
-The site combines personal branding with four Markdown-driven content areas:
-development articles, study notes, retrospectives, and project case studies. It
-should help a recruiter understand the developer's focus and strongest work
-quickly, while allowing new content to be published through ordinary Git
-commits.
+The site combines a portfolio-oriented landing page with an Obsidian-like
+knowledge base. Development articles, study notes, retrospectives, project case
+studies, and the longer self-introduction are written as Markdown or MDX and
+published through ordinary Git commits.
 
 ## Goals
 
-- Present a clear backend-developer identity on the home page.
-- Publish blog posts, study notes, retrospectives, and project case studies from
-  Markdown or MDX files.
+- Present a clear backend-developer identity and strongest evidence on the home
+  page.
+- Publish all long-form content from local Markdown or MDX files.
+- Make relationships between notes visible through backlinks and a site graph.
 - Link the resume, GitHub profile, email, and other portfolio destinations.
-- Produce fast, accessible, SEO-friendly static HTML.
+- Produce fast, accessible, searchable, SEO-friendly static HTML.
 - Deploy automatically to GitHub Pages after a successful push to `main`.
-- Keep content authoring and maintenance simple enough for long-term use.
+- Keep authoring and maintenance simple enough for long-term use.
 
 ## Non-goals for the First Release
 
@@ -28,13 +29,33 @@ commits.
 - Comments, reactions, newsletters, or visitor accounts.
 - Multiple languages.
 - A complex animation system.
-- Automatic import from Notion or another external content source.
+- Automatic import from Notion or an Obsidian vault.
 
 These can be added later if real usage justifies them.
 
+## Chosen Product Shape
+
+Use a hybrid Starlight site rather than a conventional marketing site or four
+independent Astro content collections:
+
+1. A custom Astro home page at `/` uses Starlight's page shell and the Obsidian
+   theme, but is arranged for personal branding, featured projects, recent
+   writing, and contact actions.
+2. One typed Starlight `docs` collection stores all long-form content below
+   `src/content/docs/`.
+3. Folder names provide stable public routes and sidebar groups: `blog`,
+   `study`, `retrospectives`, `projects`, and `about`.
+4. Starlight provides Markdown/MDX rendering, navigation, table of contents,
+   static search, sitemap integration, and accessible documentation primitives.
+5. Starlight Obsidian provides the dark editorial visual system, backlinks, and
+   graph view.
+
+This structure preserves Starlight's knowledge-base strengths while giving the
+home page enough freedom to work as a resume and self-promotion entry point.
+
 ## Information Architecture
 
-The primary navigation will be:
+The primary navigation is:
 
 1. Home
 2. Blog
@@ -43,81 +64,108 @@ The primary navigation will be:
 5. Projects
 6. About
 
-The home page will contain:
+The home page contains:
 
 - A concise hero with name, role, and one-sentence value proposition.
 - Primary actions for Projects, Resume, and GitHub.
 - A short technical-focus section.
 - Two or three featured projects.
-- Recent articles, study notes, and retrospectives.
+- Recent development articles, study notes, and retrospectives.
 - A compact contact section.
 
-The About page will contain the longer self-introduction, work philosophy,
-skills, experience summary, and resume link. Projects will emphasize problem,
-decision, implementation, and result rather than a simple technology list.
+The About page contains the longer self-introduction, work philosophy, skills,
+experience summary, and resume link. Project pages emphasize problem,
+constraints, decision, implementation, measurable result, and next improvement
+rather than a technology list alone.
 
 ## Technical Architecture
 
 - **Framework:** Astro 7 in static-output mode.
+- **Documentation framework:** `@astrojs/starlight` 0.41 or a compatible locked
+  version.
+- **Theme:** `starlight-theme-obsidian` 0.4.1, used as a real Starlight plugin
+  under its MIT license.
+- **Graph dependency:** `starlight-site-graph` 0.5, required by the theme.
 - **Language:** TypeScript with strict checking.
-- **Content:** Local Markdown by default; MDX only when an interactive or
-  reusable component materially improves a post.
-- **Content model:** Astro Content Collections with schema validation.
-- **Styling:** Project-owned CSS using design tokens and scoped component
-  styles. Avoid a large UI framework for the initial release.
-- **Interactive UI:** Astro components by default. Add React only if a specific
-  interactive widget requires it.
-- **Search:** Pagefind-generated static search, included only after the primary
-  content routes work reliably.
+- **Content:** Local Markdown by default; MDX only when a reusable component
+  materially improves an entry.
+- **Content model:** One Starlight `docs` collection extended with a validated
+  custom schema.
+- **Home:** `src/pages/index.astro` rendered with Starlight's `StarlightPage`
+  component using a splash-style layout.
+- **Styling:** The theme owns the base UI. Project-owned CSS variables and small
+  components add the oxix97 identity without copying the reference site's
+  branding or proprietary assets.
+- **Search:** Starlight's Pagefind-backed static search.
 - **Hosting:** GitHub Pages at the user-site root.
-- **Deployment:** GitHub Actions using the official Astro Pages action.
+- **Deployment:** GitHub Actions using the official Astro Pages workflow.
 
-Most pages will ship no client-side JavaScript. JavaScript will be added only
-to isolated interactive components such as theme controls or search.
+The verified package compatibility baseline on 2026-08-05 is Astro 7.1.6,
+Starlight 0.41.6, Starlight Obsidian 0.4.1, and starlight-site-graph 0.5.0. Exact
+versions will be locked in `package-lock.json` and verified by a production
+build before delivery.
 
 ## Content Model
 
-Each content collection will validate its front matter at build time.
+Every entry in `src/content/docs/` uses Starlight's standard frontmatter plus a
+small custom extension.
 
-### Shared fields
+### Shared custom fields
 
-- `title`: required string
-- `description`: required string
-- `publishedAt`: required date
+- `contentType`: `blog`, `study`, `retrospective`, `project`, or `page`
+- `publishedAt`: required for publishable records; omitted only for evergreen
+  pages such as About
 - `updatedAt`: optional date
-- `draft`: boolean, default `false`
 - `tags`: string array, default empty
-- `cover`: optional local image
+- `featured`: boolean, default `false`
+- `draft`: Starlight's built-in draft field
 
-### Collection-specific fields
+### Optional type-specific fields
 
 - Blog: `category`, optional `series`
 - Study: `topic`, optional `difficulty`
-- Retrospectives: `period`, optional related project
-- Projects: `featured`, `status`, `stack`, `repository`, optional live URL
+- Retrospective: `period`, optional related project
+- Project: `status`, `stack`, optional repository and live URL
 
-Draft entries will be excluded from production builds. Collection schemas will
-prevent incomplete metadata from reaching the deployed site.
+The extended schema validates field types at build time. Production home and
+listing queries exclude drafts. Folder placement and `contentType` must agree;
+an artifact verification script checks representative URLs and metadata.
 
-## Visual Direction
+## Visual Direction: Starlight Obsidian
 
-The site should feel like a calm, technical editorial publication rather than
-a template-heavy developer landing page.
+The reference is the official Starlight Obsidian theme documentation. The site
+uses the package itself and customizes it for oxix97 instead of reproducing the
+reference site's name, copy, icons, or assets.
 
-- Strong Korean typography and comfortable long-form reading widths.
-- Neutral background with one restrained accent color.
-- Clear hierarchy, generous spacing, and minimal decoration.
-- Light and dark themes that both meet contrast requirements.
-- Project cards prioritize outcomes and technical decisions.
-- Mobile navigation and content layouts are first-class, not retrofits.
+### Desktop
 
-Exact colors and typography will be selected during implementation, while
-preserving this direction.
+- Near-black base around `#111213` with restrained borders and surfaces.
+- Muted off-white body text and a purple accent close to
+  `hsl(258 61% 66%)`.
+- A sticky hierarchy sidebar on the left, a focused reading column of roughly
+  `45rem`, and a contextual rail on the right for graph, table of contents, and
+  backlinks.
+- Editorial typography, compact metadata, strong code blocks, and restrained
+  callouts.
+- The home page keeps the same colors and rhythm but uses a wider splash layout
+  for hero, evidence cards, and recent records.
+
+### Mobile
+
+- Compact top navigation with the sidebars and graph rail collapsed.
+- A single full-width reading column with approximately `1rem` page padding.
+- Touch targets of at least 44px, visible focus states, and no horizontal
+  scrolling for prose or code.
+- Cards collapse to one column and preserve Projects, Resume, and GitHub near
+  the top of the home page.
+
+Light mode remains available through Starlight's theme control, but dark mode is
+the primary art direction. Reduced-motion preferences are respected.
 
 ## Routing and URLs
 
-The repository will be named `oxix97.github.io`, so production is served at the
-root URL rather than under a repository subpath.
+The repository is expected to be named `oxix97.github.io`, so production is
+served at the root URL rather than under a repository subpath.
 
 Examples:
 
@@ -132,28 +180,32 @@ GitHub Pages root. A custom domain is not included in the first release.
 
 ## Deployment and Repository Safety
 
-The local project will be created at `/Users/chan/Desktop/gongbu/Github Pages`.
-The expected GitHub repository is `oxix97/oxix97.github.io`.
+The local project is first built and verified in the Codex workspace, then
+copied to `/Users/chan/Desktop/gongbu/Github Pages`. The expected GitHub
+repository is `oxix97/oxix97.github.io`.
 
 Before creating or pushing the remote repository:
 
 1. Restore GitHub CLI authentication for `oxix97`.
 2. Check whether `oxix97/oxix97.github.io` already exists.
 3. If it exists, inspect its default branch and contents before any write.
-4. Never force-push or overwrite an existing remote history.
+4. Never force-push or overwrite existing remote history.
 5. Create the repository only when it does not already exist.
 
-The GitHub Actions workflow will install locked dependencies, run checks, build
-the site, upload the `dist` artifact, and deploy only from `main`. Pull requests
-will build without deploying.
+The GitHub Actions workflow installs locked dependencies, runs checks and tests,
+builds the site, uploads the `dist` artifact, and deploys only from `main`. Pull
+requests build without deploying.
 
 ## Error Handling
 
-- Invalid front matter fails the build with a clear schema error.
-- Broken internal links and missing required images fail validation.
+- Invalid frontmatter fails the build with a schema error.
+- Broken representative internal links and missing required assets fail artifact
+  verification.
+- Theme/plugin peer-dependency conflicts fail installation or the production
+  build and block delivery.
 - External links open safely and are checked separately where practical.
-- A custom 404 page preserves navigation back to the main content areas.
-- Deployment is prevented when type checking or the production build fails.
+- Starlight's 404 page preserves navigation back to the main content areas.
+- Deployment is prevented when checks, tests, or the production build fail.
 
 ## Accessibility and SEO
 
@@ -163,39 +215,45 @@ will build without deploying.
 - Reduced-motion support.
 - Descriptive alt text for meaningful images.
 - Canonical URLs, Open Graph data, RSS, sitemap, and `robots.txt`.
-- Per-entry title and description metadata from the validated content schema.
+- Per-entry title and description metadata from the validated schema.
+- Korean document language and locale-aware dates.
 
 ## Verification
 
-The implementation will include checks for:
+The implementation includes checks for:
 
 - TypeScript and Astro diagnostics.
-- Production build success.
-- Content schema validation.
-- Internal link and asset-path correctness.
-- Representative home, listing, detail, project, and 404 routes.
+- Production build success with the locked plugin versions.
+- Extended Starlight frontmatter validation.
+- Draft filtering and newest-first sorting on the home page.
+- Internal route and asset-path correctness.
+- Representative home, content, project, About, RSS, sitemap, and 404 output.
+- Presence of Starlight search plus Obsidian graph and backlink UI.
 - Responsive rendering at mobile and desktop widths.
-- Keyboard navigation, focus visibility, and color contrast.
+- Keyboard navigation, focus visibility, color contrast, and reduced motion.
 - A local preview of the exact static production output.
 - A successful GitHub Pages workflow and reachable production URL.
 
 ## Delivery Sequence
 
-1. Scaffold Astro and establish design tokens and the shared layout.
-2. Define content collections and add representative Korean sample entries.
-3. Build home, collection listings, content detail routes, Projects, and About.
-4. Add metadata, RSS, sitemap, 404, theme behavior, and optional static search.
-5. Run automated and visual verification.
+1. Scaffold Astro, Starlight, Starlight Obsidian, and the graph dependency.
+2. Extend the Starlight docs schema and add representative Korean Markdown.
+3. Apply oxix97 branding and build the custom splash-style home components.
+4. Configure sidebar groups, About, projects, RSS, robots, and 404.
+5. Run automated, production-artifact, and visual verification.
 6. Copy the verified project to the requested Desktop directory.
 7. Authenticate GitHub CLI, safely create or connect the user-site repository,
    push `main`, enable Pages through GitHub Actions, and verify production.
 
 ## Success Criteria
 
-- A visitor can understand the developer's role and strongest evidence within
-  the first home-page viewport and reach a project or resume in one action.
-- All four content types can be added with Markdown and a Git commit.
-- The site remains readable and functional without client-side JavaScript,
-  except for explicitly enhanced features.
+- A visitor understands the developer's role and strongest evidence within the
+  first home-page viewport and can reach a project or resume in one action.
+- Blog, study, retrospective, project, and About content can be maintained with
+  Markdown and Git commits.
+- Long-form pages visibly use the Starlight Obsidian layout with working search,
+  table of contents, graph view, and backlinks.
+- The site remains readable and functional when optional client enhancements do
+  not load.
 - A push to `main` automatically results in a verified GitHub Pages deployment.
 - No existing GitHub repository history or user content is overwritten.
