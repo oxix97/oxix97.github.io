@@ -1,0 +1,118 @@
+---
+import StarlightPage from '@astrojs/starlight/components/StarlightPage.astro';
+import { getCollection } from 'astro:content';
+import ContentCard from '../components/ContentCard.astro';
+import HomeHero from '../components/HomeHero.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import { byNewest, ofType, onlyPublished } from '../lib/content';
+
+const entries = onlyPublished(await getCollection('docs'));
+const featuredProjects = byNewest(ofType(entries, ['project']))
+  .filter((entry) => entry.data.featured)
+  .slice(0, 2);
+const recentRecords = byNewest(ofType(entries, ['blog', 'study', 'retrospective'])).slice(0, 3);
+
+const typeLabels = {
+  blog: 'Blog',
+  study: 'Study',
+  retrospective: 'Retrospective',
+  project: 'Project',
+  page: 'Page',
+} as const;
+
+const hrefFor = (id: string) => `/${id.replace(/\/index$/, '')}/`;
+---
+
+<StarlightPage
+  frontmatter={{
+    title: "oxix97's Dev Log",
+    description: '문제 해결 과정과 기술적 판단을 기록하는 백엔드 개발자 포트폴리오',
+    contentType: 'page',
+    template: 'splash',
+    editUrl: false,
+    graph: { visible: false },
+    backlinks: { visible: false },
+  }}
+  hasSidebar={false}
+>
+  <div class="home-shell">
+    <HomeHero />
+
+    <section class="home-section" aria-labelledby="focus-title">
+      <SectionHeading
+        title="어떻게 일하는가"
+        description="코드를 쓰기 전부터 배포 이후까지, 판단이 이어지는 흐름을 만듭니다."
+      />
+      <div class="focus-grid" id="focus-title">
+        <article>
+          <span>01</span>
+          <h3>문제 정의</h3>
+          <p>증상과 원인을 분리하고 성공 조건을 관찰 가능한 문장으로 만듭니다.</p>
+        </article>
+        <article>
+          <span>02</span>
+          <h3>기술적 판단</h3>
+          <p>선택지의 장점뿐 아니라 제약, 포기한 것, 운영 비용을 함께 기록합니다.</p>
+        </article>
+        <article>
+          <span>03</span>
+          <h3>운영과 개선</h3>
+          <p>테스트와 지표로 결과를 확인하고 회고를 다음 작업의 규칙으로 바꿉니다.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="home-section" aria-labelledby="projects-title">
+      <SectionHeading
+        title="대표 프로젝트"
+        description="기술 목록보다 문제, 선택, 결과를 중심으로 정리했습니다."
+        href="/projects/"
+      />
+      <div class="project-grid" id="projects-title">
+        {featuredProjects.map((entry) => (
+          <ProjectCard
+            href={hrefFor(entry.id)}
+            title={entry.data.title}
+            description={entry.data.description ?? ''}
+            status={entry.data.status ?? 'ongoing'}
+            stack={entry.data.stack}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="home-section" aria-labelledby="records-title">
+      <SectionHeading
+        title="최근 기록"
+        description="배운 것과 만든 것 사이의 판단을 연결해서 남깁니다."
+        href="/blog/"
+        linkLabel="블로그 보기"
+      />
+      <div class="record-grid" id="records-title">
+        {recentRecords.map((entry) => (
+          <ContentCard
+            href={hrefFor(entry.id)}
+            eyebrow={typeLabels[entry.data.contentType]}
+            title={entry.data.title}
+            description={entry.data.description ?? ''}
+            publishedAt={entry.data.publishedAt!}
+            tags={entry.data.tags}
+          />
+        ))}
+      </div>
+    </section>
+
+    <section class="contact-panel" aria-labelledby="contact-title">
+      <div>
+        <p>Let’s connect</p>
+        <h2 id="contact-title">좋은 문제와 배움을 함께 나누고 싶습니다.</h2>
+      </div>
+      <div class="contact-links">
+        <a href="https://github.com/oxix97">GitHub</a>
+        <a href="/resume.pdf">이력서 PDF</a>
+        <a href="/about/">About</a>
+      </div>
+    </section>
+  </div>
+</StarlightPage>

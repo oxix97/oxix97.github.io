@@ -1,0 +1,17 @@
+---
+import { SITE } from '../lib/site';
+---
+
+<section class="home-hero" aria-labelledby="home-title">
+  <p class="home-kicker">Backend Developer · Engineering Notes</p>
+  <h1 id="home-title">기록으로 성장하는<br /><span>백엔드 개발자</span></h1>
+  <p class="home-intro">
+    문제를 구조화하고, 선택의 근거를 남기며, 운영 가능한 해법을 만듭니다.
+    배운 것과 만든 것, 그 사이의 판단을 이곳에 연결합니다.
+  </p>
+  <div class="home-actions" aria-label="주요 링크">
+    <a class="home-button home-button--primary" href="/projects/">대표 프로젝트</a>
+    <a class="home-button" href={SITE.resume}>이력서</a>
+    <a class="home-button" href={SITE.github} rel="me">GitHub</a>
+  </div>
+</section>
