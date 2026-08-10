@@ -101,8 +101,6 @@ const articles: ArticleContract[] = [
   },
 ];
 
-const articleHref = (article: ArticleContract) =>
-  `./${article.file.replace(/\.md$/, '/')}`;
 const articleRoute = (article: ArticleContract) =>
   `/study/network/${article.file.replace(/\.md$/, '/')}`;
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
@@ -221,9 +219,9 @@ describe('network Study series', () => {
 
     expect(frontmatter.title).toBe('CS 지식의 정석 - 네트워크');
     expect(links).toEqual(
-      articles.map((article) => ({
-        title: article.title,
-        href: articleHref(article),
+      articles.map(({ file, title }) => ({
+        title,
+        href: `./${file.replace(/\.md$/, '/')}`,
       })),
     );
   });

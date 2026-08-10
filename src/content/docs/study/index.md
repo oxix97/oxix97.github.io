@@ -19,4 +19,5 @@ backlinks:
 
 ## 네트워크와 웹
 
+- [CS 지식의 정석 - 네트워크](./network/)
 - [HTTP Cache-Control 정리](./http-cache-control/)
