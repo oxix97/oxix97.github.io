@@ -15,7 +15,7 @@ backlinks:
 
 ## 소프트웨어 설계
 
-- [CS 지식의 정석 - 디자인패턴](./design-patterns/)
+- [CS 지식의 정석 - 디자인 패턴](./design-patterns/)
 
 ## 네트워크와 웹
 

@@ -26,14 +26,14 @@ describe('design pattern Study series', () => {
   it('links the series from the Study index', async () => {
     const studyIndex = await readStudyFile('index.md');
     expect(studyIndex).toContain(
-      '[CS 지식의 정석 - 디자인패턴](./design-patterns/)',
+      '[CS 지식의 정석 - 디자인 패턴](./design-patterns/)',
     );
   });
 
   it('defines the complete reading order in the series hub', async () => {
     const hub = await readStudyFile('design-patterns/index.md');
 
-    expect(hub).toContain('title: CS 지식의 정석 - 디자인패턴');
+    expect(hub).toContain('title: CS 지식의 정석 - 디자인 패턴');
     const titles = [
       '디자인 패턴이란 무엇인가',
       '싱글톤 패턴의 원리와 장단점',
@@ -57,7 +57,7 @@ describe('design pattern Study series', () => {
 
       expect(markdown).toContain(`title: ${article.title}`);
       expect(markdown).toContain('contentType: study');
-      expect(markdown).toContain('series: CS 지식의 정석 - 디자인패턴');
+      expect(markdown).toContain('series: CS 지식의 정석 - 디자인 패턴');
       expect(markdown).toContain('topic: Design Pattern');
       expect(markdown).toContain(`order: ${article.order}`);
       if (article.draft) {

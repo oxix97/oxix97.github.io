@@ -1,8 +1,8 @@
-# 디자인패턴 Study 연재 Implementation Plan
+# 디자인 패턴 Study 연재 Implementation Plan
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Inflearn `CS 지식의 정석` 섹션 2를 개인 언어로 재구성한 디자인패턴 Study 허브와 5~10분 분량의 글 8편을 게시한다.
+**Goal:** Inflearn `CS 지식의 정석` 섹션 2를 개인 언어로 재구성한 디자인 패턴 Study 허브와 글 8편을 게시한다.
 
 **Architecture:** `src/content/docs/study/design-patterns/`를 독립 연재 디렉터리로 만들고, 허브 페이지와 8개 Markdown 문서를 Starlight 자동 사이드바에 연결한다. 콘텐츠 계약 테스트가 frontmatter, 공통 절, 강의 출처를 검증하고 최종 빌드 검증이 실제 정적 페이지 생성을 확인한다. 첫 글은 `draft: true`로 작성해 사용자 문체 검토를 받은 뒤 공개하고, 승인된 형식을 나머지 글에 반복 적용한다.
 
@@ -10,11 +10,12 @@
 
 ## Global Constraints
 
-- 본문은 한국어로 작성하고 코드와 표를 제외한 목표 분량을 글당 약 1,500~2,500자로 제한한다.
+- 첫 글처럼 개념 중심인 본문은 한국어로 작성하고 코드와 표를 제외한 목표 분량을 약 1,500~2,500자로 둔다. 구현 중심의 이후 글은 판단 기준과 실패 조건을 보존해야 한다면 이 범위를 넘을 수 있다.
 - 각 글은 `핵심 요약`, `장점과 한계`, `기술면접 질문`, `복습 체크리스트`, `참고 자료` 절을 포함한다.
-- 기술면접 질문은 글당 2~4개이며 답변은 정의, 적용 조건, 트레이드오프를 30초 내외 분량으로 설명한다.
+- 각 글은 패턴 적용 전후에 새 요구가 들어왔을 때 각각 어느 코드가 바뀌는지 설명한다.
+- 기술면접 질문은 글당 2~4개이며 답변은 결론 → 동작 원리 또는 판단 기준 → 사례나 한계의 세 문장으로 설명한다.
 - 강의 자막이나 교안을 연속해서 옮기지 않고 설명, 표, 코드, 면접 답변을 새로 작성한다.
-- 모든 글은 `series: CS 지식의 정석 - 디자인패턴`, `topic: Design Pattern`을 사용한다.
+- 모든 글은 `series: CS 지식의 정석 - 디자인 패턴`, `topic: Design Pattern`을 사용한다.
 - 모든 본문 글은 `contentType: study`, `publishedAt: 2026-08-10`, `difficulty: intermediate`를 사용하며, 사용자 검토 중인 첫 글만 `draft: true`를 둔다.
 - Java 또는 Spring 예시는 핵심 구조가 드러나는 최소 크기로 작성하고 실행형 샘플 프로젝트나 새 의존성은 추가하지 않는다.
 - 강의 밖의 Java 동시성 또는 Spring 동작을 설명할 때는 Oracle JLS나 Spring 공식 문서로 검증한다.
@@ -29,18 +30,18 @@
 
 - `tests/study-design-pattern-series.test.ts`: 연재 허브와 각 글의 frontmatter, 공통 절, 출처 링크 계약을 검증한다.
 - `src/content/docs/study/design-patterns/index.md`: 8편의 목적과 읽는 순서를 제공하는 연재 허브다.
-- `src/content/docs/study/design-patterns/introduction.md`: 디자인패턴의 목적과 라이브러리·프레임워크 차이를 설명한다.
+- `src/content/docs/study/design-patterns/introduction.md`: 디자인 패턴의 목적과 라이브러리·프레임워크 차이를 설명한다.
 - `src/content/docs/study/design-patterns/singleton-basics.md`: 싱글톤의 동작, 사용 사례, 장단점을 설명한다.
 - `src/content/docs/study/design-patterns/singleton-implementations.md`: 싱글톤 7가지 구현 방식을 비교한다.
 - `src/content/docs/study/design-patterns/factory-and-iterator.md`: 팩토리와 이터레이터 패턴을 각각 설명하고 비교한다.
 - `src/content/docs/study/design-patterns/dependency-injection-and-strategy.md`: DI, DIP, 전략 패턴과 컨텍스트를 구분한다.
 - `src/content/docs/study/design-patterns/observer-and-proxy.md`: 옵저버와 프록시 패턴의 서로 다른 목적을 설명한다.
 - `src/content/docs/study/design-patterns/mvc-mvp-mvvm.md`: MVC, MVP, MVVM과 Spring MVC 요청 흐름을 설명한다.
-- `src/content/docs/study/design-patterns/flux-and-review.md`: Flux와 전체 디자인패턴 면접 복습표를 제공한다.
+- `src/content/docs/study/design-patterns/flux-and-review.md`: Flux와 전체 디자인 패턴 면접 복습표를 제공한다.
 
 ### Modify
 
-- `src/content/docs/study/index.md`: `소프트웨어 설계` 항목에서 디자인패턴 연재 허브를 연결한다.
+- `src/content/docs/study/index.md`: `소프트웨어 설계` 항목에서 디자인 패턴 연재 허브를 연결한다.
 - `scripts/verify-build.mjs`: 허브와 8편의 정적 HTML 산출물을 검증한다.
 
 ### Content routes
@@ -93,14 +94,14 @@ describe('design pattern Study series', () => {
   it('links the series from the Study index', async () => {
     const studyIndex = await readStudyFile('index.md');
     expect(studyIndex).toContain(
-      '[CS 지식의 정석 - 디자인패턴](./design-patterns/)',
+      '[CS 지식의 정석 - 디자인 패턴](./design-patterns/)',
     );
   });
 
   it('defines the complete reading order in the series hub', async () => {
     const hub = await readStudyFile('design-patterns/index.md');
 
-    expect(hub).toContain('title: CS 지식의 정석 - 디자인패턴');
+    expect(hub).toContain('title: CS 지식의 정석 - 디자인 패턴');
     const titles = [
       '디자인 패턴이란 무엇인가',
       '싱글톤 패턴의 원리와 장단점',
@@ -124,7 +125,7 @@ describe('design pattern Study series', () => {
 
       expect(markdown).toContain(`title: ${article.title}`);
       expect(markdown).toContain('contentType: study');
-      expect(markdown).toContain('series: CS 지식의 정석 - 디자인패턴');
+      expect(markdown).toContain('series: CS 지식의 정석 - 디자인 패턴');
       expect(markdown).toContain('topic: Design Pattern');
       expect(markdown).toContain(`order: ${article.order}`);
       if (article.draft) {
@@ -166,7 +167,7 @@ Expected: FAIL with `ENOENT` for `src/content/docs/study/design-patterns/index.m
 ```markdown
 ## 소프트웨어 설계
 
-- [CS 지식의 정석 - 디자인패턴](./design-patterns/)
+- [CS 지식의 정석 - 디자인 패턴](./design-patterns/)
 ```
 
 - [ ] **Step 4: 연재 허브 생성**
@@ -175,8 +176,8 @@ Expected: FAIL with `ENOENT` for `src/content/docs/study/design-patterns/index.m
 
 ```markdown
 ---
-title: CS 지식의 정석 - 디자인패턴
-description: 디자인패턴의 해결 문제와 선택 기준을 복습하고 기술면접 답변으로 연결합니다.
+title: CS 지식의 정석 - 디자인 패턴
+description: 디자인 패턴의 해결 문제와 선택 기준을 복습하고 기술면접 답변으로 연결합니다.
 contentType: page
 sidebar:
   order: 1
@@ -187,7 +188,7 @@ backlinks:
 ---
 
 Inflearn `CS 지식의 정석` 섹션 2를 강의 순서에 따라 다시 정리합니다.
-각 글은 핵심 개념, 장점과 한계, 기술면접 질문을 5~10분 분량으로 다룹니다.
+각 글은 핵심 개념, 장점과 한계, 기술면접 질문을 중심으로 다룹니다.
 
 ## 읽는 순서
 
@@ -215,7 +216,7 @@ Expected: exit code 0 and no content schema errors.
 
 ```bash
 git add tests/study-design-pattern-series.test.ts src/content/docs/study/index.md src/content/docs/study/design-patterns/index.md
-git commit -m "docs: study 디자인패턴 연재 허브 추가"
+git commit -m "docs: study 디자인 패턴 연재 허브 추가"
 ```
 
 ---
@@ -262,7 +263,7 @@ get_lecture_content(courseId=328823, unitId=116050)
 get_lecture_content(courseId=328823, unitId=162758)
 ```
 
-강의에서 확인할 내용은 디자인패턴의 목적, 생성·구조·행동 분류, 공통 언어의 가치, 라이브러리와 프레임워크의 규칙·자유도 차이다. 강의 자막 문장은 본문에 복사하지 않는다.
+강의에서 확인할 내용은 디자인 패턴의 목적, 생성·구조·행동 분류, 공통 언어의 가치, 라이브러리와 프레임워크의 규칙·자유도 차이다. 강의 자막 문장은 본문에 복사하지 않는다.
 
 - [ ] **Step 4: 첫 글 작성**
 
@@ -271,12 +272,12 @@ get_lecture_content(courseId=328823, unitId=162758)
 ```markdown
 ---
 title: 디자인 패턴이란 무엇인가
-description: 반복되는 설계 문제를 해결하는 디자인패턴의 목적과 라이브러리·프레임워크의 차이를 정리합니다.
+description: 반복되는 설계 문제를 해결하는 디자인 패턴의 목적과 라이브러리·프레임워크의 차이를 정리합니다.
 contentType: study
 publishedAt: 2026-08-10
 draft: true
 tags: [Design Pattern, Architecture]
-series: CS 지식의 정석 - 디자인패턴
+series: CS 지식의 정석 - 디자인 패턴
 topic: Design Pattern
 difficulty: intermediate
 sidebar:
@@ -295,7 +296,7 @@ sidebar:
 ## 참고 자료
 ```
 
-`라이브러리와 프레임워크` 절에는 `호출 주체`, `구조 제약`, `교체 범위` 열을 가진 비교표를 둔다. 면접 질문은 `디자인패턴을 사용하는 이유`, `라이브러리와 프레임워크의 차이`, `패턴을 항상 적용하면 안 되는 이유` 세 개를 작성한다. 하단 탐색은 연재 목록과 다음 글의 제목만 표시하고, 다음 글이 생기기 전에는 링크하지 않는다.
+`라이브러리와 프레임워크` 절에는 `호출 주체`, `구조 제약`, `교체 범위` 열을 가진 비교표를 둔다. 면접 질문은 `디자인 패턴을 사용하는 이유`, `라이브러리와 프레임워크의 차이`, `패턴을 항상 적용하면 안 되는 이유` 세 개를 작성한다. 하단 탐색은 연재 목록과 다음 글의 제목만 표시하고, 다음 글이 생기기 전에는 링크하지 않는다.
 
 - [ ] **Step 5: 허브의 첫 항목을 실제 링크로 변경**
 
@@ -317,7 +318,7 @@ Expected: exit code 0 and no Markdown or frontmatter errors.
 
 ```bash
 git add tests/study-design-pattern-series.test.ts src/content/docs/study/design-patterns/index.md src/content/docs/study/design-patterns/introduction.md
-git commit -m "docs: study 디자인패턴 개요 초안 추가"
+git commit -m "docs: study 디자인 패턴 개요 초안 추가"
 ```
 
 - [ ] **Step 8: 사용자 검토 체크포인트**
@@ -382,7 +383,7 @@ Expected: Astro check, Vitest, production build, artifact verification all exit 
 
 ```bash
 git add tests/study-design-pattern-series.test.ts src/content/docs/study/design-patterns/introduction.md scripts/verify-build.mjs
-git commit -m "docs: study 디자인패턴 개요 글 공개"
+git commit -m "docs: study 디자인 패턴 개요 글 공개"
 ```
 
 ---
@@ -1052,7 +1053,7 @@ http://127.0.0.1:4321/study/design-patterns/flux-and-review/
 
 ```bash
 git add scripts/verify-build.mjs
-git commit -m "test: study 디자인패턴 연재 산출물 검증 추가"
+git commit -m "test: study 디자인 패턴 연재 산출물 검증 추가"
 ```
 
 - [ ] **Step 6: 최종 상태 확인**
