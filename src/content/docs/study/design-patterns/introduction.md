@@ -3,7 +3,6 @@ title: 디자인 패턴이란 무엇인가
 description: 반복되는 설계 문제를 해결하는 디자인 패턴의 목적과 라이브러리·프레임워크의 차이를 정리합니다.
 contentType: study
 publishedAt: 2026-08-10
-draft: true
 tags: [Design Pattern, Architecture]
 series: CS 지식의 정석 - 디자인 패턴
 topic: Design Pattern
@@ -106,6 +105,4 @@ HTTP 요청 도구는 내가 호출 시점과 흐름을 정하므로 라이브�
 
 ---
 
-연재 목록: [CS 지식의 정석 - 디자인 패턴](./)
-
-다음 글: 싱글톤 패턴의 원리와 장단점
+[연재 목록](/study/design-patterns/) · 다음: 싱글톤 패턴의 원리와 장단점

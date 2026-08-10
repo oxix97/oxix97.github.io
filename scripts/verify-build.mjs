@@ -6,6 +6,8 @@ const expectedFiles = [
   'index.html',
   '404.html',
   'about/index.html',
+  'study/design-patterns/index.html',
+  'study/design-patterns/introduction/index.html',
   'blog/recording-technical-decisions/index.html',
   'study/http-cache-control/index.html',
   'retrospectives/2026-first-half/index.html',

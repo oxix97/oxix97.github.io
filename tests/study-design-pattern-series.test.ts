@@ -15,7 +15,7 @@ const articles: ArticleContract[] = [
     file: 'introduction.md',
     title: '디자인 패턴이란 무엇인가',
     order: 1,
-    draft: true,
+    draft: false,
     unitIds: [116050, 162758],
   },
 ];
