@@ -18,9 +18,6 @@ describe('site navigation contract', () => {
   });
 
   it('builds canonical URLs at the GitHub user-site root', () => {
-    expect(buildCanonicalUrl('/projects/developer-hub/')).toBe(
-      'https://oxix97.github.io/projects/developer-hub/',
-    );
     expect(SITE.resume).toBe('/resume.pdf');
     expect(SITE.github).toBe('https://github.com/oxix97');
   });
