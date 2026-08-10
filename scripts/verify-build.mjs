@@ -26,7 +26,6 @@ const expectedFiles = [
   'blog/authors/oxix97/index.html',
   'blog/rss.xml',
   'study/http-cache-control/index.html',
-  'projects/developer-hub/index.html',
   'projects/stockwellness/index.html',
   'rss.xml',
   'robots.txt',
@@ -51,6 +50,7 @@ async function assertMissing(relativePath) {
 
 await assertMissing('retrospectives/index.html');
 await assertMissing('retrospectives/2026-first-half/index.html');
+await assertMissing('projects/developer-hub/index.html');
 
 const home = await readFile(new URL('index.html', distUrl), 'utf8');
 for (const requiredText of [
@@ -59,14 +59,23 @@ for (const requiredText of [
   '대표 프로젝트',
   'Study에서 지식을, Blog에서 시간순 기록을',
   '/projects/stockwellness/',
-  '/projects/developer-hub/',
   '/blog/',
+  '개발 블로그',
+  '/study/',
   '/resume.pdf',
   'https://github.com/oxix97',
 ]) {
   if (!home.includes(requiredText)) {
     throw new Error(`dist/index.html is missing required content: ${requiredText}`);
   }
+}
+
+const studyHeaderIndex = home.indexOf('href="/study/"');
+if (
+  studyHeaderIndex === -1 ||
+  !home.slice(studyHeaderIndex, studyHeaderIndex + 300).includes('개발 블로그')
+) {
+  throw new Error('home header 개발 블로그 link must point to /study/');
 }
 
 const homeHeadingCount = (home.match(/<h1\b/g) ?? []).length;
@@ -158,7 +167,7 @@ if (JSON.stringify(networkLinks) !== JSON.stringify(expectedNetworkLinks)) {
 }
 
 const article = await readFile(
-  new URL('projects/developer-hub/index.html', distUrl),
+  new URL('projects/stockwellness/index.html', distUrl),
   'utf8',
 );
 const blogPost = await readFile(
