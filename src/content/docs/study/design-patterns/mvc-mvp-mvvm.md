@@ -203,4 +203,4 @@ MVC의 양방향 의존은 하나의 상태 변경이 여러 View와 Controller 
 
 ---
 
-이전: [옵저버 패턴과 프록시 패턴](/study/design-patterns/observer-and-proxy/) · [연재 목록](/study/design-patterns/) · 다음: Flux 패턴과 디자인 패턴 총정리
+이전: [옵저버 패턴과 프록시 패턴](/study/design-patterns/observer-and-proxy/) · [연재 목록](/study/design-patterns/) · 다음: [Flux 패턴과 디자인 패턴 총정리](/study/design-patterns/flux-and-review/)

@@ -60,6 +60,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [116060, 139952],
   },
+  {
+    file: 'flux-and-review.md',
+    title: 'Flux 패턴과 디자인 패턴 총정리',
+    order: 8,
+    draft: false,
+    unitIds: [118705],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
