@@ -14,7 +14,7 @@
 - Set the custom header link text to `개발 블로그` and its href to `/study/`.
 - Keep a visible Starlight sidebar link `{ label: 'Blog', link: '/blog/' }`.
 - Delete `src/content/docs/projects/developer-hub/index.mdx` without a redirect.
-- Remove Developer Hub links and references from source content, configuration, tests, and production verification.
+- Remove Developer Hub links and positive references from source content, configuration, and tests; keep only the production verifier’s explicit negative assertion that the removed output does not exist.
 - Preserve `/projects/stockwellness/`, Study routes, About, search, 404, and RSS behavior.
 - Do not run test commands, per the user’s explicit request; use static reference checks, build output checks when practical, and `git diff --check` only.
 - Use commit messages in the repository format: `type: 변경 대상 작업 요약`, with no parenthesized scope.
@@ -169,10 +169,10 @@ In `tests/site.test.ts`, remove only the `buildCanonicalUrl('/projects/developer
 Run:
 
 ```bash
-rg -n "developer-hub|Developer Hub" src astro.config.mjs scripts tests README.md
+rg -n "developer-hub|Developer Hub" src astro.config.mjs tests README.md
 ```
 
-Expected: no matches. References in the historical design/spec/plan documents are allowed because they record the approved migration context.
+Expected: no matches. The single `assertMissing('projects/developer-hub/index.html')` contract in `scripts/verify-build.mjs` is intentional. References in the historical design/spec/plan documents are allowed because they record the approved migration context.
 
 - [ ] **Step 6: Commit Developer Hub removal**
 
@@ -251,7 +251,7 @@ git commit -m "test: github-pages Developer Hub 제거 경로 검증 추가"
 - [ ] **Step 1: Run the requested static checks**
 
 ```bash
-rg -n "developer-hub|Developer Hub" src astro.config.mjs scripts tests README.md
+rg -n "developer-hub|Developer Hub" src astro.config.mjs tests README.md
 git diff --check
 git status --short --branch
 ```
@@ -263,9 +263,10 @@ The `rg` command must return no matches; tests are intentionally not run.
 Confirm the diff contains only:
 
 - the custom SiteTitle and navigation configuration;
-- Developer Hub deletion and reference cleanup;
+- Developer Hub deletion and positive-reference cleanup;
 - Stockwellness-based artifact verification;
-- the approved design and implementation plan documents.
+- the approved design and implementation plan documents;
+- the intentional negative Developer Hub absence assertion in `scripts/verify-build.mjs`.
 
 - [ ] **Step 3: Commit any final documentation only if needed**
 
