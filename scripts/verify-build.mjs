@@ -59,19 +59,41 @@ const designPatternHub = await readFile(
   new URL('study/design-patterns/index.html', distUrl),
   'utf8',
 );
-for (const requiredText of [
-  '디자인 패턴이란 무엇인가',
-  '싱글톤 패턴의 원리와 장단점',
-  '싱글톤 구현 방식 비교',
-  '팩토리 패턴과 이터레이터 패턴',
-  'DI·DIP와 전략 패턴',
-  '옵저버 패턴과 프록시 패턴',
-  'MVC·MVP·MVVM과 Spring MVC',
-  'Flux 패턴과 디자인 패턴 총정리',
-]) {
-  if (!designPatternHub.includes(requiredText)) {
-    throw new Error(`design pattern hub is missing: ${requiredText}`);
-  }
+const designPatternMain = designPatternHub.match(
+  /<main\b[^>]*>([\s\S]*?)<\/main>/,
+);
+if (!designPatternMain) {
+  throw new Error('design pattern hub is missing its <main>...</main> content');
+}
+
+const expectedDesignPatternLinks = [
+  { href: './introduction/', title: '디자인 패턴이란 무엇인가' },
+  { href: './singleton-basics/', title: '싱글톤 패턴의 원리와 장단점' },
+  { href: './singleton-implementations/', title: '싱글톤 구현 방식 비교' },
+  { href: './factory-and-iterator/', title: '팩토리 패턴과 이터레이터 패턴' },
+  {
+    href: './dependency-injection-and-strategy/',
+    title: 'DI·DIP와 전략 패턴',
+  },
+  { href: './observer-and-proxy/', title: '옵저버 패턴과 프록시 패턴' },
+  { href: './mvc-mvp-mvvm/', title: 'MVC·MVP·MVVM과 Spring MVC' },
+  { href: './flux-and-review/', title: 'Flux 패턴과 디자인 패턴 총정리' },
+];
+const designPatternLinks = [
+  ...designPatternMain[1].matchAll(
+    /<a\b[^>]*\bhref="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g,
+  ),
+]
+  .map(([, href, title]) => ({ href, title }))
+  .filter(({ href }) => href.startsWith('./'));
+
+if (
+  JSON.stringify(designPatternLinks) !==
+  JSON.stringify(expectedDesignPatternLinks)
+) {
+  throw new Error(
+    `design pattern hub <main> links do not match the expected order: ${JSON.stringify(designPatternLinks)}`,
+  );
 }
 
 const article = await readFile(
