@@ -10,7 +10,15 @@ type ArticleContract = {
 };
 
 const studyRoot = new URL('../src/content/docs/study/', import.meta.url);
-const articles: ArticleContract[] = [];
+const articles: ArticleContract[] = [
+  {
+    file: 'introduction.md',
+    title: '디자인 패턴이란 무엇인가',
+    order: 1,
+    draft: true,
+    unitIds: [116050, 162758],
+  },
+];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
 
