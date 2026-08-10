@@ -227,4 +227,4 @@ Spring AOP는 횡단 관심사를 대상 코드와 분리해 메서드 호출 �
 
 ---
 
-이전: [DI·DIP와 전략 패턴](/study/design-patterns/dependency-injection-and-strategy/) · [연재 목록](/study/design-patterns/) · 다음: MVC·MVP·MVVM과 Spring MVC
+이전: [DI·DIP와 전략 패턴](/study/design-patterns/dependency-injection-and-strategy/) · [연재 목록](/study/design-patterns/) · 다음: [MVC·MVP·MVVM과 Spring MVC](/study/design-patterns/mvc-mvp-mvvm/)

@@ -21,5 +21,5 @@ Inflearn `CS 지식의 정석` 섹션 2를 강의 순서에 따라 다시 정리
 4. [팩토리 패턴과 이터레이터 패턴](./factory-and-iterator/)
 5. [DI·DIP와 전략 패턴](./dependency-injection-and-strategy/)
 6. [옵저버 패턴과 프록시 패턴](./observer-and-proxy/)
-7. MVC·MVP·MVVM과 Spring MVC
+7. [MVC·MVP·MVVM과 Spring MVC](./mvc-mvp-mvvm/)
 8. Flux 패턴과 디자인 패턴 총정리

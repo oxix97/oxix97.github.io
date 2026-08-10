@@ -53,6 +53,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [116058, 116059],
   },
+  {
+    file: 'mvc-mvp-mvvm.md',
+    title: 'MVC·MVP·MVVM과 Spring MVC',
+    order: 7,
+    draft: false,
+    unitIds: [116060, 139952],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
