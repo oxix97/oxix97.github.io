@@ -105,4 +105,4 @@ HTTP 요청 도구는 내가 호출 시점과 흐름을 정하므로 라이브�
 
 ---
 
-[연재 목록](/study/design-patterns/) · 다음: 싱글톤 패턴의 원리와 장단점
+[연재 목록](/study/design-patterns/) · 다음: [싱글톤 패턴의 원리와 장단점](/study/design-patterns/singleton-basics/)

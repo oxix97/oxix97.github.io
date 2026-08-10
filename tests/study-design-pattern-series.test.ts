@@ -18,6 +18,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [116050, 162758],
   },
+  {
+    file: 'singleton-basics.md',
+    title: '싱글톤 패턴의 원리와 장단점',
+    order: 2,
+    draft: false,
+    unitIds: [116055],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
