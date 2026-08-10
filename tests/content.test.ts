@@ -4,7 +4,7 @@ import { byNewest, ofType, onlyPublished, publicationDate } from '../src/lib/con
 type Fixture = {
   id: string;
   data: {
-    contentType: 'blog' | 'study' | 'retrospective' | 'project' | 'page';
+    contentType: 'blog' | 'study' | 'project' | 'page';
     date?: Date;
     publishedAt?: Date;
     draft?: boolean;

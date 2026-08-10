@@ -1,6 +1,7 @@
 ---
 title: CS 지식의 정석 - 네트워크
 description: 네트워크 성능, 연결 구조, 분류 기준을 백엔드 관점에서 복습하고 기술면접 답변으로 연결합니다.
+slug: study/network
 contentType: page
 sidebar:
   order: 1

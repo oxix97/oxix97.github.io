@@ -1,6 +1,7 @@
 ---
 title: 싱글톤 패턴의 원리와 장단점
 description: 인스턴스를 하나만 공유하는 싱글톤 패턴의 구조, 적용 판단, Spring singleton scope와의 차이를 정리합니다.
+slug: study/design-patterns/singleton-basics
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, Singleton, Java]

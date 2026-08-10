@@ -7,10 +7,10 @@ describe('site navigation contract', () => {
 
     expect(hrefs).toEqual([
       '/',
-      '/blog/',
       '/study/',
-      '/retrospectives/',
+      '/troubleshooting/',
       '/projects/',
+      '/blog/',
       '/about/',
     ]);
     expect(new Set(hrefs).size).toBe(hrefs.length);

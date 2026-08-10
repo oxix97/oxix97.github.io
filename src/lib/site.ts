@@ -9,10 +9,10 @@ export const SITE = {
 
 export const NAV_ITEMS = [
   { label: 'Home', href: '/' },
-  { label: 'Blog', href: '/blog/' },
   { label: 'Study', href: '/study/' },
-  { label: 'Retrospectives', href: '/retrospectives/' },
+  { label: 'Troubleshooting', href: '/troubleshooting/' },
   { label: 'Projects', href: '/projects/' },
+  { label: 'Blog', href: '/blog/' },
   { label: 'About', href: '/about/' },
 ] as const;
 

@@ -1,6 +1,7 @@
 ---
 title: 팩토리 패턴과 이터레이터 패턴
 description: 객체 생성 결정과 컬렉션 순회를 각각 분리하는 팩토리·이터레이터 패턴을 Java 예시와 변경 영향으로 정리합니다.
+slug: study/design-patterns/factory-and-iterator
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, Factory, Iterator]

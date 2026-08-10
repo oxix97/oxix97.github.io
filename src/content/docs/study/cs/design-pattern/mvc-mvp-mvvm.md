@@ -1,6 +1,7 @@
 ---
 title: MVC·MVP·MVVM과 Spring MVC
 description: MVC·MVP·MVVM의 책임과 결합 방식을 비교하고 DispatcherServlet의 뷰 렌더링·REST 응답 흐름을 구분합니다.
+slug: study/design-patterns/mvc-mvp-mvvm
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, MVC, MVVM, Spring MVC]

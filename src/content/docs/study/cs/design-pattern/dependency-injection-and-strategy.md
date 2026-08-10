@@ -1,6 +1,7 @@
 ---
 title: DI·DIP와 전략 패턴
 description: 직접 의존의 변경 영향을 줄이는 DIP와 DI, 교체 가능한 결제 행동을 캡슐화하는 전략 패턴을 Java·Spring 예시로 구분합니다.
+slug: study/design-patterns/dependency-injection-and-strategy
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, Dependency Injection, Strategy, Spring]

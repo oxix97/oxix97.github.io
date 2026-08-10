@@ -1,6 +1,7 @@
 ---
 title: 싱글톤 구현 방식 비교
 description: Java 싱글톤의 일곱 구현 방식을 초기화 시점, 스레드 안전성, 비용과 변경 영향으로 비교합니다.
+slug: study/design-patterns/singleton-implementations
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, Singleton, Java, Concurrency]

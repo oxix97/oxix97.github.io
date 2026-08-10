@@ -5,7 +5,7 @@ import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
 import { blogSchema } from 'starlight-blog/schema';
 
 const customFields = z.object({
-  contentType: z.enum(['blog', 'study', 'retrospective', 'project', 'page']).default('page'),
+  contentType: z.enum(['blog', 'study', 'project', 'page']).default('page'),
   publishedAt: z.coerce.date().optional(),
   updatedAt: z.coerce.date().optional(),
   tags: z.array(z.string()).default([]),

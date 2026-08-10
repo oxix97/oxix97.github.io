@@ -1,4 +1,4 @@
-export type ContentType = 'blog' | 'study' | 'retrospective' | 'project' | 'page';
+export type ContentType = 'blog' | 'study' | 'project' | 'page';
 
 type Publishable = {
   data: {

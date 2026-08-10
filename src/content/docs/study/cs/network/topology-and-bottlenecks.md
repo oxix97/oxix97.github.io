@@ -1,6 +1,7 @@
 ---
 title: "연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석"
 description: 네트워크 토폴로지별 연결 구조와 위험을 비교하고, 백엔드 요청 경로에서 병목을 측정해 찾는 순서를 정리합니다.
+slug: study/network/topology-and-bottlenecks
 contentType: study
 publishedAt: 2026-08-10
 tags: [Network, Topology, Bottleneck, Backend]

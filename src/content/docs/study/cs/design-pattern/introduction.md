@@ -1,6 +1,7 @@
 ---
 title: 디자인 패턴이란 무엇인가
 description: 반복되는 설계 문제를 해결하는 디자인 패턴의 목적과 라이브러리·프레임워크의 차이를 정리합니다.
+slug: study/design-patterns/introduction
 contentType: study
 publishedAt: 2026-08-10
 tags: [Design Pattern, Architecture]

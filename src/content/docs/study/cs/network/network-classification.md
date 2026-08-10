@@ -1,6 +1,7 @@
 ---
 title: "유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준"
 description: 전달 대상과 통신 범위라는 독립적인 기준으로 네트워크를 분류하고, 백엔드 통신 사례에 적용합니다.
+slug: study/network/network-classification
 contentType: study
 publishedAt: 2026-08-10
 tags: [Network, Unicast, LAN, Backend]

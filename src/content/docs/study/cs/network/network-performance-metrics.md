@@ -1,6 +1,7 @@
 ---
 title: "대역폭이 넓어도 느릴 수 있는 이유: 트래픽·처리량·RTT의 차이"
 description: 트래픽, 대역폭, 처리량, RTT를 구분하고 API 지연을 네트워크와 애플리케이션 시간으로 나누어 판단하는 방법을 정리합니다.
+slug: study/network/network-performance-metrics
 contentType: study
 publishedAt: 2026-08-10
 tags: [Network, Performance, RTT, Backend]

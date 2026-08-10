@@ -49,8 +49,8 @@ export default defineConfig({
         { label: 'Home', link: '/' },
         { label: 'Study', items: [{ autogenerate: { directory: 'study' } }] },
         {
-          label: 'Retrospectives',
-          items: [{ autogenerate: { directory: 'retrospectives' } }],
+          label: 'Troubleshooting',
+          items: [{ autogenerate: { directory: 'troubleshooting' } }],
         },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
         { label: 'About', link: '/about/' },

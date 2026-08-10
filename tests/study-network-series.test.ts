@@ -210,11 +210,11 @@ function expectedNavigation(index: number) {
 describe('network Study series', () => {
   it('links the series from the Study index', async () => {
     const studyIndex = await readStudyFile('index.md');
-    expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](./network/)');
+    expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
   it('defines all three articles as exact links in reading order', async () => {
-    const hub = await readStudyFile('network/index.md');
+    const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
     const links = [
@@ -232,7 +232,7 @@ describe('network Study series', () => {
 
   it('keeps the exact previous, list, and next navigation chain', async () => {
     for (const [index, article] of articles.entries()) {
-      const markdown = await readStudyFile(`network/${article.file}`);
+      const markdown = await readStudyFile(`cs/network/${article.file}`);
       expect(markdown.trimEnd().split('\n').at(-1)).toBe(
         expectedNavigation(index),
       );
@@ -243,7 +243,7 @@ describe('network Study series', () => {
     let answerCount = 0;
 
     for (const article of articles) {
-      const markdown = await readStudyFile(`network/${article.file}`);
+      const markdown = await readStudyFile(`cs/network/${article.file}`);
       const answers = extractInterviewAnswers(markdown);
 
       expect(answers.length, article.file).toBeGreaterThanOrEqual(2);
@@ -263,7 +263,7 @@ describe('network Study series', () => {
   });
 
   it('distinguishes Kafka consumer distribution from IP multicast', async () => {
-    const markdown = await readStudyFile('network/network-classification.md');
+    const markdown = await readStudyFile('cs/network/network-classification.md');
     const section = extractSection(
       markdown,
       '백엔드 통신은 어떤 방식에 해당하는가',
@@ -276,7 +276,7 @@ describe('network Study series', () => {
 
   for (const article of articles) {
     it(`keeps the parsed content contract for ${article.file}`, async () => {
-      const markdown = await readStudyFile(`network/${article.file}`);
+      const markdown = await readStudyFile(`cs/network/${article.file}`);
       const frontmatter = parseFrontmatter(markdown);
 
       expect(frontmatter.title).toBe(article.title);

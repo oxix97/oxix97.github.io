@@ -229,12 +229,12 @@ describe('design pattern Study series', () => {
   it('links the series from the Study index', async () => {
     const studyIndex = await readStudyFile('index.md');
     expect(studyIndex).toContain(
-      '[CS 지식의 정석 - 디자인 패턴](./design-patterns/)',
+      '[CS 지식의 정석 - 디자인 패턴](/study/design-patterns/)',
     );
   });
 
   it('defines all eight articles as exact links in reading order', async () => {
-    const hub = await readStudyFile('design-patterns/index.md');
+    const hub = await readStudyFile('cs/design-pattern/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
     const links = [
@@ -252,7 +252,7 @@ describe('design pattern Study series', () => {
 
   it('keeps the exact previous, list, and next navigation chain', async () => {
     for (const [index, article] of articles.entries()) {
-      const markdown = await readStudyFile(`design-patterns/${article.file}`);
+      const markdown = await readStudyFile(`cs/design-pattern/${article.file}`);
       expect(markdown.trimEnd().split('\n').at(-1)).toBe(
         expectedNavigation(index),
       );
@@ -263,7 +263,7 @@ describe('design pattern Study series', () => {
     let answerCount = 0;
 
     for (const article of articles) {
-      const markdown = await readStudyFile(`design-patterns/${article.file}`);
+      const markdown = await readStudyFile(`cs/design-pattern/${article.file}`);
       const answers = extractInterviewAnswers(markdown);
 
       expect(answers.length, article.file).toBeGreaterThanOrEqual(2);
@@ -284,7 +284,7 @@ describe('design pattern Study series', () => {
 
   for (const article of articles) {
     it(`keeps the parsed content contract for ${article.file}`, async () => {
-      const markdown = await readStudyFile(`design-patterns/${article.file}`);
+      const markdown = await readStudyFile(`cs/design-pattern/${article.file}`);
       const frontmatter = parseFrontmatter(markdown);
 
       expect(frontmatter.title).toBe(article.title);

@@ -11,12 +11,11 @@ const entries = onlyPublished(await getCollection('docs'));
 const featuredProjects = byNewest(ofType(entries, ['project']))
   .filter((entry) => entry.data.featured)
   .slice(0, 2);
-const recentRecords = byNewest(ofType(entries, ['blog', 'study', 'retrospective'])).slice(0, 3);
+const recentRecords = byNewest(ofType(entries, ['blog', 'study'])).slice(0, 3);
 
 const typeLabels = {
   blog: 'Blog',
   study: 'Study',
-  retrospective: 'Retrospective',
   project: 'Project',
   page: 'Page',
 } as const;

@@ -6,6 +6,7 @@ const expectedFiles = [
   'index.html',
   '404.html',
   'about/index.html',
+  'troubleshooting/index.html',
   'study/design-patterns/index.html',
   'study/design-patterns/introduction/index.html',
   'study/design-patterns/singleton-basics/index.html',
@@ -25,7 +26,6 @@ const expectedFiles = [
   'blog/authors/oxix97/index.html',
   'blog/rss.xml',
   'study/http-cache-control/index.html',
-  'retrospectives/2026-first-half/index.html',
   'projects/developer-hub/index.html',
   'projects/stockwellness/index.html',
   'rss.xml',
@@ -38,6 +38,19 @@ const expectedFiles = [
 for (const relativePath of expectedFiles) {
   await access(new URL(relativePath, distUrl));
 }
+
+async function assertMissing(relativePath) {
+  try {
+    await access(new URL(relativePath, distUrl));
+  } catch (error) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'ENOENT') return;
+    throw error;
+  }
+  throw new Error(`unexpected production file exists: ${relativePath}`);
+}
+
+await assertMissing('retrospectives/index.html');
+await assertMissing('retrospectives/2026-first-half/index.html');
 
 const home = await readFile(new URL('index.html', distUrl), 'utf8');
 for (const requiredText of [

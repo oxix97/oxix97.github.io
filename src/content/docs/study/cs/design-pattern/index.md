@@ -1,6 +1,7 @@
 ---
 title: CS 지식의 정석 - 디자인 패턴
 description: 디자인 패턴의 해결 문제와 선택 기준을 복습하고 기술면접 답변으로 연결합니다.
+slug: study/design-patterns
 contentType: page
 sidebar:
   order: 1

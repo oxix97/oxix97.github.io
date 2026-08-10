@@ -1,6 +1,7 @@
 ---
 title: HTTP Cache-Control 정리
 description: 브라우저와 공유 캐시의 재사용·재검증 규칙을 실무 관점에서 정리합니다.
+slug: study/http-cache-control
 contentType: study
 publishedAt: 2026-08-04
 tags: [HTTP, Cache, Web]
