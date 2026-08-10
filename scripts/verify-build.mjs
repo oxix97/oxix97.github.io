@@ -15,6 +15,10 @@ const expectedFiles = [
   'study/design-patterns/observer-and-proxy/index.html',
   'study/design-patterns/mvc-mvp-mvvm/index.html',
   'study/design-patterns/flux-and-review/index.html',
+  'study/network/index.html',
+  'study/network/network-performance-metrics/index.html',
+  'study/network/topology-and-bottlenecks/index.html',
+  'study/network/network-classification/index.html',
   'blog/recording-technical-decisions/index.html',
   'study/http-cache-control/index.html',
   'retrospectives/2026-first-half/index.html',
@@ -93,6 +97,43 @@ if (
 ) {
   throw new Error(
     `design pattern hub <main> links do not match the expected order: ${JSON.stringify(designPatternLinks)}`,
+  );
+}
+
+const networkHub = await readFile(
+  new URL('study/network/index.html', distUrl),
+  'utf8',
+);
+const networkMain = networkHub.match(/<main\b[^>]*>([\s\S]*?)<\/main>/);
+if (!networkMain) {
+  throw new Error('network hub is missing its <main>...</main> content');
+}
+
+const expectedNetworkLinks = [
+  {
+    href: './network-performance-metrics/',
+    title: '대역폭이 넓어도 느릴 수 있는 이유: 트래픽·처리량·RTT의 차이',
+  },
+  {
+    href: './topology-and-bottlenecks/',
+    title: '연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석',
+  },
+  {
+    href: './network-classification/',
+    title: '유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준',
+  },
+];
+const networkLinks = [
+  ...networkMain[1].matchAll(
+    /<a\b[^>]*\bhref="([^"]+)"[^>]*>([\s\S]*?)<\/a>/g,
+  ),
+]
+  .map(([, href, title]) => ({ href, title }))
+  .filter(({ href }) => href.startsWith('./'));
+
+if (JSON.stringify(networkLinks) !== JSON.stringify(expectedNetworkLinks)) {
+  throw new Error(
+    `network hub <main> links do not match the expected order: ${JSON.stringify(networkLinks)}`,
   );
 }
 
