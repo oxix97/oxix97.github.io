@@ -143,4 +143,4 @@ public final class IteratorExample {
 
 ---
 
-이전: [싱글톤 구현 방식 비교](/study/design-patterns/singleton-implementations/) · [연재 목록](/study/design-patterns/) · 다음: DI·DIP와 전략 패턴
+이전: [싱글톤 구현 방식 비교](/study/design-patterns/singleton-implementations/) · [연재 목록](/study/design-patterns/) · 다음: [DI·DIP와 전략 패턴](/study/design-patterns/dependency-injection-and-strategy/)

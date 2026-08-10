@@ -39,6 +39,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [118502, 118503],
   },
+  {
+    file: 'dependency-injection-and-strategy.md',
+    title: 'DI·DIP와 전략 패턴',
+    order: 5,
+    draft: false,
+    unitIds: [118490, 118504, 120148, 120149],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
