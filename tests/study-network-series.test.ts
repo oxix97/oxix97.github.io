@@ -106,6 +106,10 @@ const articleRoute = (article: ArticleContract) =>
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
 
 function parseScalar(value: string): boolean | number | string | string[] {
+  const isQuoted =
+    (value.startsWith('"') && value.endsWith('"')) ||
+    (value.startsWith("'") && value.endsWith("'"));
+  if (isQuoted) return value.slice(1, -1);
   if (value === 'true') return true;
   if (value === 'false') return false;
   if (/^\d+$/.test(value)) return Number(value);
