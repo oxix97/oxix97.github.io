@@ -25,6 +25,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [116055],
   },
+  {
+    file: 'singleton-implementations.md',
+    title: '싱글톤 구현 방식 비교',
+    order: 3,
+    draft: false,
+    unitIds: [132521, 132522],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');

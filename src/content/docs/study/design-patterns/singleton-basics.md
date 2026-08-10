@@ -96,4 +96,4 @@ public final class AppSettings {
 
 ---
 
-이전: [디자인 패턴이란 무엇인가](/study/design-patterns/introduction/) · [연재 목록](/study/design-patterns/) · 다음: 싱글톤 구현 방식 비교
+이전: [디자인 패턴이란 무엇인가](/study/design-patterns/introduction/) · [연재 목록](/study/design-patterns/) · 다음: [싱글톤 구현 방식 비교](/study/design-patterns/singleton-implementations/)
