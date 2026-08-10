@@ -170,6 +170,34 @@ for (const requiredText of ['oxix97', 'engineering', 'BlogPosting']) {
     throw new Error(`blog post is missing Blog output: ${requiredText}`);
   }
 }
+
+const blogIndex = await readFile(new URL('blog/index.html', distUrl), 'utf8');
+const blogTag = await readFile(
+  new URL('blog/tags/engineering/index.html', distUrl),
+  'utf8',
+);
+const blogAuthor = await readFile(
+  new URL('blog/authors/oxix97/index.html', distUrl),
+  'utf8',
+);
+const blogArtifacts = [blogPost, blogIndex, blogTag, blogAuthor];
+
+if (blogArtifacts.some((artifact) => artifact.includes('starlightBlog.'))) {
+  throw new Error('Blog output contains unresolved starlight-blog translation keys');
+}
+
+for (const requiredText of [
+  '2026년 8월 5일',
+  '읽는 데',
+  '모든 글',
+  '최근 글',
+  '태그',
+  'RSS',
+]) {
+  if (!blogArtifacts.some((artifact) => artifact.includes(requiredText))) {
+    throw new Error(`blog output is missing Korean UI text: ${requiredText}`);
+  }
+}
 const astroDir = new URL('_astro/', distUrl);
 const cssFiles = (await readdir(astroDir)).filter((file) => file.endsWith('.css'));
 const cssBundle = (
