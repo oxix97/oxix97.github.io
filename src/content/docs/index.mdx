@@ -1,0 +1,74 @@
+---
+title: 기록으로 성장하는 백엔드 개발자
+description: 문제 해결 과정과 기술적 판단을 기록하는 백엔드 개발자 포트폴리오
+contentType: page
+template: splash
+hero:
+  tagline: 문제를 구조화하고 선택의 근거를 남기며 운영 가능한 해법을 만듭니다.
+  actions:
+    - text: 대표 프로젝트
+      link: /projects/
+      icon: right-arrow
+      variant: primary
+    - text: 이력서
+      link: /resume.pdf
+      icon: document
+      variant: secondary
+    - text: GitHub
+      link: https://github.com/oxix97
+      icon: github
+      variant: minimal
+editUrl: false
+lastUpdated: false
+prev: false
+next: false
+---
+
+import ProjectCard from '../../components/ProjectCard.astro';
+
+## 어떻게 기록하는가
+
+<div class="principle-grid">
+  <article>
+    <h2>문제 정의</h2>
+    <p>증상과 원인을 분리하고 성공 조건을 관찰 가능한 문장으로 만듭니다.</p>
+  </article>
+  <article>
+    <h2>기술적 판단</h2>
+    <p>선택지의 장점뿐 아니라 제약, 포기한 것, 운영 비용을 함께 기록합니다.</p>
+  </article>
+  <article>
+    <h2>운영과 개선</h2>
+    <p>테스트와 지표로 결과를 확인하고 회고를 다음 작업의 규칙으로 바꿉니다.</p>
+  </article>
+</div>
+
+## 대표 프로젝트
+
+<div class="project-grid">
+  <ProjectCard
+    href="/projects/developer-hub/"
+    title="Developer Hub"
+    description="Markdown 작성 경험과 포트폴리오 전달력을 함께 설계한 Astro 기반 개발자 허브입니다."
+    status="ongoing"
+    stack={['Astro', 'Starlight', 'TypeScript', 'GitHub Actions']}
+  />
+  <ProjectCard
+    href="/projects/stockwellness/"
+    title="Stockwellness"
+    description="주식 데이터 수집·정합성 검증·조회 경로를 분리해 운영 안정성을 높인 백엔드 프로젝트입니다."
+    status="ongoing"
+    stack={['Java', 'Spring Boot', 'PostgreSQL', 'Docker']}
+  />
+</div>
+
+## 기록 탐색
+
+Study에서 지식을, Blog에서 시간순 기록을, Troubleshooting에서 실제 문제 해결 과정을 찾을 수 있습니다.
+
+<div class="section-links">
+  <a href="/study/">Study</a>
+  <a href="/troubleshooting/">Troubleshooting</a>
+  <a href="/blog/">Blog</a>
+  <a href="/about/">About</a>
+</div>

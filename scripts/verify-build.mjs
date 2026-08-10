@@ -55,8 +55,12 @@ await assertMissing('retrospectives/2026-first-half/index.html');
 const home = await readFile(new URL('index.html', distUrl), 'utf8');
 for (const requiredText of [
   'lang="ko"',
+  '기록으로 성장하는 백엔드 개발자',
   '대표 프로젝트',
-  '최근 기록',
+  'Study에서 지식을, Blog에서 시간순 기록을',
+  '/projects/stockwellness/',
+  '/projects/developer-hub/',
+  '/blog/',
   '/resume.pdf',
   'https://github.com/oxix97',
 ]) {

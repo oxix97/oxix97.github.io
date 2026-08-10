@@ -39,9 +39,6 @@ export default defineConfig({
         }),
       ],
       customCss: ['./src/styles/custom.css'],
-      components: {
-        PageTitle: './src/components/StarlightPageTitle.astro',
-      },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/oxix97' },
       ],

@@ -1,4 +1,6 @@
 ---
+import TechBadge from './TechBadge.astro';
+
 interface Props {
   href: string;
   title: string;
@@ -16,13 +18,12 @@ const statusLabels = {
 ---
 
 <article class="project-card">
-  <div class="project-card__topline">
-    <span class={`status status--${status}`}>{statusLabels[status]}</span>
-    <span aria-hidden="true">↗</span>
+  <div class="project-card__meta">
+    <span class={`project-status project-status--${status}`}>{statusLabels[status]}</span>
   </div>
   <h3><a href={href}>{title}</a></h3>
   <p>{description}</p>
-  <ul class="stack-list" aria-label="기술 스택">
-    {stack.slice(0, 4).map((item) => <li>{item}</li>)}
-  </ul>
+  <div class="project-card__stack" aria-label={`${title} 기술 스택`}>
+    {stack.map((item) => <TechBadge label={item} />)}
+  </div>
 </article>
