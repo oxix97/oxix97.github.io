@@ -4,10 +4,6 @@ description: 문제를 구조화하고 운영 가능한 해법을 만드는 백�
 contentType: page
 sidebar:
   hidden: true
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 저는 문제를 재현 가능한 단위로 나누고, 선택의 근거를 기록하며, 배포 후의

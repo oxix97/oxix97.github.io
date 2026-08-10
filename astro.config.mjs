@@ -1,21 +1,11 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
-import { fileURLToPath } from 'node:url';
-import starlightThemeObsidian from 'starlight-theme-obsidian';
+import starlightThemeRapide from 'starlight-theme-rapide';
 
 export default defineConfig({
   site: 'https://oxix97.github.io',
   output: 'static',
   trailingSlash: 'always',
-  vite: {
-    resolve: {
-      // The graph plugin ships Node-oriented micromatch code in its browser bundle.
-      // This narrow alias provides the only API the client graph uses without Node globals.
-      alias: {
-        micromatch: fileURLToPath(new URL('./src/lib/browser-micromatch.ts', import.meta.url)),
-      },
-    },
-  },
   integrations: [
     starlight({
       title: "oxix97's Dev Log",
@@ -24,7 +14,7 @@ export default defineConfig({
       locales: {
         root: { label: '한국어', lang: 'ko' },
       },
-      plugins: [starlightThemeObsidian()],
+      plugins: [starlightThemeRapide()],
       customCss: ['./src/styles/custom.css'],
       components: {
         PageTitle: './src/components/StarlightPageTitle.astro',
@@ -34,10 +24,13 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Home', link: '/' },
-        { label: 'Blog', autogenerate: { directory: 'blog' } },
-        { label: 'Study', autogenerate: { directory: 'study' } },
-        { label: 'Retrospectives', autogenerate: { directory: 'retrospectives' } },
-        { label: 'Projects', autogenerate: { directory: 'projects' } },
+        { label: 'Blog', link: '/blog/' },
+        { label: 'Study', items: [{ autogenerate: { directory: 'study' } }] },
+        {
+          label: 'Retrospectives',
+          items: [{ autogenerate: { directory: 'retrospectives' } }],
+        },
+        { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
         { label: 'About', link: '/about/' },
       ],
     }),

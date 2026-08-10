@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 
 const distUrl = new URL('../dist/', import.meta.url);
 
@@ -28,7 +28,6 @@ const expectedFiles = [
   'robots.txt',
   'sitemap-index.xml',
   'pagefind/pagefind-entry.json',
-  'sitegraph/sitemap.json',
   'resume.pdf',
 ];
 
@@ -141,18 +140,28 @@ const article = await readFile(
   new URL('projects/developer-hub/index.html', distUrl),
   'utf8',
 );
-for (const requiredText of [
-  '<graph-component',
-  'slsg-backlinks-panel',
-  '그래프 뷰',
-  '백링크',
-  '목차',
-]) {
+const astroDir = new URL('_astro/', distUrl);
+const cssFiles = (await readdir(astroDir)).filter((file) => file.endsWith('.css'));
+const cssBundle = (
+  await Promise.all(cssFiles.map((file) => readFile(new URL(file, astroDir), 'utf8')))
+).join('\n');
+
+if (!cssBundle.includes('--sl-rapide-ui-border-color')) {
+  throw new Error('production CSS is missing the Rapide theme variables');
+}
+
+for (const forbiddenText of ['<graph-component', 'slsg-backlinks-panel']) {
+  if (article.includes(forbiddenText)) {
+    throw new Error(`project detail still contains Obsidian UI: ${forbiddenText}`);
+  }
+}
+
+for (const requiredText of ['목차']) {
   if (!article.includes(requiredText)) {
-    throw new Error(`project detail is missing theme UI: ${requiredText}`);
+    throw new Error(`project detail is missing reading UI: ${requiredText}`);
   }
 }
 
 console.log(
-  `Verified ${expectedFiles.length} production files, home content, search, graph, backlinks, and TOC.`,
+  `Verified ${expectedFiles.length} production files, home content, search, Rapide, and TOC.`,
 );

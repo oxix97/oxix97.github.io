@@ -4,10 +4,6 @@ description: 문제, 선택, 구현, 결과를 중심으로 정리한 프로젝�
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 기술 이름보다 해결하려던 문제와 판단 과정을 중심으로 정리합니다.

@@ -1,30 +1,3 @@
-:root {
-  --sl-color-accent-low: hsl(258, 38%, 22%);
-  --sl-color-accent: hsl(258, 61%, 66%);
-  --sl-color-accent-high: hsl(258, 88%, 88%);
-  --sl-color-bg: #111213;
-  --sl-color-bg-nav: #111213;
-  --sl-color-bg-sidebar: #111213;
-  --sl-color-hairline: #292a2d;
-  --sl-color-text: hsl(224, 6%, 77%);
-  --sl-color-text-accent: hsl(258, 72%, 74%);
-  --sl-content-width: 45rem;
-  --sl-font: Pretendard, Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --sl-font-system-mono: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-}
-
-:root[data-theme='light'] {
-  --sl-color-accent-low: hsl(258, 70%, 92%);
-  --sl-color-accent: hsl(258, 55%, 48%);
-  --sl-color-accent-high: hsl(258, 62%, 25%);
-  --sl-color-bg: #f7f6f3;
-  --sl-color-bg-nav: #f7f6f3;
-  --sl-color-bg-sidebar: #f7f6f3;
-  --sl-color-hairline: #d8d5df;
-  --sl-color-text: #343238;
-  --sl-color-text-accent: hsl(258, 55%, 42%);
-}
-
 html {
   scroll-behavior: smooth;
 }

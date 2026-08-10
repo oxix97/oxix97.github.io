@@ -4,10 +4,6 @@ description: 다시 설명할 수 있을 때까지 학습한 개념을 구조화
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 기술을 외우는 대신 동작 원리, 실패 조건, 운영 시 주의점을 연결해서

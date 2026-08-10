@@ -4,10 +4,6 @@ description: 디자인 패턴의 해결 문제와 선택 기준을 복습하고 
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 Inflearn `CS 지식의 정석` 섹션 2를 강의 순서에 따라 다시 정리합니다.

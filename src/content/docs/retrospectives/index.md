@@ -4,10 +4,6 @@ description: 결과와 감상을 분리하고, 다음 행동으로 이어지는 
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 프로젝트와 학습 과정에서 잘된 점, 예상과 달랐던 점, 다음에 바꿀 행동을

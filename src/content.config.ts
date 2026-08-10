@@ -1,7 +1,7 @@
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { z } from 'astro/zod';
 import { docsLoader, i18nLoader } from '@astrojs/starlight/loaders';
 import { docsSchema, i18nSchema } from '@astrojs/starlight/schema';
-import { pageThemeObsidianSchema } from 'starlight-theme-obsidian/schema';
 
 const customFields = z.object({
   contentType: z.enum(['blog', 'study', 'retrospective', 'project', 'page']),
@@ -24,7 +24,7 @@ const customFields = z.object({
 export const collections = {
   docs: defineCollection({
     loader: docsLoader(),
-    schema: docsSchema({ extend: pageThemeObsidianSchema.merge(customFields) }),
+    schema: docsSchema({ extend: customFields }),
   }),
   i18n: defineCollection({ loader: i18nLoader(), schema: i18nSchema() }),
 };

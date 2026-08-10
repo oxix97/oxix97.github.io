@@ -4,10 +4,6 @@ description: 네트워크 성능, 연결 구조, 분류 기준을 백엔드 관�
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 순서에 따라 다시 정리합니다.

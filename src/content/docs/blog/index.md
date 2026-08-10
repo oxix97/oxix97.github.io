@@ -4,10 +4,6 @@ description: 구현 결과보다 문제를 정의하고 선택을 검증한 과�
 contentType: page
 sidebar:
   order: 1
-graph:
-  visible: false
-backlinks:
-  visible: false
 ---
 
 백엔드 개발 과정에서 마주친 문제, 비교한 선택지, 운영 이후에 확인한 결과를
