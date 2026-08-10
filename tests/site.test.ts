@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildCanonicalUrl, NAV_ITEMS, SITE } from '../src/lib/site';
+import { NAV_ITEMS, SITE } from '../src/lib/site';
 
 describe('site navigation contract', () => {
   it('keeps every public destination unique and rooted', () => {
