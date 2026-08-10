@@ -60,7 +60,7 @@ final class NotificationFactory {
 
 주문 목록이 `List`인지 배열인지, 혹은 페이지 기반 저장소인지에 따라 호출부가 인덱스·키·내부 자료구조를 알아야 한다면 저장 방식을 바꿀 때 순회 코드도 함께 흔들린다. 이터레이터는 `hasNext()`와 `next()`라는 순회 규약을 제공하고, Java에서는 `Iterable<T>`를 구현하면 `for-each`가 그 규약을 사용한다.
 
-이는 배열, 집합, 맵처럼 구조가 다른 컨테이너도 일관된 방식으로 탐색하게 한다는 강의의 요점과 맞닿아 있다. 다만 이터레이터가 특정 요소를 찾는 알고리즘이나 컬렉션의 동시 수정 정책까지 자동으로 해결해 주는 것은 아니다.
+일반적인 이터레이터 패턴은 저장 구조가 다른 컨테이너를 일관된 순회 규약으로 다루게 한다는 강의의 요점과 맞닿아 있다. Java에서 `for-each`는 `Iterable` 구현체뿐 아니라 배열도 언어 차원에서 순회할 수 있지만, 배열은 `Iterable`을 구현하지 않는다. `Map`도 `Iterable`이 아니므로 `entrySet()`, `keySet()`, `values()`처럼 반환된 순회 가능 뷰를 통해 탐색하며, 이터레이터가 특정 요소를 찾는 알고리즘이나 컬렉션의 동시 수정 정책까지 자동으로 해결해 주는 것은 아니다.
 
 ## 이터레이터 패턴의 구조와 예시
 
@@ -68,27 +68,31 @@ final class NotificationFactory {
 import java.util.Iterator;
 import java.util.List;
 
-record Order(String id) {}
+public final class IteratorExample {
+    record Order(String id) {}
 
-final class OrderHistory implements Iterable<Order> {
-    private final List<Order> orders;
+    static final class OrderHistory implements Iterable<Order> {
+        private final List<Order> orders;
 
-    OrderHistory(List<Order> orders) {
-        this.orders = List.copyOf(orders);
+        OrderHistory(List<Order> orders) {
+            this.orders = List.copyOf(orders);
+        }
+
+        @Override
+        public Iterator<Order> iterator() {
+            return orders.iterator();
+        }
     }
 
-    @Override
-    public Iterator<Order> iterator() {
-        return orders.iterator();
+    public static void main(String[] args) {
+        OrderHistory history = new OrderHistory(List.of(
+            new Order("A-100"), new Order("A-101")
+        ));
+
+        for (Order order : history) {
+            System.out.println(order.id());
+        }
     }
-}
-
-OrderHistory history = new OrderHistory(List.of(
-    new Order("A-100"), new Order("A-101")
-));
-
-for (Order order : history) {
-    System.out.println(order.id());
 }
 ```
 
