@@ -267,9 +267,9 @@ describe('network Study series', () => {
       '백엔드 통신은 어떤 방식에 해당하는가',
     );
 
-    expect(section).toContain('IP 멀티캐스트');
-    expect(section).toContain('Kafka');
-    expect(section).toContain('같지 않');
+    expect(section).toMatch(
+      /Kafka 소비자 그룹의 (?:메시지 )?분배는 네트워크 계층의 IP 멀티캐스트와 (?:같지 않|다르)/,
+    );
   });
 
   for (const article of articles) {
@@ -289,6 +289,16 @@ describe('network Study series', () => {
 
       for (const heading of article.sections) {
         expect(() => extractSection(markdown, heading)).not.toThrow();
+      }
+
+      if (article.file === 'network-performance-metrics.md') {
+        const rttSection = extractSection(
+          markdown,
+          'RTT가 API 응답 시간에 미치는 영향',
+        );
+        expect(rttSection).toMatch(
+          /애플리케이션 처리 시간과 네트워크 왕복 시간을 분리/,
+        );
       }
 
       const officialLinks = extractMarkdownLinks(
