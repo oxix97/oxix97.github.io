@@ -1,0 +1,305 @@
+import { readFile } from 'node:fs/promises';
+import { describe, expect, it } from 'vitest';
+
+type FrontmatterValue =
+  | boolean
+  | number
+  | string
+  | string[]
+  | Record<string, boolean | number | string | string[]>;
+
+type ArticleContract = {
+  file: string;
+  title: string;
+  order: number;
+  tags: string[];
+  units: { title: string; unitId: number }[];
+  sections: string[];
+};
+
+const studyRoot = new URL('../src/content/docs/study/', import.meta.url);
+const inflearnCoursePrefix =
+  'https://www.inflearn.com/courses/lecture?courseId=328823&unitId=';
+const courseUrl = (unitId: number) => `${inflearnCoursePrefix}${unitId}`;
+
+const articles: ArticleContract[] = [
+  {
+    file: 'network-performance-metrics.md',
+    title: '대역폭이 넓어도 느릴 수 있는 이유: 트래픽·처리량·RTT의 차이',
+    order: 1,
+    tags: ['Network', 'Performance', 'RTT', 'Backend'],
+    units: [
+      {
+        title:
+          '네트워크의 기초 #1. 네트워크, 처리량, 트래픽, 대역폭, RTT ★★★',
+        unitId: 121330,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '트래픽과 처리량의 차이',
+      '대역폭과 실제 처리량이 다른 이유',
+      'RTT가 API 응답 시간에 미치는 영향',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
+    file: 'topology-and-bottlenecks.md',
+    title: '연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석',
+    order: 2,
+    tags: ['Network', 'Topology', 'Bottleneck', 'Backend'],
+    units: [
+      {
+        title: '네트워크의 기초 #2. 네트워크 토폴로지 : 버스, 스타, 트리 ★★★',
+        unitId: 121331,
+      },
+      {
+        title: '네트워크의 기초 #3. 네트워크 토폴로지 : 링, 메시 ★★★',
+        unitId: 121332,
+      },
+      {
+        title: '네트워크의 기초 #4.  병목현상과 네트워크 토폴로지의 필요성 ★★★',
+        unitId: 130662,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '버스형·스타형·트리형 토폴로지',
+      '링형·메시형 토폴로지',
+      '연결 구조에서 병목이 발생하는 지점',
+      '백엔드 시스템에서 병목을 찾는 순서',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
+    file: 'network-classification.md',
+    title: '유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준',
+    order: 3,
+    tags: ['Network', 'Unicast', 'LAN', 'Backend'],
+    units: [
+      {
+        title: '네트워크의 기초 #5. 유니캐스트, 멀티캐스트, 브로드캐스트 ★★★',
+        unitId: 164725,
+      },
+      { title: '네트워크의 분류 : LAN, MAN, WAN ★☆☆', unitId: 130855 },
+    ],
+    sections: [
+      '핵심 요약',
+      '전달 대상에 따른 분류',
+      '유니캐스트·멀티캐스트·브로드캐스트 비교',
+      '통신 범위에 따른 분류',
+      'LAN·MAN·WAN 비교',
+      '백엔드 통신은 어떤 방식에 해당하는가',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+];
+
+const articleHref = (article: ArticleContract) =>
+  `./${article.file.replace(/\.md$/, '/')}`;
+const articleRoute = (article: ArticleContract) =>
+  `/study/network/${article.file.replace(/\.md$/, '/')}`;
+const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
+
+function parseScalar(value: string): boolean | number | string | string[] {
+  if (value === 'true') return true;
+  if (value === 'false') return false;
+  if (/^\d+$/.test(value)) return Number(value);
+  if (value.startsWith('[') && value.endsWith(']')) {
+    return value
+      .slice(1, -1)
+      .split(',')
+      .map((item) => item.trim());
+  }
+  return value;
+}
+
+function parseFrontmatter(markdown: string): Record<string, FrontmatterValue> {
+  const match = markdown.match(/^---\n([\s\S]*?)\n---(?:\n|$)/);
+  if (!match) throw new Error('frontmatter block is missing');
+
+  const parsed: Record<string, FrontmatterValue> = {};
+  let parentKey: string | undefined;
+
+  for (const line of match[1].split('\n')) {
+    const field = line.match(/^(\s*)([A-Za-z][\w]*):(?:\s*(.*))?$/);
+    if (!field) throw new Error(`unsupported frontmatter line: ${line}`);
+
+    const [, indentation, key, rawValue = ''] = field;
+    if (indentation.length === 0) {
+      if (rawValue === '') {
+        parsed[key] = {};
+        parentKey = key;
+      } else {
+        parsed[key] = parseScalar(rawValue);
+        parentKey = undefined;
+      }
+      continue;
+    }
+
+    const parent = parentKey ? parsed[parentKey] : undefined;
+    if (!parentKey || typeof parent !== 'object' || Array.isArray(parent)) {
+      throw new Error(`frontmatter nesting is invalid: ${line}`);
+    }
+    parent[key] = parseScalar(rawValue);
+  }
+
+  return parsed;
+}
+
+function extractSection(markdown: string, heading: string): string {
+  const marker = `## ${heading}\n`;
+  const start = markdown.indexOf(marker);
+  if (start === -1) throw new Error(`section is missing: ${heading}`);
+  const contentStart = start + marker.length;
+  const nextHeading = markdown.indexOf('\n## ', contentStart);
+  return markdown.slice(
+    contentStart,
+    nextHeading === -1 ? markdown.length : nextHeading,
+  );
+}
+
+function extractMarkdownLinks(markdown: string) {
+  return [...markdown.matchAll(/\[([^\]]+)]\(([^)]+)\)/g)].map(
+    ([, title, href]) => ({ title, href }),
+  );
+}
+
+function extractInterviewAnswers(markdown: string) {
+  const section = extractSection(markdown, '기술면접 질문');
+  const headings = [...section.matchAll(/^### (.+)$/gm)];
+  return headings.map((heading, index) => {
+    const bodyStart = (heading.index ?? 0) + heading[0].length;
+    const bodyEnd = headings[index + 1]?.index ?? section.length;
+    return {
+      question: heading[1],
+      answer: section.slice(bodyStart, bodyEnd).trim(),
+    };
+  });
+}
+
+function splitSentences(answer: string) {
+  return answer
+    .replace(/\s+/g, ' ')
+    .split(/(?<=[.!?])\s+/)
+    .filter(Boolean);
+}
+
+function expectedNavigation(index: number) {
+  const parts: string[] = [];
+  if (index > 0) {
+    const previous = articles[index - 1];
+    parts.push(`이전: [${previous.title}](${articleRoute(previous)})`);
+  }
+  parts.push('[연재 목록](/study/network/)');
+  if (index < articles.length - 1) {
+    const next = articles[index + 1];
+    parts.push(`다음: [${next.title}](${articleRoute(next)})`);
+  }
+  return parts.join(' · ');
+}
+
+describe('network Study series', () => {
+  it('links the series from the Study index', async () => {
+    const studyIndex = await readStudyFile('index.md');
+    expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](./network/)');
+  });
+
+  it('defines all three articles as exact links in reading order', async () => {
+    const hub = await readStudyFile('network/index.md');
+    const frontmatter = parseFrontmatter(hub);
+    const readingOrder = extractSection(hub, '읽는 순서');
+    const links = [
+      ...readingOrder.matchAll(/^\d+\.\s+\[([^\]]+)]\(([^)]+)\)$/gm),
+    ].map(([, title, href]) => ({ title, href }));
+
+    expect(frontmatter.title).toBe('CS 지식의 정석 - 네트워크');
+    expect(links).toEqual(
+      articles.map((article) => ({
+        title: article.title,
+        href: articleHref(article),
+      })),
+    );
+  });
+
+  it('keeps the exact previous, list, and next navigation chain', async () => {
+    for (const [index, article] of articles.entries()) {
+      const markdown = await readStudyFile(`network/${article.file}`);
+      expect(markdown.trimEnd().split('\n').at(-1)).toBe(
+        expectedNavigation(index),
+      );
+    }
+  });
+
+  it('keeps 2-4 ordered interview answers with exactly three sentences', async () => {
+    let answerCount = 0;
+
+    for (const article of articles) {
+      const markdown = await readStudyFile(`network/${article.file}`);
+      const answers = extractInterviewAnswers(markdown);
+
+      expect(answers.length, article.file).toBeGreaterThanOrEqual(2);
+      expect(answers.length, article.file).toBeLessThanOrEqual(4);
+      for (const { question, answer } of answers) {
+        expect(question, article.file).not.toBe('');
+        expect(answer, `${article.file}: ${question}`).not.toContain('\n\n');
+        expect(
+          splitSentences(answer),
+          `${article.file}: ${question}`,
+        ).toHaveLength(3);
+      }
+      answerCount += answers.length;
+    }
+
+    expect(answerCount).toBe(9);
+  });
+
+  it('distinguishes Kafka consumer distribution from IP multicast', async () => {
+    const markdown = await readStudyFile('network/network-classification.md');
+    const section = extractSection(
+      markdown,
+      '백엔드 통신은 어떤 방식에 해당하는가',
+    );
+
+    expect(section).toContain('IP 멀티캐스트');
+    expect(section).toContain('Kafka');
+    expect(section).toContain('같지 않');
+  });
+
+  for (const article of articles) {
+    it(`keeps the parsed content contract for ${article.file}`, async () => {
+      const markdown = await readStudyFile(`network/${article.file}`);
+      const frontmatter = parseFrontmatter(markdown);
+
+      expect(frontmatter.title).toBe(article.title);
+      expect(frontmatter.contentType).toBe('study');
+      expect(frontmatter.publishedAt).toBe('2026-08-10');
+      expect(frontmatter.tags).toEqual(article.tags);
+      expect(frontmatter.series).toBe('CS 지식의 정석 - 네트워크');
+      expect(frontmatter.topic).toBe('Network');
+      expect(frontmatter.difficulty).toBe('intermediate');
+      expect(frontmatter.draft ?? false).toBe(false);
+      expect(frontmatter.sidebar).toEqual({ order: article.order });
+
+      for (const heading of article.sections) {
+        expect(() => extractSection(markdown, heading)).not.toThrow();
+      }
+
+      const officialLinks = extractMarkdownLinks(
+        extractSection(markdown, '참고 자료'),
+      ).filter(({ href }) => href.startsWith(inflearnCoursePrefix));
+      expect(officialLinks).toEqual(
+        article.units.map(({ title, unitId }) => ({
+          title,
+          href: courseUrl(unitId),
+        })),
+      );
+    });
+  }
+});
