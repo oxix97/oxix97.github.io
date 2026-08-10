@@ -191,4 +191,4 @@ DIP는 원칙이고 DI는 이를 구현하는 메커니즘입니다. DIP는 상�
 
 ---
 
-이전: [팩토리 패턴과 이터레이터 패턴](/study/design-patterns/factory-and-iterator/) · [연재 목록](/study/design-patterns/) · 다음: 옵저버 패턴과 프록시 패턴
+이전: [팩토리 패턴과 이터레이터 패턴](/study/design-patterns/factory-and-iterator/) · [연재 목록](/study/design-patterns/) · 다음: [옵저버 패턴과 프록시 패턴](/study/design-patterns/observer-and-proxy/)

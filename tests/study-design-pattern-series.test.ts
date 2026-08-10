@@ -46,6 +46,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [118490, 118504, 120148, 120149],
   },
+  {
+    file: 'observer-and-proxy.md',
+    title: '옵저버 패턴과 프록시 패턴',
+    order: 6,
+    draft: false,
+    unitIds: [116058, 116059],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
