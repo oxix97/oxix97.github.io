@@ -1,0 +1,36 @@
+---
+import Default from '@astrojs/starlight/components/SiteTitle.astro';
+---
+
+<Default><slot /></Default>
+<div class="study-link">
+  <a href="/study/">개발 블로그</a>
+</div>
+
+<style>
+  .study-link {
+    border-inline-start: 1px solid var(--sl-color-gray-5);
+    display: none;
+    gap: 1rem;
+    margin-inline-start: 1rem;
+    min-inline-size: 0;
+    padding-inline-start: 1rem;
+  }
+
+  @media (min-width: 50rem) {
+    .study-link {
+      align-items: center;
+      display: flex;
+    }
+  }
+
+  a {
+    color: var(--sl-color-text-accent);
+    font-weight: 600;
+    min-inline-size: 0;
+    overflow: hidden;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

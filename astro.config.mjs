@@ -20,7 +20,7 @@ export default defineConfig({
         starlightBlog({
           title: '개발 블로그',
           prefix: 'blog',
-          navigation: 'header-start',
+          navigation: 'none',
           authors: {
             oxix97: {
               name: 'oxix97',
@@ -39,6 +39,9 @@ export default defineConfig({
         }),
       ],
       customCss: ['./src/styles/custom.css'],
+      components: {
+        SiteTitle: './src/components/SiteTitle.astro',
+      },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/oxix97' },
       ],
@@ -50,6 +53,7 @@ export default defineConfig({
           items: [{ autogenerate: { directory: 'troubleshooting' } }],
         },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
+        { label: 'Blog', link: '/blog/' },
         { label: 'About', link: '/about/' },
       ],
     }),
