@@ -32,7 +32,7 @@ final class CheckoutService {
 
 이 구조에서 계좌 이체를 추가하려면 `CheckoutService`가 구현을 선택하도록 분기하거나 필드 타입과 생성 코드를 바꿔야 한다. 카드 구현의 생성자에 인증 정보가 추가되어도 서비스가 함께 수정되고, 테스트에서는 실제 카드 구현을 대역으로 바꾸기 어렵다. 즉 하위 세부사항의 변화가 결제 흐름을 조정하는 상위 코드까지 전파된다.
 
-생성과 사용을 분리하면 영향 범위가 달라진다. `CheckoutService`가 `PaymentStrategy` 계약만 받고 외부의 조합 지점이 `CardPaymentStrategy`를 제공하도록 만들면, 계좌 이체 추가는 새 전략 구현과 조합 설정에 머물고 기존 체크아웃 흐름은 바뀌지 않는다. 다만 결제 계약 자체에 환불이나 통화 정보가 추가되면 모든 전략과 컨텍스트가 영향을 받으므로, 추상화는 변화가 사라지는 마법이 아니라 **어느 변화가 어디까지 전파되는지 정하는 경계**다.
+생성과 사용을 분리하면 영향 범위가 달라진다. `CheckoutService`가 `PaymentStrategy` 계약만 받고 외부의 조합 지점이 `CardPaymentStrategy`를 제공하도록 만들면, 계좌 이체 추가는 새 전략 구현과 조합 설정에 머물고 기존 체크아웃 흐름은 바뀌지 않는다. 다만 `pay` 계약에 통화 매개변수를 추가하는 것처럼 기존 메서드 시그니처를 바꾸면 모든 전략과 그 호출부인 컨텍스트가 영향을 받는다. 반면 환불 기능은 기존 결제 계약에 새 메서드로 넣을 수도 있고 별도의 `RefundStrategy`로 분리할 수도 있어, 분리하면 결제만 사용하는 `CheckoutService`는 바뀌지 않는다. 추상화는 변화가 사라지는 마법이 아니라 **어느 변화가 어디까지 전파되는지 정하는 경계**다.
 
 ## DIP는 원칙이고 DI는 구현 방법이다
 
@@ -131,11 +131,19 @@ final class RecordingPaymentStrategy implements PaymentStrategy {
     }
 }
 
-RecordingPaymentStrategy strategy = new RecordingPaymentStrategy();
-CheckoutService service = new CheckoutService(strategy);
-service.checkout(10_000);
+final class CheckoutServiceTest {
+    public static void main(String[] args) {
+        RecordingPaymentStrategy strategy =
+            new RecordingPaymentStrategy();
+        CheckoutService service = new CheckoutService(strategy);
+        service.checkout(10_000);
 
-assert strategy.paidAmount == 10_000;
+        if (strategy.paidAmount != 10_000) {
+            throw new AssertionError("expected 10000, but was "
+                + strategy.paidAmount);
+        }
+    }
+}
 ```
 
 이 테스트는 체크아웃이 결제 행동에 정확한 금액을 위임하는지 빠르게 확인하며 네트워크나 카드 SDK에 의존하지 않는다. 생성자에서 필수 협력자가 드러나므로 테스트 준비도 명시적이지만, 대역이 실제 구현의 통합 오류까지 검증해 주는 것은 아니므로 별도의 통합 테스트가 필요하다.
@@ -150,11 +158,11 @@ DIP와 DI를 함께 적용하면 상위 정책이 구체 기술의 생성 방식
 
 ### DI와 DIP의 차이는 무엇인가
 
-DIP는 상위 정책과 하위 세부 구현이 모두 추상화에 의존해야 한다는 설계 원칙입니다. DI는 객체가 협력자를 직접 생성하지 않고 외부에서 전달받는 구현 방법이라서 DIP를 적용할 때 자주 사용됩니다. 구체 클래스만 주입할 수도 있으므로 DI를 썼다는 사실만으로 DIP를 지켰다고 판단해서는 안 됩니다.
+DIP는 원칙이고 DI는 이를 구현하는 메커니즘입니다. DIP는 상위 정책과 하위 세부 구현이 모두 추상화에 의존하도록 요구하고, DI는 객체가 협력자를 외부에서 전달받게 해 그 의존 방향을 구성합니다. 다만 구체 클래스만 주입할 수도 있으므로 DI를 썼다는 사실만으로 DIP를 지켰다고 판단해서는 안 됩니다.
 
 ### 전략 패턴과 DI의 공통점과 차이는 무엇인가
 
-둘 다 구현 교체 지점을 외부로 드러내 결합도를 낮추는 데 도움을 줍니다. 전략 패턴은 같은 목적의 행동을 공통 계약으로 캡슐화하는 디자인이고, DI는 전략을 포함한 여러 협력자를 외부에서 제공하는 방법입니다. 따라서 전략을 생성자로 주입해 함께 사용할 수 있지만 모든 주입 대상이 전략인 것은 아닙니다.
+전략 패턴과 DI는 공통 계약을 따르는 구현을 주입할 때 구현 교체를 쉽게 한다는 점에서 만날 수 있습니다. 전략 패턴은 같은 목적의 행동을 공통 계약으로 캡슐화하고, DI는 그 전략을 포함한 협력자를 외부에서 제공하는 메커니즘입니다. 따라서 전략을 생성자로 주입해 함께 쓸 수 있지만, 구체 객체 주입도 DI이므로 모든 주입 대상이 전략이거나 공통 계약을 갖는 것은 아닙니다.
 
 ### 생성자 주입이 테스트에 주는 이점은 무엇인가
 
