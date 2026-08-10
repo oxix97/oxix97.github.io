@@ -19,7 +19,7 @@
 - 모든 본문 글은 `contentType: study`, `publishedAt: 2026-08-10`, `difficulty: intermediate`를 사용하며, 사용자 검토 중인 첫 글만 `draft: true`를 둔다.
 - Java 또는 Spring 예시는 핵심 구조가 드러나는 최소 크기로 작성하고 실행형 샘플 프로젝트나 새 의존성은 추가하지 않는다.
 - 강의 밖의 Java 동시성 또는 Spring 동작을 설명할 때는 Oracle JLS나 Spring 공식 문서로 검증한다.
-- 모든 글 하단에는 해당 Inflearn 단위 링크와 연재 이전·목록·다음 탐색 링크를 둔다.
+- 모든 글 하단에는 해당 Inflearn 단위 링크와 연재 목록 링크를 두고, 존재하는 경우에만 이전·다음 글 링크를 둔다.
 - 구현 중 사용자 소유의 기존 변경을 수정하거나 커밋하지 않는다.
 
 ---

@@ -93,7 +93,7 @@ final class ObserverExample {
 
 `Order` 자체가 Subject이며 `subscribe`, `unsubscribe`, 상태 변경 후 통지 책임을 가진다. 호출 흐름은 `changeStatus` → 상태 갱신 → Observer 목록 순회 → 각 `update` 호출 순서다. 예시는 이벤트 데이터를 인자로 보내는 push 방식이며, Observer가 Subject에서 새 상태를 다시 조회하는 pull 방식도 있다.
 
-동기 통지에서 한 Observer가 예외를 던지거나 오래 걸리면 나머지 통지와 주문 처리까지 영향을 받을 수 있다. 실무에서는 Observer별 실패 격리, 재시도, 이벤트 큐 사용 여부를 일관성 요구와 함께 결정해야 한다. 또한 더 이상 통지가 필요 없은 Observer를 `unsubscribe`하지 않으면 원치 않는 알림이 계속되거나 Subject의 참조 때문에 객체 정리가 늦어질 수 있다.
+동기 통지에서 한 Observer가 예외를 던지거나 오래 걸리면 나머지 통지와 주문 처리까지 영향을 받을 수 있다. 실무에서는 Observer별 실패 격리, 재시도, 이벤트 큐 사용 여부를 일관성 요구와 함께 결정해야 한다. 또한 더 이상 통지가 필요 없는 Observer를 `unsubscribe`하지 않으면 원치 않는 알림이 계속되거나 Subject의 참조 때문에 객체 정리가 늦어질 수 있다.
 
 ## 프록시 패턴이 해결하는 문제
 
@@ -221,8 +221,8 @@ Spring AOP는 횡단 관심사를 대상 코드와 분리해 메서드 호출 �
 
 ## 참고 자료
 
-- [인프런 — 옵저버 패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116058)
-- [인프런 — 프록시 패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116059)
+- [옵저버 패턴 ★★☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116058)
+- [프록시 패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116059)
 - [Spring Framework Reference — Proxying Mechanisms](https://docs.spring.io/spring-framework/reference/core/aop/proxying.html)
 
 ---

@@ -136,8 +136,8 @@ public final class IteratorExample {
 
 ## 참고 자료
 
-- [인프런 — 팩토리패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118502)
-- [인프런 — 이터레이터패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118503)
+- [팩토리패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118502)
+- [이터레이터패턴 ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118503)
 - [Java SE API — Iterable](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html)
 - [Java SE API — Iterator](https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html)
 

@@ -42,7 +42,7 @@ Flux는 상태 변경 요청이 여러 Model과 View 사이를 우회하지 않�
 2. Dispatcher는 Action을 등록된 Store 콜백에 전달한다. 여러 Store 사이에 순서 의존이 있다면 `waitFor` 같은 조정 규칙을 명시한다.
 3. Store는 Action을 해석해 메시지 상태와 안 읽은 개수를 갱신하고 변경을 알린다. View나 외부 코드는 Store의 setter를 직접 호출하지 않는다.
 4. View는 갱신된 Store 상태를 다시 읽어 목록과 배지를 렌더링한다.
-5. 렌더링 자체가 즉시 새 Action을 만드는 것은 아니며, 이후의 사용자 상호작이나 서버 응답이 다음 Action을 발생시켜 순환을 이어 간다.
+5. 렌더링 자체가 즉시 새 Action을 만드는 것은 아니며, 이후의 사용자 상호작용이나 서버 응답이 다음 Action을 발생시켜 순환을 이어 간다.
 
 전통적인 Flux에서 `dispatch(action)`과 그에 대응하는 Store 콜백·상태 변경은 **한 번의 dispatch 라운드 안에서 동기적으로** 완료된다고 가정한다. 그래야 순서 의존이 있는 Store도 먼저 갱신된 Store를 확인한 뒤 같은 라운드에서 결과를 계산할 수 있다. 이 구간에 `await` 대상인 API 호출을 섞으면 Action 순서와 실패 정책이 흐려지므로, 네트워크·타이머·저장소 I/O는 Action creator, effect 계층, middleware 같은 바깥 경계에서 처리하고 `REQUESTED`, `SUCCEEDED`, `FAILED`처럼 결과를 다시 Action으로 표현한다. 구체적인 비동기 API는 Flux 계열 라이브러리마다 다르므로 해당 구현의 계약을 확인해야 한다.
 
@@ -117,7 +117,7 @@ MVC와 Flux는 우열로 고르지 말고 역할 분리와 공유 상태 흐름 
 
 ## 참고 자료
 
-- [인프런 — Flux 패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118705)
+- [flux패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118705)
 - [Facebook Flux — In-Depth Overview](https://facebookarchive.github.io/flux/docs/in-depth-overview/)
 - [Facebook Flux — Dispatcher](https://facebookarchive.github.io/flux/docs/dispatcher/)
 

@@ -183,10 +183,10 @@ DIP는 원칙이고 DI는 이를 구현하는 메커니즘입니다. DIP는 상�
 
 ## 참고 자료
 
-- [인프런 — DI와 DIP](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118490)
-- [인프런 — 전략패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118504)
-- [인프런 — 전략패턴과 의존성주입의 차이는 무엇인가요?](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120148)
-- [인프런 — 컨텍스트란 무엇인가요?](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120149)
+- [DI와 DIP ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118490)
+- [전략패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118504)
+- [Q. 전략패턴과 의존성주입의 차이는 무엇인가요? ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120148)
+- [Q. 컨텍스트란 무엇인가요? ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120149)
 - [Spring Framework Reference — Using `@Autowired`](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html)
 
 ---

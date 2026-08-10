@@ -195,8 +195,8 @@ MVC의 양방향 의존은 하나의 상태 변경이 여러 View와 Controller 
 
 ## 참고 자료
 
-- [인프런 — MVC패턴과 MVP패턴 그리고 MVVM패턴](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116060)
-- [인프런 — Spring의 MVC패턴 적용사례](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=139952)
+- [MVC패턴과 MVP패턴 그리고 MVVM패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116060)
+- [Spring의 MVC패턴 적용사례 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=139952)
 - [Spring Framework Reference — DispatcherServlet](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet.html)
 - [Spring Framework Reference — DispatcherServlet Processing](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-servlet/sequence.html)
 - [Spring Framework Reference — `@ResponseBody`](https://docs.spring.io/spring-framework/reference/web/webmvc/mvc-controller/ann-methods/responsebody.html)

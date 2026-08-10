@@ -140,8 +140,8 @@ enum은 문법이 가장 간결하고 런타임이 인스턴스 생성을 관리
 
 ## 참고 자료
 
-- [인프런 — 싱글톤 패턴을 구현하는 7가지 방법 #1](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132521)
-- [인프런 — 싱글톤 패턴을 구현하는 7가지 방법 #2](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132522)
+- [DEEP DIVE : 싱글톤 패턴을 구현하는 7가지 방법 #1 ★★☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132521)
+- [DEEP DIVE : 싱글톤 패턴을 구현하는 7가지 방법 #2 ★★☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132522)
 - [Java Language Specification 17.4.5 — Happens-before Order](https://docs.oracle.com/javase/specs/jls/se21/html/jls-17.html#jls-17.4.5)
 
 ---

@@ -100,8 +100,8 @@ HTTP 요청 도구는 내가 호출 시점과 흐름을 정하므로 라이브�
 
 ## 참고 자료
 
-- [인프런 — 디자인패턴 소개](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116050)
-- [인프런 — 라이브러리와 프레임워크의 차이](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=162758)
+- [디자인패턴 소개 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116050)
+- [라이브러리와 프레임워크의 차이 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=162758)
 
 ---
 
