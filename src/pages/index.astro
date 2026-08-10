@@ -5,7 +5,7 @@ import ContentCard from '../components/ContentCard.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import SectionHeading from '../components/SectionHeading.astro';
-import { byNewest, ofType, onlyPublished } from '../lib/content';
+import { byNewest, ofType, onlyPublished, publicationDate } from '../lib/content';
 
 const entries = onlyPublished(await getCollection('docs'));
 const featuredProjects = byNewest(ofType(entries, ['project']))
@@ -96,7 +96,7 @@ const hrefFor = (id: string) => `/${id.replace(/\/index$/, '')}/`;
             eyebrow={typeLabels[entry.data.contentType]}
             title={entry.data.title}
             description={entry.data.description ?? ''}
-            publishedAt={entry.data.publishedAt!}
+            publishedAt={publicationDate(entry)!}
             tags={entry.data.tags}
           />
         ))}

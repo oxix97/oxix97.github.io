@@ -2,11 +2,11 @@
 title: 기술적 의사결정을 기록하는 이유
 description: 구현 결과뿐 아니라 선택의 맥락과 트레이드오프를 남기는 개발 기록 방식을 설명합니다.
 contentType: blog
-publishedAt: 2026-08-05
-tags: [기록, 아키텍처, 의사결정]
-category: Engineering
-sidebar:
-  order: 2
+date: 2026-08-05
+authors: oxix97
+excerpt: 문제와 제약, 선택지, 판단 기준, 결과를 함께 남겨 다음 의사결정의 품질을 높이는 기록 방식을 설명합니다.
+tags: [engineering, architecture, decision-records]
+featured: true
 ---
 
 좋은 개발 기록은 무엇을 만들었는지만 나열하지 않습니다. 해결하려던 문제와

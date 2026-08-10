@@ -1,5 +1,6 @@
 import starlight from '@astrojs/starlight';
 import { defineConfig } from 'astro/config';
+import starlightBlog from 'starlight-blog';
 import starlightThemeRapide from 'starlight-theme-rapide';
 
 export default defineConfig({
@@ -14,7 +15,29 @@ export default defineConfig({
       locales: {
         root: { label: '한국어', lang: 'ko' },
       },
-      plugins: [starlightThemeRapide()],
+      plugins: [
+        starlightThemeRapide(),
+        starlightBlog({
+          title: '개발 블로그',
+          prefix: 'blog',
+          navigation: 'header-start',
+          authors: {
+            oxix97: {
+              name: 'oxix97',
+              title: 'Backend Developer',
+              url: 'https://github.com/oxix97',
+            },
+          },
+          metrics: {
+            readingTime: true,
+            words: 'rounded',
+          },
+          postCount: 5,
+          recentPostCount: 5,
+          rss: true,
+          structuredData: true,
+        }),
+      ],
       customCss: ['./src/styles/custom.css'],
       components: {
         PageTitle: './src/components/StarlightPageTitle.astro',
@@ -24,7 +47,6 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Home', link: '/' },
-        { label: 'Blog', link: '/blog/' },
         { label: 'Study', items: [{ autogenerate: { directory: 'study' } }] },
         {
           label: 'Retrospectives',

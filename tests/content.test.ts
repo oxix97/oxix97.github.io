@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { byNewest, ofType, onlyPublished } from '../src/lib/content';
+import { byNewest, ofType, onlyPublished, publicationDate } from '../src/lib/content';
 
 type Fixture = {
   id: string;
   data: {
     contentType: 'blog' | 'study' | 'retrospective' | 'project' | 'page';
+    date?: Date;
     publishedAt?: Date;
     draft?: boolean;
   };
@@ -51,10 +52,14 @@ describe('content publishing rules', () => {
     const entries = [
       entry('old', 'blog', '2026-01-01'),
       entry('new', 'study', '2026-08-01'),
+      {
+        id: 'newest-blog',
+        data: { contentType: 'blog' as const, date: new Date('2026-08-05') },
+      },
     ];
 
-    expect(byNewest(entries).map((item) => item.id)).toEqual(['new', 'old']);
-    expect(entries.map((item) => item.id)).toEqual(['old', 'new']);
+    expect(byNewest(entries).map((item) => item.id)).toEqual(['newest-blog', 'new', 'old']);
+    expect(entries.map((item) => item.id)).toEqual(['old', 'new', 'newest-blog']);
   });
 
   it('places evergreen pages without a publication date last', () => {
@@ -64,5 +69,20 @@ describe('content publishing rules', () => {
     ];
 
     expect(byNewest(entries).map((item) => item.id)).toEqual(['dated', 'about']);
+  });
+
+  it('uses Blog date before the legacy publishedAt field', () => {
+    const blogDate = new Date('2026-08-05');
+    const legacyDate = new Date('2026-08-01');
+    const blogEntry = {
+      id: 'blog-entry',
+      data: {
+        contentType: 'blog' as const,
+        date: blogDate,
+        publishedAt: legacyDate,
+      },
+    };
+
+    expect(publicationDate(blogEntry)).toEqual(blogDate);
   });
 });

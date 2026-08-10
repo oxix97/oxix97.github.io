@@ -19,7 +19,11 @@ const expectedFiles = [
   'study/network/network-performance-metrics/index.html',
   'study/network/topology-and-bottlenecks/index.html',
   'study/network/network-classification/index.html',
+  'blog/index.html',
   'blog/recording-technical-decisions/index.html',
+  'blog/tags/engineering/index.html',
+  'blog/authors/oxix97/index.html',
+  'blog/rss.xml',
   'study/http-cache-control/index.html',
   'retrospectives/2026-first-half/index.html',
   'projects/developer-hub/index.html',
@@ -140,6 +144,15 @@ const article = await readFile(
   new URL('projects/developer-hub/index.html', distUrl),
   'utf8',
 );
+const blogPost = await readFile(
+  new URL('blog/recording-technical-decisions/index.html', distUrl),
+  'utf8',
+);
+for (const requiredText of ['oxix97', 'engineering', 'BlogPosting']) {
+  if (!blogPost.includes(requiredText)) {
+    throw new Error(`blog post is missing Blog output: ${requiredText}`);
+  }
+}
 const astroDir = new URL('_astro/', distUrl);
 const cssFiles = (await readdir(astroDir)).filter((file) => file.endsWith('.css'));
 const cssBundle = (
