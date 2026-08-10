@@ -18,7 +18,7 @@ Inflearn `CS 지식의 정석` 섹션 2를 강의 순서에 따라 다시 정리
 1. [디자인 패턴이란 무엇인가](./introduction/)
 2. [싱글톤 패턴의 원리와 장단점](./singleton-basics/)
 3. [싱글톤 구현 방식 비교](./singleton-implementations/)
-4. 팩토리 패턴과 이터레이터 패턴
+4. [팩토리 패턴과 이터레이터 패턴](./factory-and-iterator/)
 5. DI·DIP와 전략 패턴
 6. 옵저버 패턴과 프록시 패턴
 7. MVC·MVP·MVVM과 Spring MVC

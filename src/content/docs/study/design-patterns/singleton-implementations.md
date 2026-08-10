@@ -146,4 +146,4 @@ enum은 문법이 가장 간결하고 런타임이 인스턴스 생성을 관리
 
 ---
 
-이전: [싱글톤 패턴의 원리와 장단점](/study/design-patterns/singleton-basics/) · [연재 목록](/study/design-patterns/) · 다음: 팩토리 패턴과 이터레이터 패턴
+이전: [싱글톤 패턴의 원리와 장단점](/study/design-patterns/singleton-basics/) · [연재 목록](/study/design-patterns/) · 다음: [팩토리 패턴과 이터레이터 패턴](/study/design-patterns/factory-and-iterator/)

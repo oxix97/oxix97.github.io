@@ -32,6 +32,13 @@ const articles: ArticleContract[] = [
     draft: false,
     unitIds: [132521, 132522],
   },
+  {
+    file: 'factory-and-iterator.md',
+    title: '팩토리 패턴과 이터레이터 패턴',
+    order: 4,
+    draft: false,
+    unitIds: [118502, 118503],
+  },
 ];
 
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
