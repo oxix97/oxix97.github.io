@@ -4,7 +4,7 @@
 
 **Goal:** 기존 `CS 지식의 정석 - 네트워크` 연재에 TCP/IP 계층, 전송 크기, 연결 생명주기를 설명하는 Study 글 3편과 정확한 SVG 다이어그램 6개를 추가한다.
 
-**Architecture:** `src/content/docs/study/cs/network/`의 기존 허브와 콘텐츠 계약을 3편에서 6편으로 순차 확장한다. 각 신규 글은 독립된 Markdown 문서와 `public/images/study/network/tcp/`의 SVG 두 개를 소비하며, Vitest가 frontmatter·필수 절·내비게이션·이미지 접근성·핵심 정확성을 검증한다. 정적 빌드 검증은 공개 경로와 허브 링크 순서를 확인하고, 마지막에 데스크톱·모바일 및 밝은·어두운 테마에서 시각 QA를 수행한다.
+**Architecture:** `src/content/docs/study/cs/network/`의 기존 허브와 콘텐츠 계약을 3편에서 6편으로 순차 확장한다. 각 신규 글은 독립된 Markdown 문서와 `public/images/study/network/tcp/`의 SVG 두 개를 소비하며, Vitest가 frontmatter·필수 절·내비게이션·이미지 구조와 접근성을 검증한다. 기술적 정확성은 강의·IETF 1차 자료를 대조한 구현 보고서와 작업별 리뷰가 검증하고, 정적 빌드 검증과 데스크톱·모바일 시각 QA가 렌더링 결과를 확인한다.
 
 **Tech Stack:** Astro 7.2, Starlight 0.41, Markdown/HTML figure markup, static SVG, TypeScript, Vitest 3.2, Inflearn connector
 
@@ -43,7 +43,7 @@
 - `src/content/docs/study/cs/network/index.md`: 읽는 순서를 6편으로 확장한다.
 - `src/content/docs/study/cs/network/network-classification.md`: 기존 3편에서 새 4편으로 이동하는 다음 링크를 추가한다.
 - `src/styles/custom.css`: `.study-diagram`의 반응형 이미지·캡션 스타일을 추가한다.
-- `tests/study-network-series.test.ts`: 신규 글·이미지·정확성 콘텐츠 계약을 단계별로 추가한다.
+- `tests/study-network-series.test.ts`: 신규 글·이미지 구조·접근성 콘텐츠 계약을 단계별로 추가한다.
 - `scripts/verify-build.mjs`: 신규 정적 경로와 허브의 여섯 링크를 단계별로 검증한다.
 
 ---
@@ -71,8 +71,6 @@
 ```ts
 type ImageContract = {
   file: string;
-  alt: string;
-  caption: string;
 };
 
 type ArticleContract = {
@@ -129,13 +127,9 @@ const readPublicFile = (path: string) =>
   images: [
     {
       file: 'tcp-ip-layer-stack.svg',
-      alt: '애플리케이션·전송·인터넷·네트워크 접근 계층의 책임과 PDU를 위에서 아래로 나타낸 TCP/IP 4계층 구조도',
-      caption: '각 계층은 정해진 책임과 PDU를 가지며 상위 계층의 데이터를 아래 계층으로 전달한다.',
     },
     {
       file: 'tcp-encapsulation-flow.svg',
-      alt: 'HTTP 메시지에 TCP·IP·링크 계층 헤더가 추가되고 수신 측에서 역순으로 제거되는 캡슐화와 역캡슐화 흐름',
-      caption: '송신 측은 계층별 헤더를 추가하고 수신 측은 반대 순서로 헤더를 해석한다.',
     },
   ],
 }
@@ -153,10 +147,17 @@ it('keeps accessible static SVG diagrams for each illustrated article', async ()
       expect(svg, diagram.file).toMatch(/^<svg[\s>]/);
       expect(svg, diagram.file).toContain('<title');
       expect(svg, diagram.file).toContain('<desc');
-      expect(markdown).toContain(`src="/${assetPath}"`);
-      expect(markdown).toContain(`alt="${diagram.alt}"`);
-      expect(markdown).toContain('loading="lazy"');
-      expect(markdown).toContain(`<figcaption>${diagram.caption}</figcaption>`);
+      const figure = markdown.match(
+        new RegExp(
+          `<figure class="study-diagram">[\\s\\S]*?src="/${assetPath}"[\\s\\S]*?</figure>`,
+        ),
+      )?.[0];
+      expect(figure, diagram.file).toBeDefined();
+      expect(figure, diagram.file).toMatch(/alt="[^"]+"/);
+      expect(figure, diagram.file).toContain('loading="lazy"');
+      expect(figure, diagram.file).toMatch(
+        /<figcaption>\s*\S[\s\S]*?<\/figcaption>/,
+      );
     }
   }
 });
@@ -315,9 +316,9 @@ git commit -m "feat: study TCP IP 계층과 캡슐화 글 추가"
 
 **Interfaces:**
 - Consumes: Task 1의 `ImageContract`, `.study-diagram`, 네 번째 글 경로와 동적 내비게이션 계약.
-- Produces: `/study/network/tcp-udp-mtu-mss-pmtud/`, MSS 조건부 예시와 PMTUD 실패 조건 계약, SVG 두 개.
+- Produces: `/study/network/tcp-udp-mtu-mss-pmtud/`, MSS·PMTUD 설명과 SVG 두 개.
 
-- [ ] **Step 1: 다섯 번째 글의 콘텐츠·이미지·정확성 실패 계약을 추가한다.**
+- [ ] **Step 1: 다섯 번째 글의 콘텐츠·이미지 실패 계약을 추가한다.**
 
 `articles`에 다음 계약을 추가한다.
 
@@ -353,32 +354,12 @@ git commit -m "feat: study TCP IP 계층과 캡슐화 글 추가"
   images: [
     {
       file: 'mtu-mss-packet.svg',
-      alt: 'Ethernet MTU 1500바이트가 IPv4 기본 헤더 20바이트, TCP 기본 헤더 20바이트, 데이터 1460바이트로 나뉘는 패킷 단면도',
-      caption: 'MSS 1460바이트는 Ethernet MTU 1500과 IPv4·TCP 기본 헤더를 가정한 예시다.',
     },
     {
       file: 'pmtud-path.svg',
-      alt: '송신자와 수신자 사이에서 가장 작은 링크 MTU를 ICMP 피드백으로 찾고 패킷 크기를 줄이는 PMTUD 경로도',
-      caption: 'PMTUD는 경로에서 통과 가능한 최대 패킷 크기를 찾고 송신 크기를 조정한다.',
     },
   ],
 }
-```
-
-다음 정확성 테스트를 추가한다.
-
-```ts
-it('keeps MSS and PMTUD examples conditional and operationally accurate', async () => {
-  const markdown = await readStudyFile('cs/network/tcp-udp-mtu-mss-pmtud.md');
-  const mss = extractSection(markdown, 'MTU와 MSS의 차이');
-  const pmtud = extractSection(markdown, 'PMTUD가 경로 크기를 찾는 방법');
-  expect(mss).toMatch(/1500[\s\S]*20[\s\S]*20[\s\S]*1460/);
-  expect(mss).toMatch(/예시|고정값이 아니/);
-  expect(mss).toMatch(/IPv6|옵션|터널링/);
-  expect(pmtud).toMatch(/ICMP/);
-  expect(pmtud).toMatch(/IPv4[\s\S]*IPv6|IPv6[\s\S]*IPv4/);
-  expect(markdown).toMatch(/PMTUD Black Hole/);
-});
 ```
 
 - [ ] **Step 2: 테스트가 다섯 번째 글 부재로 실패하는지 확인한다.**
@@ -448,7 +429,7 @@ Expected: exit 0.
 
 Run: `npm test -- tests/study-network-series.test.ts`
 
-Expected: PASS, 다섯 글·SVG 4개·MSS/PMTUD 정확성 계약 통과.
+Expected: PASS, 다섯 글·SVG 4개의 구조·접근성 계약 통과.
 
 Run: `npm run build && npm run verify:build`
 
@@ -478,7 +459,7 @@ git commit -m "feat: study TCP UDP와 전송 크기 글 추가"
 - Consumes: Task 2까지 이어진 네트워크 허브, SVG 접근성 계약, 동적 면접 답변·내비게이션 계약.
 - Produces: `/study/network/tcp-connection-lifecycle/`, 3-way·4-way 상태 전이 SVG, 완성된 여섯 글 연재 체인.
 
-- [ ] **Step 1: 여섯 번째 글과 TIME_WAIT 정확성 실패 계약을 추가한다.**
+- [ ] **Step 1: 여섯 번째 글과 이미지 실패 계약을 추가한다.**
 
 `articles`에 다음 계약을 추가한다.
 
@@ -514,34 +495,12 @@ git commit -m "feat: study TCP UDP와 전송 크기 글 추가"
   images: [
     {
       file: 'tcp-three-way-handshake.svg',
-      alt: '연결 시작 측과 수신 측이 SYN, SYN-ACK, ACK를 교환하며 ESTABLISHED 상태가 되는 3-way handshake 시퀀스도',
-      caption: '3-way handshake는 양쪽의 통신 가능 여부와 초기 시퀀스 번호를 확인한다.',
     },
     {
       file: 'tcp-four-way-handshake-time-wait.svg',
-      alt: '종료 시작 측과 상대 측이 FIN과 ACK를 교환하고 종료 시작 측이 TIME_WAIT에 머무르는 4-way handshake 상태 전이도',
-      caption: '먼저 종료를 시작한 쪽은 마지막 ACK와 지연 패킷을 처리하기 위해 TIME_WAIT에 머무를 수 있다.',
     },
   ],
 }
-```
-
-다음 정확성 계약을 추가한다.
-
-```ts
-it('explains TIME_WAIT without fixing the role to the client', async () => {
-  const markdown = await readStudyFile('cs/network/tcp-connection-lifecycle.md');
-  const timeWait = extractSection(markdown, 'TIME_WAIT이 필요한 이유');
-  const operations = extractSection(
-    markdown,
-    'CLOSE_WAIT과 TIME_WAIT을 운영에서 해석하는 방법',
-  );
-  expect(timeWait).toMatch(/먼저 종료를 시작한 쪽|active close/);
-  expect(timeWait).toMatch(/항상 클라이언트가 아니|클라이언트로 고정/);
-  expect(timeWait).toMatch(/2MSL/);
-  expect(operations).toMatch(/운영체제|설정/);
-  expect(operations).toMatch(/수치만으로|단정/);
-});
 ```
 
 - [ ] **Step 2: 테스트가 여섯 번째 글 부재로 실패하는지 확인한다.**
