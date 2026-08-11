@@ -106,4 +106,4 @@ OSI 7계층은 통신 역할을 애플리케이션부터 물리 계층까지 더
 - [TCP/IP 4계층 #5. 인터넷 계층(network) ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132275)
 - [RFC 9293: Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293)
 
-이전: [유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준](/study/network/network-classification/) · [연재 목록](/study/network/)
+이전: [유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준](/study/network/network-classification/) · [연재 목록](/study/network/) · 다음: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/)

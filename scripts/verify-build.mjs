@@ -21,6 +21,7 @@ const expectedFiles = [
   'study/network/topology-and-bottlenecks/index.html',
   'study/network/network-classification/index.html',
   'study/network/tcp-ip-layers-and-encapsulation/index.html',
+  'study/network/tcp-udp-mtu-mss-pmtud/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -155,6 +156,10 @@ const expectedNetworkLinks = [
   {
     href: './tcp-ip-layers-and-encapsulation/',
     title: 'TCP/IP 4계층은 데이터를 어떻게 전달하는가',
+  },
+  {
+    href: './tcp-udp-mtu-mss-pmtud/',
+    title: 'TCP와 UDP, 그리고 MTU·MSS·PMTUD',
   },
 ];
 const networkLinks = [

@@ -152,6 +152,43 @@ const articles: ArticleContract[] = [
       },
     ],
   },
+  {
+    file: 'tcp-udp-mtu-mss-pmtud.md',
+    title: 'TCP와 UDP, 그리고 MTU·MSS·PMTUD',
+    order: 5,
+    publishedAt: '2026-08-11',
+    tags: ['Network', 'TCP', 'UDP', 'PMTUD'],
+    units: [
+      {
+        title: 'TCP/IP 4계층 #4. 전송 계층(transport) ★★★',
+        unitId: 132274,
+      },
+      {
+        title: 'TCP/IP 4계층 #2. MTU와 MSS와 PMTUD ★★★',
+        unitId: 116686,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'TCP와 UDP의 선택 기준',
+      'TCP의 신뢰성을 구성하는 장치',
+      'MTU와 MSS의 차이',
+      'PMTUD가 경로 크기를 찾는 방법',
+      '운영에서 확인할 실패 조건',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        file: 'mtu-mss-packet.svg',
+      },
+      {
+        file: 'pmtud-path.svg',
+      },
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -266,7 +303,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all four articles as exact links in reading order', async () => {
+  it('defines all five articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
