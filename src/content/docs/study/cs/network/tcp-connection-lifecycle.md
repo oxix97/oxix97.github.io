@@ -48,6 +48,8 @@ ACK 번호는 지금까지 받은 마지막 번호가 아니라 다음에 받고
 
 TCP의 양방향 스트림은 독립적으로 닫힌다. 상대 측 애플리케이션은 FIN을 받은 뒤 이미 받은 데이터를 처리하거나 남은 응답을 보낸 뒤에야 자신의 `close()`를 호출할 수 있다. 그래서 상대 측은 나중에 FIN을 보내 `LAST_ACK`가 되고, 시작 측은 이를 ACK한 뒤 `TIME_WAIT`으로 들어간다; 이 분리 때문에 일반적인 종료 흐름을 4-way handshake라고 부른다.
 
+두 엔드포인트가 거의 동시에 close를 시작하는 동시 종료는 이 정상 흐름의 예외다. 양쪽은 각각 `FIN_WAIT_1`에서 상대 FIN을 받아 `CLOSING`으로 이동하고, 자신의 FIN이 ACK되면 둘 다 `TIME_WAIT`에 들어갈 수 있다. 따라서 그림의 active closer와 `CLOSE_WAIT → LAST_ACK` 경로는 가장 흔한 한 방향 종료를 설명하는 것이며, 모든 종료에서 한쪽만 TIME_WAIT이 된다는 뜻은 아니다.
+
 <figure class="study-diagram">
   <img
     src="/images/study/network/tcp/tcp-four-way-handshake-time-wait.svg"

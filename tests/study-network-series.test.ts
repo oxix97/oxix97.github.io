@@ -366,15 +366,14 @@ describe('network Study series', () => {
     }
   });
 
-  it('keeps 2-4 ordered interview answers with exactly three sentences', async () => {
+  it('keeps exactly three interview answers with exactly three sentences', async () => {
     let answerCount = 0;
 
     for (const article of articles) {
       const markdown = await readStudyFile(`cs/network/${article.file}`);
       const answers = extractInterviewAnswers(markdown);
 
-      expect(answers.length, article.file).toBeGreaterThanOrEqual(2);
-      expect(answers.length, article.file).toBeLessThanOrEqual(4);
+      expect(answers, article.file).toHaveLength(3);
       for (const { question, answer } of answers) {
         expect(question, article.file).not.toBe('');
         expect(answer, `${article.file}: ${question}`).not.toContain('\n\n');
