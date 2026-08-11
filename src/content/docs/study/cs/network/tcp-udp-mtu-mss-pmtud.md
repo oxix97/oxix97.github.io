@@ -104,4 +104,4 @@ PMTUD는 경로 중 가장 작은 MTU를 찾아 송신자가 그보다 작은 �
 - [RFC 1191: Path MTU Discovery](https://www.rfc-editor.org/rfc/rfc1191)
 - [RFC 8201: Path MTU Discovery for IP version 6](https://www.rfc-editor.org/rfc/rfc8201)
 
-이전: [TCP/IP 4계층은 데이터를 어떻게 전달하는가](/study/network/tcp-ip-layers-and-encapsulation/) · [연재 목록](/study/network/)
+이전: [TCP/IP 4계층은 데이터를 어떻게 전달하는가](/study/network/tcp-ip-layers-and-encapsulation/) · [연재 목록](/study/network/) · 다음: [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](/study/network/tcp-connection-lifecycle/)

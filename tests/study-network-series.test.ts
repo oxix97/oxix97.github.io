@@ -189,6 +189,43 @@ const articles: ArticleContract[] = [
       },
     ],
   },
+  {
+    file: 'tcp-connection-lifecycle.md',
+    title: 'TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지',
+    order: 6,
+    publishedAt: '2026-08-11',
+    tags: ['Network', 'TCP', 'Handshake', 'TIME_WAIT'],
+    units: [
+      {
+        title: 'TCP의 연결성립 : 3-웨이 핸드셰이크 ★★★',
+        unitId: 116078,
+      },
+      {
+        title: 'TCP의 연결해제 : 4-웨이 핸드셰이크와TIME_WAIT ★★★',
+        unitId: 130876,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '3-way handshake가 확인하는 것',
+      'ISN과 Sequence·Acknowledgement Number',
+      '4-way handshake에서 FIN과 ACK가 분리되는 이유',
+      'TIME_WAIT이 필요한 이유',
+      'CLOSE_WAIT과 TIME_WAIT을 운영에서 해석하는 방법',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        file: 'tcp-three-way-handshake.svg',
+      },
+      {
+        file: 'tcp-four-way-handshake-time-wait.svg',
+      },
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -303,7 +340,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all five articles as exact links in reading order', async () => {
+  it('defines all six articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');

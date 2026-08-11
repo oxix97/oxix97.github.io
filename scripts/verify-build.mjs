@@ -22,6 +22,7 @@ const expectedFiles = [
   'study/network/network-classification/index.html',
   'study/network/tcp-ip-layers-and-encapsulation/index.html',
   'study/network/tcp-udp-mtu-mss-pmtud/index.html',
+  'study/network/tcp-connection-lifecycle/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -160,6 +161,10 @@ const expectedNetworkLinks = [
   {
     href: './tcp-udp-mtu-mss-pmtud/',
     title: 'TCP와 UDP, 그리고 MTU·MSS·PMTUD',
+  },
+  {
+    href: './tcp-connection-lifecycle/',
+    title: 'TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지',
   },
 ];
 const networkLinks = [
