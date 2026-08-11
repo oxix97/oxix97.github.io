@@ -12,17 +12,18 @@
   <text class="muted body" x="105" y="238">IP 패킷 전체의 크기 상한</text>
   <line class="line" x1="105" y1="267" x2="1095" y2="267"/>
   <path d="M1095 267l-14-8v16z" fill="#334155"/>
-  <rect x="70" y="356" width="1060" height="122" rx="18" fill="#fff" class="border" stroke-width="2"/>
-  <rect x="70" y="356" width="142" height="122" rx="18" class="blue"/>
-  <rect x="212" y="356" width="142" height="122" class="violet"/>
-  <rect x="354" y="356" width="776" height="122" rx="0" class="green"/>
-  <path d="M1112 356a18 18 0 0 1 18 18v86a18 18 0 0 1-18 18h-18v-122z" class="green"/>
-  <text class="label" x="141" y="403" text-anchor="middle">IPv4 헤더</text>
-  <text class="label" x="141" y="434" text-anchor="middle">20 bytes</text>
-  <text class="label" x="283" y="403" text-anchor="middle">TCP 헤더</text>
-  <text class="label" x="283" y="434" text-anchor="middle">20 bytes</text>
-  <text class="label" x="742" y="403" text-anchor="middle">TCP 데이터</text>
-  <text class="label" x="742" y="434" text-anchor="middle">MSS 예시 1460 bytes</text>
+  <rect x="70" y="356" width="1060" height="122" rx="18" class="green"/>
+  <rect x="70" y="356" width="14.133333" height="122" class="blue"/>
+  <rect x="84.133333" y="356" width="14.133333" height="122" class="violet"/>
+  <rect x="70" y="356" width="1060" height="122" rx="18" fill="none" class="border" stroke-width="2"/>
+  <text class="label" x="614" y="403" text-anchor="middle">TCP 데이터</text>
+  <text class="label" x="614" y="434" text-anchor="middle">MSS 예시 1460 bytes</text>
+  <path class="line" d="M77 478v48h105"/>
+  <path d="M196 526l-14-8v16z" fill="#334155"/>
+  <text class="blue body" x="210" y="522">IPv4 헤더 20 bytes</text>
+  <path class="line" d="M91 478v78h323"/>
+  <path d="M428 556l-14-8v16z" fill="#334155"/>
+  <text class="violet body" x="442" y="562">TCP 헤더 20 bytes</text>
   <path class="line" d="M742 478v48"/>
   <path d="M742 540l-8-14h16z" fill="#334155"/>
   <text class="green body" x="770" y="544">MSS는 TCP 데이터 크기의 상한</text>
