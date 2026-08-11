@@ -86,4 +86,4 @@ LAN·MAN·WAN은 데이터가 누구에게 전달되는지가 아니라 네트�
 - [네트워크의 기초 #5. 유니캐스트, 멀티캐스트, 브로드캐스트 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=164725)
 - [네트워크의 분류 : LAN, MAN, WAN ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=130855)
 
-이전: [연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석](/study/network/topology-and-bottlenecks/) · [연재 목록](/study/network/)
+이전: [연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석](/study/network/topology-and-bottlenecks/) · [연재 목록](/study/network/) · 다음: [TCP/IP 4계층은 데이터를 어떻게 전달하는가](/study/network/tcp-ip-layers-and-encapsulation/)

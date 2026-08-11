@@ -8,16 +8,25 @@ type FrontmatterValue =
   | string[]
   | Record<string, boolean | number | string | string[]>;
 
+type ImageContract = {
+  file: string;
+};
+
 type ArticleContract = {
   file: string;
   title: string;
   order: number;
+  publishedAt: string;
   tags: string[];
   units: { title: string; unitId: number }[];
   sections: string[];
+  images?: ImageContract[];
 };
 
 const studyRoot = new URL('../src/content/docs/study/', import.meta.url);
+const publicRoot = new URL('../public/', import.meta.url);
+const readPublicFile = (path: string) =>
+  readFile(new URL(path, publicRoot), 'utf8');
 const inflearnCoursePrefix =
   'https://www.inflearn.com/courses/lecture?courseId=328823&unitId=';
 const courseUrl = (unitId: number) => `${inflearnCoursePrefix}${unitId}`;
@@ -27,6 +36,7 @@ const articles: ArticleContract[] = [
     file: 'network-performance-metrics.md',
     title: '대역폭이 넓어도 느릴 수 있는 이유: 트래픽·처리량·RTT의 차이',
     order: 1,
+    publishedAt: '2026-08-10',
     tags: ['Network', 'Performance', 'RTT', 'Backend'],
     units: [
       {
@@ -49,6 +59,7 @@ const articles: ArticleContract[] = [
     file: 'topology-and-bottlenecks.md',
     title: '연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석',
     order: 2,
+    publishedAt: '2026-08-10',
     tags: ['Network', 'Topology', 'Bottleneck', 'Backend'],
     units: [
       {
@@ -79,6 +90,7 @@ const articles: ArticleContract[] = [
     file: 'network-classification.md',
     title: '유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준',
     order: 3,
+    publishedAt: '2026-08-10',
     tags: ['Network', 'Unicast', 'LAN', 'Backend'],
     units: [
       {
@@ -97,6 +109,47 @@ const articles: ArticleContract[] = [
       '기술면접 질문',
       '복습 체크리스트',
       '참고 자료',
+    ],
+  },
+  {
+    file: 'tcp-ip-layers-and-encapsulation.md',
+    title: 'TCP/IP 4계층은 데이터를 어떻게 전달하는가',
+    order: 4,
+    publishedAt: '2026-08-11',
+    tags: ['Network', 'TCPIP', 'Encapsulation', 'Backend'],
+    units: [
+      {
+        title: 'TCP/IP 4계층 #1. 개념, 캡슐화, 비캡슐화, PDU, OSI 7계층 ★★★',
+        unitId: 116066,
+      },
+      {
+        title: 'TCP/IP 4계층 #3. 애플리케이션 계층(application) ★★★',
+        unitId: 116067,
+      },
+      {
+        title: 'TCP/IP 4계층 #5. 인터넷 계층(network) ★★★',
+        unitId: 132275,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'TCP/IP 4계층의 책임',
+      '계층별 PDU와 대표 프로토콜',
+      '캡슐화와 역캡슐화',
+      'OSI 7계층과 어떻게 대응하는가',
+      'HTTP 요청이 네트워크를 통과하는 과정',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        file: 'tcp-ip-layer-stack.svg',
+      },
+      {
+        file: 'tcp-encapsulation-flow.svg',
+      },
     ],
   },
 ];
@@ -213,7 +266,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all three articles as exact links in reading order', async () => {
+  it('defines all four articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
@@ -259,7 +312,31 @@ describe('network Study series', () => {
       answerCount += answers.length;
     }
 
-    expect(answerCount).toBe(9);
+    expect(answerCount).toBe(articles.length * 3);
+  });
+
+  it('keeps accessible static SVG diagrams for each illustrated article', async () => {
+    for (const article of articles) {
+      const markdown = await readStudyFile(`cs/network/${article.file}`);
+      for (const diagram of article.images ?? []) {
+        const assetPath = `images/study/network/tcp/${diagram.file}`;
+        const svg = await readPublicFile(assetPath);
+        expect(svg, diagram.file).toMatch(/^<svg[\s>]/);
+        expect(svg, diagram.file).toContain('<title');
+        expect(svg, diagram.file).toContain('<desc');
+        const figure = markdown.match(
+          new RegExp(
+            `<figure class="study-diagram">[\\s\\S]*?src="/${assetPath}"[\\s\\S]*?</figure>`,
+          ),
+        )?.[0];
+        expect(figure, diagram.file).toBeDefined();
+        expect(figure, diagram.file).toMatch(/alt="[^"]+"/);
+        expect(figure, diagram.file).toContain('loading="lazy"');
+        expect(figure, diagram.file).toMatch(
+          /<figcaption>\s*\S[\s\S]*?<\/figcaption>/,
+        );
+      }
+    }
   });
 
   it('distinguishes Kafka consumer distribution from IP multicast', async () => {
@@ -281,7 +358,7 @@ describe('network Study series', () => {
 
       expect(frontmatter.title).toBe(article.title);
       expect(frontmatter.contentType).toBe('study');
-      expect(frontmatter.publishedAt).toBe('2026-08-10');
+      expect(frontmatter.publishedAt).toBe(article.publishedAt);
       expect(frontmatter.tags).toEqual(article.tags);
       expect(frontmatter.series).toBe('CS 지식의 정석 - 네트워크');
       expect(frontmatter.topic).toBe('Network');

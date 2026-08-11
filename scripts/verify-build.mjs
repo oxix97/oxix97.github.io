@@ -20,6 +20,7 @@ const expectedFiles = [
   'study/network/network-performance-metrics/index.html',
   'study/network/topology-and-bottlenecks/index.html',
   'study/network/network-classification/index.html',
+  'study/network/tcp-ip-layers-and-encapsulation/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -150,6 +151,10 @@ const expectedNetworkLinks = [
   {
     href: './network-classification/',
     title: '유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준',
+  },
+  {
+    href: './tcp-ip-layers-and-encapsulation/',
+    title: 'TCP/IP 4계층은 데이터를 어떻게 전달하는가',
   },
 ];
 const networkLinks = [

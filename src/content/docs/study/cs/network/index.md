@@ -15,3 +15,4 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 순서에 따라 �
 1. [대역폭이 넓어도 느릴 수 있는 이유: 트래픽·처리량·RTT의 차이](./network-performance-metrics/)
 2. [연결 구조가 장애 범위를 결정한다: 네트워크 토폴로지와 병목 분석](./topology-and-bottlenecks/)
 3. [유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준](./network-classification/)
+4. [TCP/IP 4계층은 데이터를 어떻게 전달하는가](./tcp-ip-layers-and-encapsulation/)
