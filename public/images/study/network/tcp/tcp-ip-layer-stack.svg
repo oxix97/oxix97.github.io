@@ -1,47 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="tcp-ip-layer-stack-title tcp-ip-layer-stack-desc">
-  <title id="tcp-ip-layer-stack-title">TCP/IP 4계층의 책임과 PDU</title>
-  <desc id="tcp-ip-layer-stack-desc">애플리케이션, 전송, 인터넷, 네트워크 접근 계층을 위에서 아래로 배치하고 각 계층의 책임, 대표 프로토콜, PDU를 보여주는 구조도.</desc>
+  <title id="tcp-ip-layer-stack-title">TCP/IP 4계층과 전송 단위</title>
+  <desc id="tcp-ip-layer-stack-desc">애플리케이션, 전송, 인터넷, 네트워크 접근 계층을 위에서 아래로 배치하고 TCP 세그먼트와 UDP 데이터그램을 구분한 구조도.</desc>
   <style>
-    .bg { fill: #f8fafc; } .ink { fill: #0f172a; } .muted { fill: #475569; } .border { stroke: #cbd5e1; } .blue { fill: #2563eb; } .violet { fill: #7c3aed; } .green { fill: #059669; } .amber { fill: #d97706; } .danger { fill: #dc2626; } .line { fill: none; stroke: #334155; stroke-width: 3; } text { font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    .card { stroke-width: 2; } .label { fill: #ffffff; font-size: 20px; font-weight: 700; } .name { font-size: 25px; font-weight: 800; } .detail { font-size: 18px; } .pdu { font-size: 19px; font-weight: 700; }
+    .bg{fill:#f8fafc}.ink{fill:#0f172a}.blue{fill:#1d4ed8}.violet{fill:#6d28d9}.green{fill:#047857}.amber{fill:#92400e}.card{stroke:#cbd5e1;stroke-width:2}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:52px;font-weight:800}.label,.protocol,.pdu{font-size:42px;font-weight:800}.label{fill:#fff}.protocol{fill:#0f172a}
   </style>
   <rect class="bg" width="1200" height="720" rx="28"/>
-  <text class="ink" x="70" y="68" font-size="34" font-weight="800">TCP/IP 4계층: 책임과 PDU</text>
-  <text class="muted" x="70" y="102" font-size="19">상위 계층 데이터는 아래 계층으로 전달되며 각 계층의 제어 정보가 더해진다.</text>
+  <text class="ink title" x="55" y="72">TCP/IP 4계층과 PDU</text>
+
   <g>
-    <rect x="70" y="142" width="1060" height="112" rx="18" fill="#eff6ff" class="border card"/>
-    <rect x="92" y="164" width="190" height="68" rx="12" class="blue"/>
-    <text class="label" x="187" y="205" text-anchor="middle">애플리케이션</text>
-    <text class="ink name" x="320" y="184">서비스 메시지의 의미와 형식</text>
-    <text class="muted detail" x="320" y="214">HTTP · HTTPS · SMTP · SSH</text>
-    <text class="blue pdu" x="1000" y="205" text-anchor="middle">PDU: 메시지</text>
+    <rect class="card" x="50" y="105" width="1100" height="125" rx="20" fill="#eff6ff"/>
+    <rect class="blue" x="70" y="123" width="270" height="89" rx="16"/>
+    <text class="label" x="205" y="181" text-anchor="middle">애플리케이션</text>
+    <text class="protocol" x="375" y="181">HTTP · SMTP</text>
+    <text class="blue pdu" x="965" y="181" text-anchor="middle">메시지</text>
   </g>
-  <path class="line" d="M600 254v28" marker-end="url(#arrow)"/>
   <g>
-    <rect x="70" y="282" width="1060" height="112" rx="18" fill="#f5f3ff" class="border card"/>
-    <rect x="92" y="304" width="190" height="68" rx="12" class="violet"/>
-    <text class="label" x="187" y="345" text-anchor="middle">전송</text>
-    <text class="ink name" x="320" y="324">포트 기반 종단 간 전달</text>
-    <text class="muted detail" x="320" y="354">TCP · UDP</text>
-    <text class="violet pdu" x="1000" y="345" text-anchor="middle">PDU: 세그먼트</text>
+    <rect class="card" x="50" y="250" width="1100" height="125" rx="20" fill="#f5f3ff"/>
+    <rect class="violet" x="70" y="268" width="270" height="89" rx="16"/>
+    <text class="label" x="205" y="326" text-anchor="middle">전송</text>
+    <text class="protocol" x="375" y="326">TCP · UDP</text>
+    <text class="violet pdu" x="870" y="326" text-anchor="middle">TCP 세그먼트 · UDP 데이터그램</text>
   </g>
-  <path class="line" d="M600 394v28" marker-end="url(#arrow)"/>
   <g>
-    <rect x="70" y="422" width="1060" height="112" rx="18" fill="#ecfdf5" class="border card"/>
-    <rect x="92" y="444" width="190" height="68" rx="12" class="green"/>
-    <text class="label" x="187" y="485" text-anchor="middle">인터넷</text>
-    <text class="ink name" x="320" y="464">IP 주소 기반 패킷 전달과 라우팅</text>
-    <text class="muted detail" x="320" y="494">IP · ICMP</text>
-    <text class="green pdu" x="1000" y="485" text-anchor="middle">PDU: 패킷</text>
+    <rect class="card" x="50" y="395" width="1100" height="125" rx="20" fill="#ecfdf5"/>
+    <rect class="green" x="70" y="413" width="270" height="89" rx="16"/>
+    <text class="label" x="205" y="471" text-anchor="middle">인터넷</text>
+    <text class="protocol" x="375" y="471">IP · ICMP</text>
+    <text class="green pdu" x="965" y="471" text-anchor="middle">IP 패킷</text>
   </g>
-  <path class="line" d="M600 534v28" marker-end="url(#arrow)"/>
   <g>
-    <rect x="70" y="562" width="1060" height="112" rx="18" fill="#fff7ed" class="border card"/>
-    <rect x="92" y="584" width="190" height="68" rx="12" class="amber"/>
-    <text class="label" x="187" y="625" text-anchor="middle">네트워크 접근</text>
-    <text class="ink name" x="320" y="604">로컬 링크 프레임과 물리 매체 전달</text>
-    <text class="muted detail" x="320" y="634">Ethernet · Wi-Fi</text>
-    <text class="amber pdu" x="1000" y="625" text-anchor="middle">PDU: 프레임</text>
+    <rect class="card" x="50" y="540" width="1100" height="125" rx="20" fill="#fff7ed"/>
+    <rect class="amber" x="70" y="558" width="270" height="89" rx="16"/>
+    <text class="label" x="205" y="616" text-anchor="middle">네트워크 접근</text>
+    <text class="protocol" x="375" y="616">Ethernet · Wi-Fi</text>
+    <text class="amber pdu" x="965" y="616" text-anchor="middle">프레임</text>
   </g>
-  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
 </svg>

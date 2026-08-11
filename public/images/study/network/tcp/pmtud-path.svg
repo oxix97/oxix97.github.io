@@ -1,40 +1,35 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="pmtud-path-title pmtud-path-desc">
   <title id="pmtud-path-title">PMTUD가 경로 MTU 1400을 찾는 과정</title>
-  <desc id="pmtud-path-desc">송신자에서 수신자까지 MTU 1500 링크와 MTU 1400 링크가 있는 경로에서, 1500바이트 시도와 ICMP 피드백, 1400바이트 이하 재전송을 세 단계로 표시한 그림.</desc>
+  <desc id="pmtud-path-desc">송신자와 수신자 사이의 1500바이트 링크와 1400바이트 링크에서 큰 패킷 시도, ICMP 피드백, 1400바이트 이하 재전송을 차례로 표시한 그림.</desc>
   <style>
-    .bg{fill:#f8fafc}.ink{fill:#0f172a}.muted{fill:#475569}.border{stroke:#cbd5e1}.blue{fill:#2563eb}.violet{fill:#7c3aed}.green{fill:#059669}.amber{fill:#d97706}.danger{fill:#dc2626}.line{fill:none;stroke:#334155;stroke-width:3}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:34px;font-weight:800}.subtitle{font-size:19px}.node{fill:#fff;font-size:21px;font-weight:800}.label{fill:#fff;font-size:18px;font-weight:800}.dark-label{fill:#0f172a;font-size:18px;font-weight:800}.dark-node{fill:#0f172a;font-size:21px;font-weight:800}.body{font-size:18px}.step{font-size:19px;font-weight:800}
+    .bg{fill:#f8fafc}.ink{fill:#0f172a}.blue{fill:#1d4ed8}.violet{fill:#6d28d9}.green{fill:#047857}.amber{fill:#92400e}.line{fill:none;stroke:#334155;stroke-width:5}.card{stroke:#cbd5e1;stroke-width:2}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:52px;font-weight:800}.label{fill:#fff;font-size:42px;font-weight:800}.step{font-size:42px;font-weight:800}
   </style>
   <rect class="bg" width="1200" height="720" rx="28"/>
-  <text class="ink title" x="70" y="68">PMTUD: 경로에서 가장 작은 MTU 찾기</text>
-  <text class="muted subtitle" x="70" y="102">경로 MTU는 송신자와 수신자 사이 링크 MTU 중 가장 작은 값이다.</text>
-  <rect x="70" y="145" width="190" height="76" rx="16" class="blue"/>
-  <text class="node" x="165" y="190" text-anchor="middle">송신자</text>
-  <rect x="326" y="145" width="200" height="76" rx="16" class="violet"/>
-  <text class="node" x="426" y="178" text-anchor="middle">링크 A</text>
-  <text class="label" x="426" y="205" text-anchor="middle">MTU 1500</text>
-  <rect x="594" y="145" width="200" height="76" rx="16" class="amber"/>
-  <text class="dark-node" x="694" y="178" text-anchor="middle">링크 B</text>
-  <text class="dark-label" x="694" y="205" text-anchor="middle">MTU 1400</text>
-  <rect x="940" y="145" width="190" height="76" rx="16" class="green"/>
-  <text class="dark-node" x="1035" y="190" text-anchor="middle">수신자</text>
-  <path class="line" d="M260 183h66m200 0h68m200 0h146" marker-end="url(#arrow)"/>
-  <rect x="70" y="282" width="1060" height="78" rx="16" fill="#eff6ff" class="border" stroke-width="2"/>
-  <circle cx="110" cy="321" r="20" class="blue"/><text class="label" x="110" y="328" text-anchor="middle">1</text>
-  <text class="blue step" x="150" y="315">1500바이트 패킷을 시도</text>
-  <text class="muted body" x="150" y="341">링크 B의 MTU 1400을 넘으므로 그 지점에서 전달할 수 없다.</text>
-  <path d="M694 221v39" class="line" marker-end="url(#arrow)"/>
-  <rect x="70" y="398" width="1060" height="78" rx="16" fill="#fff7ed" class="border" stroke-width="2"/>
-  <circle cx="110" cy="437" r="20" class="amber"/><text class="dark-label" x="110" y="444" text-anchor="middle">2</text>
-  <text class="amber step" x="150" y="431">ICMP가 송신자에게 더 작은 MTU를 알림</text>
-  <text class="muted body" x="150" y="457">IPv4 PMTUD는 fragmentation needed, IPv6 PMTUD는 Packet Too Big 피드백을 사용한다.</text>
-  <path d="M694 360v18H165v-18" class="line" marker-end="url(#arrow)"/>
-  <rect x="70" y="514" width="1060" height="78" rx="16" fill="#ecfdf5" class="border" stroke-width="2"/>
-  <circle cx="110" cy="553" r="20" class="green"/><text class="dark-label" x="110" y="560" text-anchor="middle">3</text>
-  <text class="green step" x="150" y="547">1400바이트 이하로 줄여 재전송</text>
-  <text class="muted body" x="150" y="573">송신자는 경로 MTU 추정을 낮추고 TCP 데이터 크기를 조정한다.</text>
-  <path d="M165 514v-18h870v18" class="line" marker-end="url(#arrow)"/>
-  <rect x="70" y="630" width="1060" height="44" rx="12" fill="#f5f3ff"/>
-  <text class="violet" x="92" y="658" font-size="16" font-weight="700">주석:</text>
-  <text class="muted" x="145" y="658" font-size="16">IPv4에서는 라우터 단편화가 가능하지만 PMTUD는 DF와 ICMP를 사용한다. IPv6에서는 라우터가 단편화하지 않으며 송신자만 단편화할 수 있다.</text>
+  <text class="ink title" x="55" y="72">PMTUD: 경로 MTU 찾기</text>
+
+  <rect class="blue" x="55" y="110" width="230" height="90" rx="18"/>
+  <text class="label" x="170" y="169" text-anchor="middle">송신자</text>
+  <rect class="violet" x="345" y="110" width="220" height="90" rx="18"/>
+  <text class="label" x="455" y="169" text-anchor="middle">MTU 1500</text>
+  <rect class="amber" x="635" y="110" width="220" height="90" rx="18"/>
+  <text class="label" x="745" y="169" text-anchor="middle">MTU 1400</text>
+  <rect class="green" x="915" y="110" width="230" height="90" rx="18"/>
+  <text class="label" x="1030" y="169" text-anchor="middle">수신자</text>
+  <path class="line" d="M285 155h60m220 0h70m220 0h60" marker-end="url(#arrow)"/>
+
+  <rect class="card" x="55" y="255" width="1090" height="95" rx="18" fill="#eff6ff"/>
+  <text class="ink step" x="95" y="317">1 · 1500 B 전송</text>
+  <path class="line" d="M745 200v35" marker-end="url(#arrow)"/>
+
+  <rect class="card" x="55" y="390" width="1090" height="95" rx="18" fill="#fff7ed"/>
+  <text class="ink step" x="95" y="452">2 · ICMP: MTU 1400</text>
+  <path class="line" d="M745 350v20H170v20" marker-end="url(#arrow)"/>
+
+  <rect class="card" x="55" y="525" width="1090" height="95" rx="18" fill="#ecfdf5"/>
+  <text class="ink step" x="95" y="587">3 · 1400 B 이하 재전송</text>
+  <path class="line" d="M170 485v20h860v20" marker-end="url(#arrow)"/>
+
+  <rect class="violet" x="330" y="645" width="540" height="60" rx="18"/>
+  <text class="label" x="600" y="690" text-anchor="middle">경로 MTU = 1400 B</text>
   <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
 </svg>

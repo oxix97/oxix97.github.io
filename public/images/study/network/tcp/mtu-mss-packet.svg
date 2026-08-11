@@ -1,35 +1,38 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" role="img" aria-labelledby="mtu-mss-packet-title mtu-mss-packet-desc">
   <title id="mtu-mss-packet-title">MTU 1500과 MSS 1460의 조건부 예시</title>
-  <desc id="mtu-mss-packet-desc">기본 Ethernet과 IPv4 및 TCP 헤더를 가정한 1500바이트 IP 패킷을 IPv4 헤더 20바이트, TCP 헤더 20바이트, 데이터 1460바이트로 나눈 그림.</desc>
+  <desc id="mtu-mss-packet-desc">옵션 없는 IPv4와 TCP 헤더를 가정해 1500바이트 IP 패킷을 IPv4 헤더 20바이트, TCP 헤더 20바이트, TCP 데이터 1460바이트로 나눈 그림.</desc>
   <style>
-    .bg{fill:#f8fafc}.ink{fill:#0f172a}.muted{fill:#475569}.border{stroke:#cbd5e1}.blue{fill:#2563eb}.violet{fill:#7c3aed}.green{fill:#059669}.amber{fill:#d97706}.danger{fill:#dc2626}.line{fill:none;stroke:#334155;stroke-width:3}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:34px;font-weight:800}.subtitle{font-size:19px}.label{fill:#fff;font-size:20px;font-weight:800}.body{font-size:19px}.small{font-size:17px}.number{font-size:28px;font-weight:800}
+    .bg{fill:#f8fafc}.ink{fill:#0f172a}.blue{fill:#1d4ed8}.violet{fill:#6d28d9}.green{fill:#047857}.amber{fill:#92400e}.border{stroke:#cbd5e1;stroke-width:2}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:52px;font-weight:800}.label{fill:#fff;font-size:42px;font-weight:800}.body{font-size:42px;font-weight:800}
   </style>
   <rect class="bg" width="1200" height="720" rx="28"/>
-  <text class="ink title" x="70" y="70">MTU와 MSS: 패킷 안에서 보는 전송 크기</text>
-  <text class="muted subtitle" x="70" y="106">IP MTU 1500바이트는 IP 헤더, TCP 헤더, TCP 데이터의 합이다.</text>
-  <rect x="70" y="156" width="1060" height="148" rx="20" fill="#eff6ff" class="border" stroke-width="2"/>
-  <text class="blue number" x="105" y="205">MTU 1500 bytes</text>
-  <text class="muted body" x="105" y="238">IP 패킷 전체의 크기 상한</text>
-  <line class="line" x1="105" y1="267" x2="1095" y2="267"/>
-  <path d="M1095 267l-14-8v16z" fill="#334155"/>
-  <rect x="70" y="356" width="1060" height="122" rx="18" class="green"/>
-  <rect x="70" y="356" width="14.133333" height="122" class="blue"/>
-  <rect x="84.133333" y="356" width="14.133333" height="122" class="violet"/>
-  <rect x="70" y="356" width="1060" height="122" rx="18" fill="none" class="border" stroke-width="2"/>
-  <text class="label" x="614" y="403" text-anchor="middle">TCP 데이터</text>
-  <text class="label" x="614" y="434" text-anchor="middle">MSS 예시 1460 bytes</text>
-  <path class="line" d="M77 478v48h105"/>
-  <path d="M196 526l-14-8v16z" fill="#334155"/>
-  <text class="blue body" x="210" y="522">IPv4 헤더 20 bytes</text>
-  <path class="line" d="M91 478v78h323"/>
-  <path d="M428 556l-14-8v16z" fill="#334155"/>
-  <text class="violet body" x="442" y="562">TCP 헤더 20 bytes</text>
-  <path class="line" d="M742 478v48"/>
-  <path d="M742 540l-8-14h16z" fill="#334155"/>
-  <text class="green body" x="770" y="544">MSS는 TCP 데이터 크기의 상한</text>
-  <rect x="70" y="586" width="1060" height="80" rx="16" fill="#fef2f2" stroke="#fecaca" stroke-width="2"/>
-  <circle cx="108" cy="626" r="19" class="danger"/>
-  <text class="label" x="108" y="633" text-anchor="middle">!</text>
-  <text class="danger" x="145" y="622" font-size="19" font-weight="800">조건부 예시</text>
-  <text class="muted small" x="145" y="648">1500·20·20·1460은 옵션이 없는 Ethernet, IPv4, TCP 헤더를 가정한다. IPv6, 옵션, 터널은 실제 값을 바꾼다.</text>
+  <text class="ink title" x="55" y="72">MTU와 MSS의 관계</text>
+
+  <rect class="blue" x="55" y="105" width="1090" height="90" rx="18"/>
+  <text class="label" x="90" y="165">MTU 1500 B</text>
+  <text class="label" x="1110" y="165" text-anchor="end">IP 패킷 전체</text>
+
+  <rect class="green" x="55" y="225" width="1090" height="165" rx="18"/>
+  <rect class="blue" x="55" y="225" width="16" height="165"/>
+  <rect class="violet" x="71" y="225" width="16" height="165"/>
+  <rect class="border" x="55" y="225" width="1090" height="165" rx="18" fill="none"/>
+  <path d="M63 390v30H220" fill="none" stroke="#334155" stroke-width="5" marker-end="url(#arrow)"/>
+  <path d="M79 390v30H550" fill="none" stroke="#334155" stroke-width="5" marker-end="url(#arrow)"/>
+
+  <rect class="blue" x="55" y="445" width="330" height="135" rx="18"/>
+  <text class="label" x="220" y="498" text-anchor="middle">IPv4 헤더</text>
+  <text class="label" x="220" y="553" text-anchor="middle">20 B</text>
+  <rect class="violet" x="435" y="445" width="330" height="135" rx="18"/>
+  <text class="label" x="600" y="498" text-anchor="middle">TCP 헤더</text>
+  <text class="label" x="600" y="553" text-anchor="middle">20 B</text>
+  <rect class="green" x="815" y="445" width="330" height="135" rx="18"/>
+  <text class="label" x="980" y="498" text-anchor="middle">TCP 데이터</text>
+  <text class="label" x="980" y="553" text-anchor="middle">1460 B</text>
+
+  <rect class="green" x="55" y="605" width="375" height="95" rx="18"/>
+  <text class="label" x="242" y="667" text-anchor="middle">MSS = 1460 B</text>
+  <rect class="amber" x="455" y="595" width="690" height="110" rx="18"/>
+  <text class="label" x="485" y="641">옵션 없는 IPv4·TCP 예시</text>
+  <text class="label" x="485" y="689">헤더·터널 조건에 따라 달라짐</text>
+
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#334155"/></marker></defs>
 </svg>

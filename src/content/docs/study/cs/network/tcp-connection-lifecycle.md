@@ -18,7 +18,7 @@ TCP는 양방향 바이트 스트림을 제공하므로, 연결 수립에서는 
 
 - `SYN seq=x`에 대해 수신 측은 `SYN-ACK seq=y ack=x+1`로 응답하고, 시작 측은 `ACK ack=y+1`로 양쪽 ISN을 확인한다.
 - SYN과 FIN은 각각 시퀀스 공간 한 칸을 소비하므로, ACK 번호는 상대가 다음에 기대하는 시퀀스 번호를 뜻한다.
-- TCP는 양방향 스트림을 독립적으로 닫기 때문에 FIN을 받은 쪽이 남은 데이터를 처리한 뒤 FIN을 보낼 수 있다.
+- FIN은 보낸 쪽의 송신 종료만 뜻하며, 받은 쪽은 이를 ACK한 뒤에도 반대 방향으로 데이터를 보낼 수 있다.
 - active closer의 TIME_WAIT은 마지막 ACK 재전송과 이전 연결의 지연 세그먼트가 새 연결에 섞이는 위험을 줄인다.
 
 ## 3-way handshake가 확인하는 것
@@ -44,7 +44,7 @@ ACK 번호는 지금까지 받은 마지막 번호가 아니라 다음에 받고
 
 ## 4-way handshake에서 FIN과 ACK가 분리되는 이유
 
-연결 종료를 먼저 시작한 쪽(active closer)은 `ESTABLISHED`에서 FIN을 보내 `FIN_WAIT_1`이 된다. 상대 측은 FIN을 받으면 ACK를 보내 `CLOSE_WAIT`이 되며, 시작 측은 ACK를 받고 `FIN_WAIT_2`로 이동한다. 이 ACK는 상대가 더 이상 시작 측에서 오는 데이터를 받지 않겠다는 뜻을 확인할 뿐, 상대 애플리케이션이 자신의 송신을 끝냈다는 뜻은 아니다.
+연결 종료를 먼저 시작한 쪽(active closer)은 `ESTABLISHED`에서 FIN을 보내 `FIN_WAIT_1`이 된다. FIN은 보낸 쪽이 더 보낼 데이터나 시퀀스 공간을 차지하는 제어 정보가 없다는 뜻이지만, 그쪽은 반대 방향 데이터는 계속 받을 수 있다. 상대 측은 FIN을 받으면 ACK를 보내 `CLOSE_WAIT`이 되며, 시작 측은 ACK를 받고 `FIN_WAIT_2`로 이동한다. 이 ACK는 상대 FIN, 즉 한 방향 바이트 스트림의 끝을 받았다는 확인일 뿐이며, ACK를 보낸 상대가 자신의 송신까지 끝냈다는 뜻은 아니다.
 
 TCP의 양방향 스트림은 독립적으로 닫힌다. 상대 측 애플리케이션은 FIN을 받은 뒤 이미 받은 데이터를 처리하거나 남은 응답을 보낸 뒤에야 자신의 `close()`를 호출할 수 있다. 그래서 상대 측은 나중에 FIN을 보내 `LAST_ACK`가 되고, 시작 측은 이를 ACK한 뒤 `TIME_WAIT`으로 들어간다; 이 분리 때문에 일반적인 종료 흐름을 4-way handshake라고 부른다.
 
@@ -56,12 +56,12 @@ TCP의 양방향 스트림은 독립적으로 닫힌다. 상대 측 애플리케
     alt="종료 시작 측과 상대 측의 수직 생명선 사이에서 FIN, ACK, FIN, 마지막 ACK가 위에서 아래 순서로 오가고 종료 시작 측은 TIME_WAIT을 거쳐 CLOSED, 상대 측은 CLOSE_WAIT과 LAST_ACK를 거쳐 CLOSED가 되는 TCP 4-way handshake 상태 전이도"
     loading="lazy"
   />
-  <figcaption>FIN을 받은 쪽은 ACK로 수신 방향을 먼저 닫고, 애플리케이션이 송신을 끝낸 시점에 별도 FIN을 보낼 수 있다.</figcaption>
+  <figcaption>FIN 수신 측의 ACK는 상대 송신 스트림의 끝을 확인하며, 자신의 송신 종료는 나중의 별도 FIN으로 알린다.</figcaption>
 </figure>
 
 ## TIME_WAIT이 필요한 이유
 
-마지막 ACK를 보낸 active closer는 곧바로 상태를 버리지 않고 TIME_WAIT에 머문다. 상대의 FIN이나 마지막 ACK가 네트워크에서 유실되면 상대는 FIN을 재전송할 수 있고, TIME_WAIT 상태의 쪽은 이를 다시 ACK할 수 있다. 따라서 마지막 ACK의 전달을 재시도할 기회를 보장한다.
+마지막 ACK를 보낸 active closer는 곧바로 상태를 버리지 않고 TIME_WAIT에 머문다. 그 마지막 ACK가 유실되면 상대는 자신의 FIN을 재전송하고, TIME_WAIT 상태의 active closer는 FIN을 다시 ACK할 수 있다. 반면 상대가 보낸 최초 FIN 자체가 유실된 경우 active closer는 아직 `FIN_WAIT_2`에 있으므로, 재전송된 FIN을 받은 뒤 마지막 ACK를 보내고 TIME_WAIT에 들어간다.
 
 또한 같은 4-tuple(출발지 IP·포트, 목적지 IP·포트)의 새 연결이 너무 빨리 만들어지면 이전 연결에서 지연된 세그먼트가 새 연결로 들어갈 위험이 있다. TIME_WAIT과 새 ISN 선택은 이런 연결 세대의 혼동을 줄인다. RFC 9293은 능동적으로 닫힌 연결이 2×MSL 동안 TIME_WAIT에 머물도록 요구하지만, 실제 MSL과 타이머 값은 운영체제와 구현 설정에 따라 다르므로 특정 초 단위 값을 모든 환경에 적용하면 안 된다.
 
@@ -89,13 +89,13 @@ TCP는 양방향 바이트 스트림을 독립적으로 닫기 때문에 FIN을 
 
 ### TIME_WAIT이 필요한 이유
 
-TIME_WAIT은 상대가 마지막 ACK를 받지 못해 FIN을 재전송했을 때 active closer가 ACK를 다시 보낼 수 있게 합니다. 또한 이전 연결의 지연 세그먼트가 같은 4-tuple의 새 연결에 섞이는 위험을 줄이는 시간을 제공합니다. RFC 9293의 2MSL 규정은 이 상태의 목적을 설명하지만 실제 기간과 영향은 운영체제 설정 및 트래픽 특성과 함께 판단해야 합니다.
+TIME_WAIT은 마지막 ACK가 유실되어 상대가 FIN을 재전송했을 때 active closer가 ACK를 다시 보낼 수 있게 합니다. 최초 상대 FIN이 유실된 경우에는 active closer가 FIN_WAIT_2에서 재전송을 받은 뒤 TIME_WAIT에 들어갑니다. 또한 이전 연결의 지연 세그먼트가 같은 4-tuple의 새 연결에 섞이는 위험을 줄이며, RFC 9293의 2MSL 규정은 실제 운영체제 타이머 및 트래픽 특성과 함께 해석해야 합니다.
 
 ## 복습 체크리스트
 
 - [ ] `SYN seq=x`, `SYN-ACK seq=y ack=x+1`, `ACK ack=y+1`의 ACK 값이 왜 1 증가하는지 설명할 수 있다.
 - [ ] 시작 측과 수신 측이 독립적인 ISN을 선택하고, 마지막 ACK가 양방향 확인을 완성함을 설명할 수 있다.
-- [ ] FIN을 받은 쪽이 CLOSE_WAIT에서 애플리케이션 close를 기다리므로 ACK와 FIN이 분리될 수 있음을 설명할 수 있다.
+- [ ] FIN은 보낸 쪽의 송신 종료이고 ACK는 그 스트림 끝의 수신 확인일 뿐, ACK 송신자의 독립적인 송신 종료는 아님을 설명할 수 있다.
 - [ ] active closer가 TIME_WAIT에서 마지막 ACK 재전송과 지연 세그먼트 제거를 지원함을 설명할 수 있다.
 - [ ] CLOSE_WAIT과 TIME_WAIT을 상태 수치 하나로 장애로 단정하지 않고 역할·트래픽·코드·설정을 함께 점검할 수 있다.
 
