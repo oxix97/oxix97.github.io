@@ -8,6 +8,8 @@
 
 **Tech Stack:** Codex Agent Skills Markdown, YAML, repository-local `.agents/skills`, skill-creator Python utilities
 
+**Execution note:** The user selected inline execution and later waived repeated behavior tests. Three baseline requests identified the unsupported-personal-history failure; post-skill Codex scenarios were skipped, while structural and metadata validation remained mandatory.
+
 ## Global Constraints
 
 - Install the skill at `.agents/skills/writing-review-blog/`.
@@ -34,7 +36,7 @@
 - Consumes: The three existing posts and the three prompts below.
 - Produces: A baseline report listing omissions, invented experiences, structural drift, and preservation failures for each prompt.
 
-- [ ] **Step 1: Run three fresh-context baseline scenarios without the new skill**
+- [x] **Step 1: Run three fresh-context baseline scenarios without the new skill**
 
 Use separate subagents with these exact prompts:
 
@@ -54,7 +56,7 @@ Revise src/content/docs/study/cs/design-pattern/singleton-basics.md to sound les
 Preserve all metadata, diagrams, sources, interview questions, checklist items, and series links.
 ```
 
-- [ ] **Step 2: Record baseline failures**
+- [x] **Step 2: Record baseline failures**
 
 Write `/tmp/writing-review-blog-baseline.md` with one section per scenario and evaluate these observable criteria:
 
@@ -68,7 +70,7 @@ Write `/tmp/writing-review-blog-baseline.md` with one section per scenario and e
 - Long or formal reference-style sentences remain: yes/no + excerpt
 ```
 
-- [ ] **Step 3: Verify the baseline identifies at least one behavior the skill must correct**
+- [x] **Step 3: Verify the baseline identifies at least one behavior the skill must correct**
 
 Expected: At least one scenario either invents an author experience, fails to request a missing learning note, retains overly formal reference prose, or drops a preservation requirement. If no failure appears, rerun with a fresh subagent and the same prompt before authoring guidance.
 
@@ -84,7 +86,7 @@ Expected: At least one scenario either invents an author experience, fails to re
 - Consumes: The approved design and the observed Task 1 baseline failures.
 - Produces: A discoverable Agent Skill named `writing-review-blog` with UI metadata and two directly linked references.
 
-- [ ] **Step 1: Initialize the skill with the official utility**
+- [x] **Step 1: Initialize the skill with the official utility**
 
 Run:
 
@@ -100,7 +102,7 @@ python3 /Users/chan/.codex/skills/.system/skill-creator/scripts/init_skill.py \
 
 Expected: The initializer creates the skill directory, `SKILL.md`, `agents/openai.yaml`, and `references/`.
 
-- [ ] **Step 2: Replace `SKILL.md` with the minimal execution contract**
+- [x] **Step 2: Replace `SKILL.md` with the minimal execution contract**
 
 The frontmatter must be exactly two fields and the description must express triggering conditions rather than summarize the workflow:
 
@@ -135,7 +137,7 @@ The references section must link directly to both files:
 - Read [references/article-template.md](references/article-template.md) when creating a new post or repairing article structure.
 ```
 
-- [ ] **Step 3: Write `references/style-guide.md`**
+- [x] **Step 3: Write `references/style-guide.md`**
 
 Include the approved rules under these headings:
 
@@ -155,7 +157,7 @@ Include the approved rules under these headings:
 
 The final checklist must include all seven user-supplied checks: review motivation, short sentences, one real confusion point, stable section order, bold decision anchors, sources, and series navigation.
 
-- [ ] **Step 4: Write `references/article-template.md`**
+- [x] **Step 4: Write `references/article-template.md`**
 
 Provide a valid repository-shaped template with:
 
@@ -174,7 +176,7 @@ Mark author-supplied learning notes with an explicit XML-style sentinel so it ca
 <!-- AUTHOR_INPUT_REQUIRED: 실제로 헷갈렸던 지점 또는 다시 정리한 계기 -->
 ```
 
-- [ ] **Step 5: Check the authored files for placeholder leakage and scope drift**
+- [x] **Step 5: Check the authored files for placeholder leakage and scope drift**
 
 Run:
 
@@ -196,7 +198,7 @@ Expected: No scaffold placeholders or extraneous documentation files. The intent
 - Consumes: The complete `writing-review-blog` skill and Task 1 prompts.
 - Produces: A structurally valid skill whose behavior closes the observed baseline gaps.
 
-- [ ] **Step 1: Run official structural validation**
+- [x] **Step 1: Run official structural validation**
 
 Run:
 
@@ -207,9 +209,11 @@ python3 /Users/chan/.codex/skills/.system/skill-creator/scripts/quick_validate.p
 
 Expected: `Skill is valid!`
 
-- [ ] **Step 2: Run forward tests with the skill**
+- [x] **Step 2: Skip repeated forward tests at the user's request**
 
-Use three fresh subagents. Prefix each Task 1 prompt with:
+The user explicitly waived further behavior tests after baseline collection. No post-skill Codex scenario was run.
+
+The planned prefix would have been:
 
 ```text
 Use $writing-review-blog at .agents/skills/writing-review-blog to complete this request.
@@ -221,11 +225,11 @@ Expected:
 - Scenario 2 asks for the author's real learning note or proceeds with neutral motivation without inventing one.
 - Scenario 3 preserves frontmatter, sources, interview questions, checklist, and navigation.
 
-- [ ] **Step 3: Compare forward-test results to the baseline**
+- [x] **Step 3: Retain baseline findings as the authored behavior contract**
 
-Check every criterion from `/tmp/writing-review-blog-baseline.md`. If a failure remains, revise only the instruction responsible for that failure and rerun the affected scenario.
+The skill directly addresses the observed failures by requiring one concise author-note question and prohibiting unsupported first-person history. Behavioral comparison was not run because the user waived it.
 
-- [ ] **Step 4: Run repository-safe final verification**
+- [x] **Step 4: Run repository-safe final verification**
 
 Run:
 

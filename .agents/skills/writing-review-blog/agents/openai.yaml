@@ -1,0 +1,4 @@
+interface:
+  display_name: "복습형 기술 블로그 작성"
+  short_description: "oxix97 Dev Log 기술 글을 자연스러운 복습형 문체로 작성하고 다듬습니다."
+  default_prompt: "$writing-review-blog를 사용해 oxix97 Dev Log의 기술 글을 복습형 문체로 작성하거나 수정해 주세요."
