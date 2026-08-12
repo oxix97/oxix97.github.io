@@ -7,13 +7,11 @@ description: Use when drafting, revising, or reviewing Korean technical study po
 
 ## Overview
 
-Write accurate technical review posts that sound like a developer revisiting a topic, not a generic reference manual. Ground every personal learning claim in information the author supplied.
+Write accurate review posts without sounding like a generic reference manual. Ground personal learning claims in author input.
 
 ## Required context
 
-Read [references/style-guide.md](references/style-guide.md) completely before writing or revising prose. For a new post or a structural repair, also read [references/article-template.md](references/article-template.md).
-
-Inspect the target and adjacent series posts. Identify their frontmatter, terminology, links, code, tables, and diagram markup.
+Read [references/style-guide.md](references/style-guide.md) before editing prose. For new posts or structural repairs, also read [references/article-template.md](references/article-template.md). Inspect adjacent series posts for repository conventions.
 
 ## Workflow
 
@@ -23,7 +21,8 @@ Inspect the target and adjacent series posts. Identify their frontmatter, termin
 4. Apply the personal learning-note gate.
 5. Verify technical claims with primary sources when verification is required.
 6. Draft or revise using the applicable contract below.
-7. Run the final verification checklist.
+7. Apply the humanizer coordination rule when AI-pattern clusters remain.
+8. Run the final verification checklist.
 
 ## Personal learning-note gate
 
@@ -31,7 +30,7 @@ When the request calls for a personal review tone but supplies no real learning 
 
 > 이 주제에서 실제로 헷갈렸거나 다시 정리하게 된 지점 한 가지만 알려주세요.
 
-Never invent first-person history such as “처음에는 …라고 생각했다”, “매번 헷갈렸다”, or “알고 나니 이해됐다.” If the author declines to provide a note or explicitly requests immediate drafting, use a neutral motivation that makes no personal claim, such as why the distinction is commonly worth reviewing.
+Never invent first-person history. If the author declines to provide a note or requests immediate drafting, use a neutral motivation with no personal claim.
 
 ## New-post contract
 
@@ -50,6 +49,10 @@ Keep interview answers in `-습니다` even when main prose uses comfortable `-�
 Prefer RFCs, standards, specifications, and official project documentation. Distinguish normative behavior from implementation defaults. When sources disagree, state the applicable scope.
 
 Do not add unverified citations or preserve incorrect claims for tone consistency. Mark unverified claims for confirmation instead of guessing.
+
+## Humanizer coordination
+
+**CONDITIONAL SUB-SKILL:** Use `humanizer` in embedded mode only after structure and claims are final, and only for clusters of AI-writing patterns. Rewrite prose only. This skill overrides humanizer: preserve protected artifacts and add no unsupported opinions, personality, or first-person history. Run final verification again.
 
 ## Final verification
 
