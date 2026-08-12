@@ -241,7 +241,9 @@ git status --short
 
 Expected: Validation passes, no whitespace errors appear, and only the skill files plus the implementation-plan document are new or modified. `.pnpm-store/` remains untracked and unstaged.
 
-- [ ] **Step 5: Commit the skill as one focused change**
+- [x] **Step 5: Commit the skill as one focused change**
+
+Completed as `e5015697 feat: 복습형 기술 블로그 작성 스킬 추가` and fast-forwarded into `main`.
 
 ```bash
 git add .agents/skills/writing-review-blog docs/superpowers/plans/2026-08-13-writing-review-blog-skill-implementation.md
