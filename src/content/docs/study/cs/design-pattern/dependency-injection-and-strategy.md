@@ -12,9 +12,11 @@ sidebar:
   order: 5
 ---
 
+DI, DIP, 전략 패턴은 같은 코드에 함께 등장한다. 원칙, 객체 조립, 행동 교체가 맡는 역할을 각각 짚어야 설명이 겹치지 않는다.
+
 ## 핵심 요약
 
-의존관계 역전 원칙(Dependency Inversion Principle, DIP)은 상위 정책과 하위 세부 구현이 모두 추상화에 의존하도록 의존 방향을 설계하는 **원칙**이다. 의존성 주입(Dependency Injection, DI)은 객체가 필요한 의존성을 직접 만들지 않고 외부에서 받게 하는 **구현 방법**이며, DIP를 적용할 때 자주 쓰이지만 DI 자체가 DIP를 자동으로 보장하지는 않는다. 전략 패턴은 하나의 목적을 수행하는 여러 행동을 공통 계약 뒤에 캡슐화하고 컨텍스트가 그 행동을 교체해 사용하게 하는 **디자인 패턴**이다.
+의존관계 역전 원칙(Dependency Inversion Principle, DIP)은 상위 정책과 하위 세부 구현이 모두 추상화에 의존하도록 방향을 설계하는 **원칙**이다. 추상화가 세부사항에 맞춰지는 것이 아니라 세부사항이 추상화에 맞춰져야 한다. 의존성 주입(Dependency Injection, DI)은 객체가 필요한 의존성을 직접 만들지 않고 외부에서 받게 하는 **구현 방법**이다. DIP를 적용할 때 자주 쓰이지만 DI 자체가 DIP를 자동으로 보장하지는 않는다. 전략 패턴은 같은 목적을 수행하는 여러 행동을 공통 계약 뒤에 캡슐화하는 **디자인 패턴**이다. 컨텍스트는 그 행동을 교체해 사용한다.
 
 ## 직접 의존이 만드는 문제
 
@@ -31,9 +33,11 @@ final class CheckoutService {
 }
 ```
 
-이 구조에서 계좌 이체를 추가하려면 `CheckoutService`가 구현을 선택하도록 분기하거나 필드 타입과 생성 코드를 바꿔야 한다. 카드 구현의 생성자에 인증 정보가 추가되어도 서비스가 함께 수정되고, 테스트에서는 실제 카드 구현을 대역으로 바꾸기 어렵다. 즉 하위 세부사항의 변화가 결제 흐름을 조정하는 상위 코드까지 전파된다.
+이 구조에서 계좌 이체를 추가하려면 `CheckoutService`에 선택 분기를 넣거나 필드 타입과 생성 코드를 바꿔야 한다. 카드 구현의 생성자에 인증 정보가 추가되어도 서비스가 함께 수정된다. 테스트에서 실제 카드 구현을 대역으로 바꾸기도 어렵다. 즉 하위 세부사항의 변화가 결제 흐름을 조정하는 상위 코드까지 전파된다.
 
-생성과 사용을 분리하면 영향 범위가 달라진다. `CheckoutService`가 `PaymentStrategy` 계약만 받고 외부의 조합 지점이 `CardPaymentStrategy`를 제공하도록 만들면, 계좌 이체 추가는 새 전략 구현과 조합 설정에 머물고 기존 체크아웃 흐름은 바뀌지 않는다. 다만 `pay` 계약에 통화 매개변수를 추가하는 것처럼 기존 메서드 시그니처를 바꾸면 모든 전략과 그 호출부인 컨텍스트가 영향을 받는다. 반면 환불 기능은 기존 결제 계약에 새 메서드로 넣을 수도 있고 별도의 `RefundStrategy`로 분리할 수도 있어, 분리하면 결제만 사용하는 `CheckoutService`는 바뀌지 않는다. 추상화는 변화가 사라지는 마법이 아니라 **어느 변화가 어디까지 전파되는지 정하는 경계**다.
+생성과 사용을 분리하면 영향 범위가 달라진다. `CheckoutService`가 `PaymentStrategy` 계약만 받고 외부 조합 지점이 `CardPaymentStrategy`를 제공하도록 만들 수 있다. 그러면 계좌 이체 추가는 새 전략 구현과 조합 설정에 머물고 기존 체크아웃 흐름은 바뀌지 않는다.
+
+계약 자체가 바뀌면 영향 범위도 달라진다. `pay`에 통화 매개변수를 추가하면 모든 전략과 이를 호출하는 컨텍스트가 영향을 받는다. 환불 기능은 기존 계약에 새 메서드로 넣거나 별도의 `RefundStrategy`로 분리할 수 있다. 별도 계약으로 분리하면 결제만 사용하는 `CheckoutService`는 바뀌지 않는다. 추상화는 **어느 변화가 어디까지 전파되는지 정하는 경계**다.
 
 ## DIP는 원칙이고 DI는 구현 방법이다
 
@@ -118,7 +122,7 @@ final class CheckoutService {
 }
 ```
 
-Spring 컨테이너가 두 클래스를 빈으로 발견하면 `CheckoutService`의 유일한 생성자에 타입이 맞는 `PaymentStrategy` 빈을 전달한다. Spring 공식 문서에 따르면 대상 빈에 생성자가 하나뿐이면 생성자에 `@Autowired`를 붙이지 않아도 되며, 예시에는 `PaymentStrategy` 구현이 하나라 주입 대상도 모호하지 않다. 구현이 여러 개가 되면 어떤 전략을 선택할지 `@Qualifier`, `@Primary`, 설정 클래스 또는 별도 선택 정책으로 명시해야 하며, 그 선택은 전략 패턴 자체와 구분되는 조합 책임이다.
+Spring 컨테이너가 두 클래스를 빈으로 발견하면 `CheckoutService`의 유일한 생성자에 타입이 맞는 `PaymentStrategy` 빈을 전달한다. 대상 빈에 생성자가 하나뿐이면 생성자에 `@Autowired`를 붙이지 않아도 된다. 예시에는 `PaymentStrategy` 구현이 하나라 주입 대상도 모호하지 않다. 구현이 여러 개라면 `@Qualifier`, `@Primary`, 설정 클래스 또는 별도 선택 정책으로 대상을 명시해야 한다. 이 선택은 전략 패턴 자체와 구분되는 조합 책임이다.
 
 테스트에서는 Spring 컨테이너를 띄우지 않고도 생성자에 대역을 넣을 수 있다.
 
@@ -188,6 +192,7 @@ DIP는 원칙이고 DI는 이를 구현하는 메커니즘입니다. DIP는 상�
 - [전략패턴 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=118504)
 - [Q. 전략패턴과 의존성주입의 차이는 무엇인가요? ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120148)
 - [Q. 컨텍스트란 무엇인가요? ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=120149)
+- [Spring Framework Reference — Dependency Injection](https://docs.spring.io/spring-framework/reference/core/beans/dependencies/factory-collaborators.html)
 - [Spring Framework Reference — Using `@Autowired`](https://docs.spring.io/spring-framework/reference/core/beans/annotation-config/autowired.html)
 
 ---
