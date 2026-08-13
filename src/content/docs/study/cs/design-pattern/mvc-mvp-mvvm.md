@@ -12,13 +12,15 @@ sidebar:
   order: 7
 ---
 
+UI 패턴을 비교할 때는 이름보다 View를 누가 갱신하고 상태가 어떻게 전달되는지를 봐야 한다. 이 기준으로 MVC·MVP·MVVM과 서버 측 Spring MVC를 이어 본다.
+
 ## 핵심 요약
 
-MVC, MVP, MVVM은 데이터와 비즈니스 규칙을 화면 표현과 분리하고 사용자 입력을 중간 역할이 조정하게 하는 UI 아키텍처 패턴이다. MVC의 Controller는 입력을 해석해 Model 작업과 다음 표현을 조정하고, MVP의 Presenter는 View 계약을 직접 갱신하며, MVVM의 ViewModel은 View가 바인딩할 상태와 Command를 노출한다. 이름만 바꾼 같은 구현이 아니라 플랫폼의 이벤트 모델과 바인딩 기능에 따라 의존 방향과 테스트 경계가 달라지는 선택지다.
+MVC, MVP, MVVM은 데이터와 비즈니스 규칙을 화면 표현과 분리하는 UI 아키텍처 패턴이다. MVC의 Controller는 입력을 해석해 Model 작업과 다음 표현을 조정한다. MVP의 Presenter는 View 계약을 직접 갱신하고, MVVM의 ViewModel은 View가 바인딩할 상태와 Command 같은 사용자 동작 진입점을 노출한다. 이름만 바꾼 같은 구현이 아니다. 플랫폼의 이벤트 모델과 바인딩 기능에 따라 의존 방향과 테스트 경계가 달라지는 선택지다.
 
 ## 표현 로직을 분리해야 하는 이유
 
-한 화면 객체가 입력 읽기, 유효성 검증, 데이터 저장, 결과 문구 변경까지 모두 맡으면 UI 변경과 정책 변경이 같은 메서드를 흔든다. 웹 화면과 데스크톱 화면이 같은 회원 이름 변경 규칙을 제공하더라도 각 클릭 핸들러가 공백 제거와 빈 값 검사를 복제하면 규칙 수정도 여러 곳에 퍼진다. 표현 계층을 나누는 목적은 파일 수를 늘리는 것이 아니라 **변화의 이유마다 수정 경계를 세우는 것**이다.
+한 화면 객체가 입력 읽기, 유효성 검증, 데이터 저장, 결과 문구 변경까지 모두 맡는다고 해 보자. UI 변경과 정책 변경이 같은 메서드를 흔든다. 웹 화면과 데스크톱 화면의 클릭 핸들러가 같은 이름 검증을 복제하면 규칙 수정도 여러 곳에 퍼진다. 표현 계층을 나누는 목적은 파일 수를 늘리는 것이 아니라 **변화의 이유마다 수정 경계를 세우는 것**이다.
 
 새 요구 사항이 “이름 앞뒤 공백을 제거하고 빈 이름은 저장하지 않으며 오류를 표시한다”라고 해 보자.
 
@@ -27,7 +29,7 @@ MVC, MVP, MVVM은 데이터와 비즈니스 규칙을 화면 표현과 분리하
 | 분리 전 | `ProfileScreen.onSave()`가 위젯 읽기, 검증, 저장, 문구 변경을 한 번에 수행 | 각 화면의 이벤트 핸들러와 저장·표시를 함께 검증하는 테스트를 수정 |
 | MVC 적용 후 | Model이 이름 규칙을 처리하고 Controller가 결과를 조정하며 View가 표시 | `ProfileModel.rename()`의 규칙과 단위 테스트를 수정하고, 기존 성공·실패 표현 계약이 유지되면 Controller와 View는 유지 |
 
-오류 종류별 문구나 새 입력 상태까지 View 계약에 추가해야 한다면 Controller와 View도 바뀐다. MVC는 모든 변경을 한 파일에 가두는 장치가 아니라, 도메인 규칙과 표현 요구 중 무엇이 변했는지에 따라 영향 범위를 예측하게 한다.
+오류 종류별 문구나 새 입력 상태까지 View 계약에 추가해야 한다면 Controller와 View도 바뀐다. 이 경계를 기준으로 도메인 규칙과 표현 요구 가운데 무엇이 변했는지 판단하고 영향 범위를 예측할 수 있다.
 
 ## MVC의 책임과 흐름
 
@@ -81,9 +83,9 @@ final class ProfileController {
 
 ## MVP와 MVVM은 무엇이 다른가
 
-MVP의 Presenter는 보통 View가 제공하는 인터페이스에 의존한다. View는 클릭 같은 이벤트를 Presenter에 전달하고, Presenter는 Model을 호출한 뒤 `showProfile`이나 `showError` 같은 View 메서드로 표시 상태를 명령한다. 이른바 Passive View로 구성하면 Presenter를 실제 UI 없이 가짜 View로 단위 테스트하기 쉽지만, 화면마다 View 계약과 연결 코드가 늘고 Presenter가 화면 세부사항을 많이 알면 강한 결합이 생긴다. View와 Presenter를 일대일로 두는 구현이 흔해도 모든 MVP의 불변 규칙은 아니다.
+MVP의 Presenter는 보통 View가 제공하는 인터페이스에 의존한다. View는 클릭 같은 이벤트를 Presenter에 전달한다. Presenter는 Model을 호출한 뒤 `showProfile`이나 `showError` 같은 View 메서드로 표시 상태를 명령한다. Passive View로 구성하면 Presenter를 실제 UI 없이 가짜 View로 단위 테스트하기 쉽다. 다만 화면마다 View 계약과 연결 코드가 늘고, Presenter가 화면 세부사항을 많이 알면 강한 결합이 생긴다. View와 Presenter를 일대일로 두는 구현이 흔해도 모든 MVP의 불변 규칙은 아니다.
 
-MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 관찰하거나 바인딩할 상태와 사용자 행동을 나타내는 Command를 노출한다. View는 바인딩 엔진이나 명시적인 구독 코드를 통해 ViewModel의 상태를 화면과 동기화한다. ViewModel은 구체 View를 몰라도 테스트할 수 있지만, 비동기 갱신 순서·양방향 바인딩·구독 해제가 복잡해지면 상태 변화의 원인을 추적하기 어렵고 실제 바인딩은 UI 통합 테스트가 필요하다.
+MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 관찰하거나 바인딩할 상태와 Command 같은 사용자 동작 진입점을 노출한다. View는 바인딩 엔진이나 명시적인 구독 코드를 통해 ViewModel의 상태를 화면과 동기화한다. ViewModel은 구체 View를 몰라도 테스트할 수 있지만, 비동기 갱신 순서·양방향 바인딩·구독 해제가 복잡해지면 상태 변화의 원인을 추적하기 어렵고 실제 바인딩은 UI 통합 테스트가 필요하다.
 
 따라서 MVP를 “Controller의 이름만 Presenter로 바꾼 MVC”, MVVM을 “Presenter의 이름만 ViewModel로 바꾼 MVP”로 구현하면 차이를 놓친다. 판단 기준은 중간 객체가 구체 View 계약을 호출하는지, View가 노출된 상태에 바인딩하는지, 상태 동기화를 누가 책임지는지다. Android, WPF, 웹 프레임워크처럼 플랫폼별 수명 주기와 바인딩 기능이 다르므로 같은 패턴 이름도 세부 구현은 달라질 수 있다.
 
@@ -93,7 +95,7 @@ MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 
 | --- | --- | --- | --- | --- |
 | MVC | Controller가 입력을 해석하고 Model 작업과 표현을 조정 | View가 Model을 조회·관찰하거나 Controller가 결과를 전달하는 등 변형이 있음 | Controller 조정 또는 Model 변경 알림 등 구현에 따라 다름 | 규모가 커지면 Model·View·Controller 사이 갱신 경로가 얽히고 Controller가 비대해질 수 있음 |
 | MVP | Presenter가 Model 결과를 View 인터페이스의 메서드로 전달 | Presenter와 View 계약이 직접 연결되며 화면별 일대일 구성이 흔함 | Presenter가 View에 표시 명령을 명시적으로 호출 | View 인터페이스와 연결 코드가 늘고 Presenter가 화면 세부사항에 결합될 수 있음 |
-| MVVM | ViewModel이 화면용 상태와 Command를 제공 | View가 ViewModel을 참조해 상태에 바인딩하고 ViewModel은 구체 View를 모르는 방향을 지향 | 바인딩·관찰 메커니즘이 상태 변화를 전달 | 숨은 바인딩 흐름, 중복 상태, 비동기 갱신 순서와 구독 생명주기 관리가 필요 |
+| MVVM | ViewModel이 화면용 상태와 Command 같은 사용자 동작 진입점을 제공 | View가 ViewModel을 참조해 상태에 바인딩하고 ViewModel은 구체 View를 모르는 방향을 지향 | 바인딩·관찰 메커니즘이 상태 변화를 전달 | 숨은 바인딩 흐름, 중복 상태, 비동기 갱신 순서와 구독 생명주기 관리가 필요 |
 
 테스트하기 쉬운 정도도 패턴 이름만으로 결정되지 않는다. Presenter와 ViewModel은 UI 프레임워크에서 분리하면 빠른 단위 테스트가 가능하지만, 정적 전역 상태나 플랫폼 타입을 내부에 직접 참조하면 다시 격리가 어려워진다. MVC Controller도 얇은 입력 어댑터로 두면 단위 테스트하기 쉽고, URL 매핑·직렬화·템플릿 연결은 프레임워크 통합 테스트로 확인해야 한다.
 
@@ -114,7 +116,7 @@ Spring Web MVC는 Servlet 기반 웹 프레임워크이며 `DispatcherServlet`�
 
 ### REST·`@ResponseBody` 경로
 
-`@ResponseBody` 메서드나 이를 포함하는 `@RestController`가 객체를 반환하면 `RequestMappingHandlerAdapter`의 반환값 처리가 `HttpMessageConverter`를 선택해 JSON 같은 HTTP 응답 본문으로 직렬화한다. 이 경로는 응답이 `HandlerAdapter` 안에서 작성될 수 있으므로 논리적 View 이름도 `ViewResolver`도 필요하지 않다. 따라서 Spring MVC의 모든 Controller가 `ModelAndView`를 반환하거나 서버 렌더링 View를 만든다고 설명하면 REST Controller의 동작을 놓친다.
+`@ResponseBody` 메서드나 이를 포함하는 `@RestController`가 객체를 반환하면 반환값 처리기가 `HttpMessageConverter`를 선택한다. 변환기는 값을 JSON 같은 HTTP 응답 본문으로 직렬화한다. 이 경로에서는 응답이 `HandlerAdapter` 안에서 작성될 수 있으므로 논리적 View 이름과 `ViewResolver`가 필요하지 않다. 따라서 모든 Spring MVC Controller가 `ModelAndView`를 반환하거나 서버 렌더링 View를 만든다고 설명하면 REST Controller의 동작을 놓친다.
 
 ```java
 import org.springframework.stereotype.Controller;
@@ -175,7 +177,7 @@ MVC는 상태와 비즈니스 규칙, 화면 표현, 사용자 입력 조정의 
 
 ### MVP와 MVVM의 핵심 차이는 무엇인가
 
-MVP와 MVVM의 핵심 차이는 중간 역할이 View를 직접 갱신하는지 View가 노출된 상태에 바인딩하는지입니다. Presenter는 View 인터페이스의 메서드를 호출하지만 ViewModel은 상태와 Command를 제공하고 View의 바인딩이 이를 반영합니다. 예를 들어 Presenter는 가짜 View로 단위 테스트하기 쉽고 ViewModel은 상태만 테스트하기 쉽지만 실제 View 계약이나 바인딩 연결은 각각 통합 테스트가 필요합니다.
+MVP와 MVVM의 핵심 차이는 중간 역할이 View를 직접 갱신하는지 View가 노출된 상태에 바인딩하는지입니다. Presenter는 View 인터페이스의 메서드를 호출하지만 ViewModel은 상태와 Command 같은 사용자 동작 진입점을 제공하고 View의 바인딩이 이를 반영합니다. 예를 들어 Presenter는 가짜 View로 단위 테스트하기 쉽고 ViewModel은 상태만 테스트하기 쉽지만 실제 View 계약이나 바인딩 연결은 각각 통합 테스트가 필요합니다.
 
 ### DispatcherServlet은 어떤 역할을 하는가
 

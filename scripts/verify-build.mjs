@@ -28,7 +28,6 @@ const expectedFiles = [
   'blog/tags/engineering/index.html',
   'blog/authors/oxix97/index.html',
   'blog/rss.xml',
-  'study/http-cache-control/index.html',
   'projects/stockwellness/index.html',
   'rss.xml',
   'robots.txt',
@@ -54,6 +53,7 @@ async function assertMissing(relativePath) {
 await assertMissing('retrospectives/index.html');
 await assertMissing('retrospectives/2026-first-half/index.html');
 await assertMissing('projects/developer-hub/index.html');
+await assertMissing('study/http-cache-control/index.html');
 
 const home = await readFile(new URL('index.html', distUrl), 'utf8');
 for (const requiredText of [
