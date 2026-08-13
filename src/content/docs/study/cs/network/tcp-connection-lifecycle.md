@@ -105,4 +105,4 @@ TIME_WAIT은 마지막 ACK가 유실되어 상대가 FIN을 재전송했을 때 
 - [TCP의 연결해제 : 4-웨이 핸드셰이크와TIME_WAIT ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=130876)
 - [RFC 9293: Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293)
 
-이전: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/) · [연재 목록](/study/network/)
+이전: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/) · [연재 목록](/study/network/) · 다음: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/)

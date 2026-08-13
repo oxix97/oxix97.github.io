@@ -18,3 +18,4 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 순서에 따라 �
 4. [TCP/IP 4계층은 데이터를 어떻게 전달하는가](./tcp-ip-layers-and-encapsulation/)
 5. [TCP와 UDP, 그리고 MTU·MSS·PMTUD](./tcp-udp-mtu-mss-pmtud/)
 6. [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](./tcp-connection-lifecycle/)
+7. [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](./routing-and-routing-table/)

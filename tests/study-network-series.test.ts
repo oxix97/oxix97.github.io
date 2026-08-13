@@ -226,6 +226,35 @@ const articles: ArticleContract[] = [
       },
     ],
   },
+  {
+    file: 'routing-and-routing-table.md',
+    title: '라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블',
+    order: 7,
+    publishedAt: '2026-08-13',
+    tags: ['Network', 'Routing', 'Router', 'Backend'],
+    units: [
+      {
+        title: '라우팅 #1. 개념과 라우터 ★★★',
+        unitId: 116653,
+      },
+      {
+        title: '라우팅 #2. 라우팅테이블 ★★★',
+        unitId: 131314,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '라우팅·라우터·라우팅 테이블의 관계',
+      '라우팅 테이블에서 읽어야 할 정보',
+      '가장 긴 프리픽스가 먼저 선택되는 이유',
+      '`ip route` 출력 읽기',
+      '라우팅 테이블을 운영에서 확인하는 순서',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -340,7 +369,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all six articles as exact links in reading order', async () => {
+  it('defines all seven articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
