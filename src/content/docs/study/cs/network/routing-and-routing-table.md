@@ -121,4 +121,4 @@ default via 192.0.2.1 dev eth0 metric 100
 - [RFC 4632: Classless Inter-domain Routing (CIDR)](https://www.rfc-editor.org/rfc/rfc4632)
 - [ip-route(8): Linux routing table management](https://man7.org/linux/man-pages/man8/ip-route.8.html)
 
-이전: [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](/study/network/tcp-connection-lifecycle/) · [연재 목록](/study/network/)
+이전: [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](/study/network/tcp-connection-lifecycle/) · [연재 목록](/study/network/) · 다음: [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](/study/network/ip-mac-arp-rarp/)

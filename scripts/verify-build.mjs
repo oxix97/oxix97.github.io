@@ -24,6 +24,9 @@ const expectedFiles = [
   'study/network/tcp-udp-mtu-mss-pmtud/index.html',
   'study/network/tcp-connection-lifecycle/index.html',
   'study/network/routing-and-routing-table/index.html',
+  'study/network/ip-mac-arp-rarp/index.html',
+  'study/network/ipv4-ipv6-addressing/index.html',
+  'study/network/classful-cidr-subnetting-nat/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -170,6 +173,18 @@ const expectedNetworkLinks = [
   {
     href: './routing-and-routing-table/',
     title: '라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블',
+  },
+  {
+    href: './ip-mac-arp-rarp/',
+    title: 'IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP',
+  },
+  {
+    href: './ipv4-ipv6-addressing/',
+    title: 'IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현',
+  },
+  {
+    href: './classful-cidr-subnetting-nat/',
+    title: '클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법',
   },
 ];
 const networkLinks = [

@@ -15,4 +15,4 @@ sidebar:
 전체 분류는 [CS 학습 영역](/study/cs/)에서 확인할 수 있다.
 
 - [CS 지식의 정석 - 디자인 패턴](/study/design-patterns/): 패턴의 목적과 선택 기준을 싱글톤부터 Flux까지 살펴본다.
-- [CS 지식의 정석 - 네트워크](/study/network/): 성능 지표와 연결 구조에서 시작해 TCP/IP 계층과 TCP 연결 생명주기까지 이어간다.
+- [CS 지식의 정석 - 네트워크](/study/network/): 성능 지표와 연결 구조에서 시작해 TCP/IP 계층, 라우팅, IP 주소 체계와 NAT까지 이어간다.

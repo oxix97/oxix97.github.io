@@ -255,6 +255,92 @@ const articles: ArticleContract[] = [
       '참고 자료',
     ],
   },
+  {
+    file: 'ip-mac-arp-rarp.md',
+    title: 'IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP',
+    order: 8,
+    publishedAt: '2026-08-13',
+    tags: ['Network', 'IP', 'MAC', 'ARP'],
+    units: [
+      {
+        title: 'IP주소, MAC주소, ARP, RARP ★★★',
+        unitId: 116068,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'IP 주소와 MAC 주소가 모두 필요한 이유',
+      'ARP가 같은 링크의 MAC 주소를 찾는 과정',
+      '원격 서버로 보낼 때 ARP가 찾는 주소',
+      'RARP는 ARP의 일반적인 역함수가 아니다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
+    file: 'ipv4-ipv6-addressing.md',
+    title: 'IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현',
+    order: 9,
+    publishedAt: '2026-08-13',
+    tags: ['Network', 'IPv4', 'IPv6', 'Addressing'],
+    units: [
+      {
+        title: 'IP주소체계 #1: 이진수 이해하기 ★★★',
+        unitId: 121628,
+      },
+      {
+        title: 'IP주소체계 #2: IPv4와 IPv6 ★★★',
+        unitId: 131650,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '이진수의 자릿값으로 IP 주소 읽기',
+      'IPv4는 32비트를 네 옥텟으로 나눈다',
+      'IPv6는 128비트를 16진수로 표현한다',
+      'IPv4와 IPv6의 프로토콜 차이',
+      'IPv6와 IPsec을 구분해야 하는 이유',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
+    file: 'classful-cidr-subnetting-nat.md',
+    title: '클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법',
+    order: 10,
+    publishedAt: '2026-08-13',
+    tags: ['Network', 'CIDR', 'Subnetting', 'NAT'],
+    units: [
+      {
+        title: 'IP주소체계 #3. 클래스풀(Classful IP Addressing) ★★★',
+        unitId: 131651,
+      },
+      {
+        title: 'IP주소체계 #4. 클래스리스와 서브넷마스크, 서브네팅 ★★★',
+        unitId: 131652,
+      },
+      {
+        title: 'IP주소체계 #5. 공인IP(public IP)와 사설IP(private IP)와 NAT ★★★',
+        unitId: 131653,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '클래스풀 주소 체계가 주소를 낭비한 이유',
+      'CIDR과 서브네팅은 같은 말이 아니다',
+      '`192.168.1.130/26` 계산하기',
+      '사설 주소는 여러 네트워크에서 재사용한다',
+      'Basic NAT와 NAPT의 차이',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -369,7 +455,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all seven articles as exact links in reading order', async () => {
+  it('defines all ten articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');

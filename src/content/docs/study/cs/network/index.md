@@ -7,8 +7,8 @@ sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 7편으로 정리했다.
-성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, TCP 연결 생명주기와 라우팅으로 이어진다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 10편으로 정리했다.
+성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, TCP 연결 생명주기, 라우팅과 IP 주소 체계로 이어진다.
 각 글에서는 개념의 차이와 적용 범위를 구분하고, 장애·성능 판단에 필요한 기준을 함께 살핀다.
 
 ## 읽는 순서
@@ -20,5 +20,8 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 7�
 5. [TCP와 UDP, 그리고 MTU·MSS·PMTUD](./tcp-udp-mtu-mss-pmtud/)
 6. [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](./tcp-connection-lifecycle/)
 7. [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](./routing-and-routing-table/)
+8. [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](./ip-mac-arp-rarp/)
+9. [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](./ipv4-ipv6-addressing/)
+10. [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](./classful-cidr-subnetting-nat/)
 
 [CS 학습 영역으로 돌아가기](/study/cs/)
