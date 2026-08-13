@@ -7,8 +7,9 @@ sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 순서에 따라 다시 정리합니다.
-각 글은 개념의 차이, 장애·성능 판단 기준, 기술면접 질문을 중심으로 다룹니다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 6편으로 정리했다.
+성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, TCP 연결 생명주기로 이어진다.
+각 글에서는 개념의 차이와 적용 범위를 구분하고, 장애·성능 판단에 필요한 기준을 함께 살핀다.
 
 ## 읽는 순서
 
@@ -18,3 +19,5 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 순서에 따라 �
 4. [TCP/IP 4계층은 데이터를 어떻게 전달하는가](./tcp-ip-layers-and-encapsulation/)
 5. [TCP와 UDP, 그리고 MTU·MSS·PMTUD](./tcp-udp-mtu-mss-pmtud/)
 6. [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](./tcp-connection-lifecycle/)
+
+[CS 학습 영역으로 돌아가기](/study/cs/)
