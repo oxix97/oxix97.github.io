@@ -23,6 +23,7 @@ const expectedFiles = [
   'study/network/tcp-ip-layers-and-encapsulation/index.html',
   'study/network/tcp-udp-mtu-mss-pmtud/index.html',
   'study/network/tcp-connection-lifecycle/index.html',
+  'study/network/routing-and-routing-table/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -165,6 +166,10 @@ const expectedNetworkLinks = [
   {
     href: './tcp-connection-lifecycle/',
     title: 'TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지',
+  },
+  {
+    href: './routing-and-routing-table/',
+    title: '라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블',
   },
 ];
 const networkLinks = [

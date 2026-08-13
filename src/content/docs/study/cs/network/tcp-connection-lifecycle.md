@@ -121,4 +121,4 @@ TIME_WAIT은 마지막 ACK가 유실되어 상대가 FIN을 재전송했을 때 
 - [RFC 2018: TCP Selective Acknowledgment Options](https://www.rfc-editor.org/rfc/rfc2018)
 - [RFC 6528: Defending against Sequence Number Attacks](https://www.rfc-editor.org/rfc/rfc6528)
 
-이전: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/) · [연재 목록](/study/network/)
+이전: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/) · [연재 목록](/study/network/) · 다음: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/)
