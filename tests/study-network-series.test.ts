@@ -9,6 +9,7 @@ type FrontmatterValue =
   | Record<string, boolean | number | string | string[]>;
 
 type ImageContract = {
+  directory?: string;
   file: string;
 };
 
@@ -341,6 +342,81 @@ const articles: ArticleContract[] = [
       '참고 자료',
     ],
   },
+  {
+    file: 'http-headers-and-versions.md',
+    title: 'HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지',
+    order: 11,
+    publishedAt: '2026-08-14',
+    tags: ['Network', 'HTTP', 'HTTP2', 'HTTP3'],
+    units: [
+      { title: 'HTTP 헤더(header) ★★★', unitId: 141046 },
+      {
+        title:
+          'DEEP DIVE : HTTP/1.0과 HTTP/1.1의 차이와 keep-alive, HOL까지 ★★★',
+        unitId: 116070,
+      },
+      {
+        title: 'DEEP DIVE : HTTP/2와 HTTP/3의 차이 ★★★',
+        unitId: 121644,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'HTTP/1.1 메시지는 어떻게 생겼는가',
+      'DevTools의 `General`은 HTTP 헤더 묶음이 아니다',
+      'HTTP/1.0에서 HTTP/1.1로 바뀐 연결 방식',
+      'HTTP/2는 하나의 TCP 연결을 여러 스트림으로 나눈다',
+      'HTTP/3는 QUIC 스트림 위에서 HTTP를 전달한다',
+      'HTTP/1.1·2·3 비교',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        directory: 'http',
+        file: 'http-version-streams.svg',
+      },
+    ],
+  },
+  {
+    file: 'https-tls-1-3-handshake.md',
+    title: 'HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크',
+    order: 12,
+    publishedAt: '2026-08-14',
+    tags: ['Network', 'HTTPS', 'TLS', 'Security'],
+    units: [
+      {
+        title: 'DEEP DIVE : HTTPS와 TLS #1. 암호화  ★★☆',
+        unitId: 116071,
+      },
+      {
+        title: 'DEEP DIVE : HTTPS와 TLS #2. TLS 핸드셰이크 ★★☆',
+        unitId: 129789,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'HTTPS에서 암호 기술이 맡는 역할',
+      'TLS 1.3 핸드셰이크가 확인하는 것',
+      '인증서 검증과 서버 인증',
+      'ECDHE와 HKDF로 트래픽 키를 만드는 과정',
+      'TLS 1.3 cipher suite를 읽는 방법',
+      '정적 RSA 키 교환과 ECDHE의 차이',
+      '0-RTT는 무엇을 줄이고 무엇을 포기하는가',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        directory: 'http',
+        file: 'tls-1-3-handshake.svg',
+      },
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -455,7 +531,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all ten articles as exact links in reading order', async () => {
+  it('defines all twelve articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
@@ -507,7 +583,7 @@ describe('network Study series', () => {
     for (const article of articles) {
       const markdown = await readStudyFile(`cs/network/${article.file}`);
       for (const diagram of article.images ?? []) {
-        const assetPath = `images/study/network/tcp/${diagram.file}`;
+        const assetPath = `images/study/network/${diagram.directory ?? 'tcp'}/${diagram.file}`;
         const svg = await readPublicFile(assetPath);
         expect(svg, diagram.file).toMatch(/^<svg[\s>]/);
         expect(svg, diagram.file).toContain('<title');
@@ -537,6 +613,30 @@ describe('network Study series', () => {
     expect(section).toMatch(
       /Kafka 소비자 그룹의 (?:메시지 )?분배는 네트워크 계층의 IP 멀티캐스트와 (?:같지 않|다르)/,
     );
+  });
+
+  it('keeps the HTTP HOL boundary aligned with each transport', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/http-headers-and-versions.md',
+    );
+
+    expect(markdown).toMatch(
+      /HTTP\/2가 줄인 것은 HTTP 요청·응답 사이의 애플리케이션 계층 HOL이며, TCP 바이트 스트림의 HOL은 남는다/,
+    );
+    expect(markdown).toMatch(
+      /같은 QUIC 스트림 안의 순서 대기도 사라지지 않는다/,
+    );
+  });
+
+  it('keeps TLS key agreement, authentication, and 0-RTT risks separate', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/https-tls-1-3-handshake.md',
+    );
+
+    expect(markdown).toMatch(/ECDHE 공유 비밀/);
+    expect(markdown).toMatch(/CertificateVerify/);
+    expect(markdown).toMatch(/HKDF로 여러 트래픽 키를 파생/);
+    expect(markdown).toMatch(/0-RTT[\s\S]*replay/);
   });
 
   for (const article of articles) {

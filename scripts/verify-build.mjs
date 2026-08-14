@@ -27,6 +27,8 @@ const expectedFiles = [
   'study/network/ip-mac-arp-rarp/index.html',
   'study/network/ipv4-ipv6-addressing/index.html',
   'study/network/classful-cidr-subnetting-nat/index.html',
+  'study/network/http-headers-and-versions/index.html',
+  'study/network/https-tls-1-3-handshake/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -185,6 +187,14 @@ const expectedNetworkLinks = [
   {
     href: './classful-cidr-subnetting-nat/',
     title: '클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법',
+  },
+  {
+    href: './http-headers-and-versions/',
+    title: 'HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지',
+  },
+  {
+    href: './https-tls-1-3-handshake/',
+    title: 'HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크',
   },
 ];
 const networkLinks = [

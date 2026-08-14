@@ -155,4 +155,4 @@ Basic NAT는 IP 주소를 다른 IP 주소로 변환하고, NAPT는 IP 주소와
 - [RFC 1918: Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918)
 - [RFC 3022: Traditional IP Network Address Translator](https://datatracker.ietf.org/doc/html/rfc3022)
 
-이전: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/) · [연재 목록](/study/network/)
+이전: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/) · [연재 목록](/study/network/) · 다음: [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](/study/network/http-headers-and-versions/)

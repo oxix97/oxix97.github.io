@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 940" role="img" aria-labelledby="http-version-streams-title http-version-streams-desc">
+  <title id="http-version-streams-title">HTTP/1.1, HTTP/2, HTTP/3의 요청 스트림 비교</title>
+  <desc id="http-version-streams-desc">HTTP/1.1은 한 연결에서 응답 순서를 유지하고, HTTP/2는 여러 HTTP 스트림을 하나의 TCP 연결에 다중화하며, HTTP/3는 QUIC이 독립적인 스트림을 제공하는 차이를 세 줄로 비교한다.</desc>
+  <style>
+    .bg{fill:#f8fafc}.ink{fill:#0f172a}.muted{fill:#475569}.panel{fill:#fff;stroke:#cbd5e1;stroke-width:3}.blue{fill:#1d4ed8}.violet{fill:#6d28d9}.green{fill:#047857}.amber{fill:#b45309}.red{fill:#b91c1c}.track{fill:#e2e8f0}.line{fill:none;stroke:#334155;stroke-width:5}.dash{fill:none;stroke:#64748b;stroke-width:4;stroke-dasharray:12 10}text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.title{font-size:48px;font-weight:800}.version{font-size:38px;font-weight:800}.label{font-size:30px;font-weight:750}.small{font-size:25px;font-weight:650}
+  </style>
+  <rect class="bg" width="1200" height="940" rx="28"/>
+  <text class="ink title" x="55" y="70">HTTP 버전별 요청과 손실의 영향 범위</text>
+
+  <rect class="panel" x="45" y="105" width="1110" height="235" rx="24"/>
+  <text class="blue version" x="80" y="160">HTTP/1.1</text>
+  <text class="muted small" x="300" y="160">지속 TCP 연결, 응답 순서 유지</text>
+  <rect class="track" x="80" y="190" width="1040" height="62" rx="16"/>
+  <rect class="blue" x="105" y="202" width="250" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="230" y="230" text-anchor="middle">응답 A 처리 중</text>
+  <rect class="amber" x="380" y="202" width="250" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="505" y="230" text-anchor="middle">응답 B 준비 완료</text>
+  <path class="line" d="M650 221h170" marker-end="url(#arrow)"/>
+  <text class="red small" x="735" y="287" text-anchor="middle">A가 끝날 때까지 B 전송 대기</text>
+  <rect class="green" x="845" y="202" width="250" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="970" y="230" text-anchor="middle">응답 B 전송</text>
+
+  <rect class="panel" x="45" y="365" width="1110" height="250" rx="24"/>
+  <text class="violet version" x="80" y="420">HTTP/2</text>
+  <text class="muted small" x="300" y="420">하나의 TCP 바이트 스트림에 HTTP 프레임 다중화</text>
+  <rect class="track" x="80" y="450" width="1040" height="62" rx="16"/>
+  <rect class="blue" x="105" y="462" width="155" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="182" y="490" text-anchor="middle">A1</text>
+  <rect class="green" x="275" y="462" width="155" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="352" y="490" text-anchor="middle">B1</text>
+  <rect class="blue" x="445" y="462" width="155" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="522" y="490" text-anchor="middle">A2</text>
+  <rect class="red" x="615" y="462" width="155" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="692" y="490" text-anchor="middle">TCP 손실</text>
+  <rect class="green" x="785" y="462" width="155" height="38" rx="10"/>
+  <text fill="#fff" class="small" x="862" y="490" text-anchor="middle">B2</text>
+  <path class="dash" d="M692 515v45H1030"/>
+  <text class="red label" x="600" y="580" text-anchor="middle">손실 구간이 복구될 때까지 같은 TCP 연결의 스트림 A와 B가 대기</text>
+
+  <rect class="panel" x="45" y="640" width="1110" height="255" rx="24"/>
+  <text class="green version" x="80" y="695">HTTP/3</text>
+  <text class="muted small" x="300" y="695">QUIC이 스트림별 순서와 손실 복구 경계 제공</text>
+  <text class="blue label" x="110" y="755">스트림 A</text>
+  <rect class="track" x="290" y="722" width="800" height="52" rx="14"/>
+  <rect class="blue" x="315" y="731" width="180" height="34" rx="9"/>
+  <text fill="#fff" class="small" x="405" y="756" text-anchor="middle">A1</text>
+  <rect class="red" x="515" y="731" width="180" height="34" rx="9"/>
+  <text fill="#fff" class="small" x="605" y="756" text-anchor="middle">A2 손실</text>
+  <text class="red small" x="815" y="756" text-anchor="middle">A만 복구 대기</text>
+  <text class="green label" x="110" y="835">스트림 B</text>
+  <rect class="track" x="290" y="802" width="800" height="52" rx="14"/>
+  <rect class="green" x="315" y="811" width="250" height="34" rx="9"/>
+  <text fill="#fff" class="small" x="440" y="836" text-anchor="middle">B1 전달</text>
+  <rect class="green" x="590" y="811" width="250" height="34" rx="9"/>
+  <text fill="#fff" class="small" x="715" y="836" text-anchor="middle">B2 계속 전달</text>
+  <path class="line" d="M855 828h190" marker-end="url(#arrow)"/>
+
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="9" refY="4" orient="auto"><path d="M0,0 L0,8 L10,4 z" fill="#334155"/></marker>
+  </defs>
+</svg>

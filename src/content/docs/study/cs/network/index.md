@@ -7,8 +7,8 @@ sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 10편으로 정리했다.
-성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, TCP 연결 생명주기, 라우팅과 IP 주소 체계로 이어진다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 12편으로 정리했다.
+성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, 라우팅과 IP 주소 체계, HTTP와 TLS로 이어진다.
 각 글에서는 개념의 차이와 적용 범위를 구분하고, 장애·성능 판단에 필요한 기준을 함께 살핀다.
 
 ## 읽는 순서
@@ -23,5 +23,7 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 10
 8. [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](./ip-mac-arp-rarp/)
 9. [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](./ipv4-ipv6-addressing/)
 10. [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](./classful-cidr-subnetting-nat/)
+11. [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](./http-headers-and-versions/)
+12. [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](./https-tls-1-3-handshake/)
 
 [CS 학습 영역으로 돌아가기](/study/cs/)
