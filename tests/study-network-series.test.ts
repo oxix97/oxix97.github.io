@@ -417,6 +417,53 @@ const articles: ArticleContract[] = [
       },
     ],
   },
+  {
+    file: 'browser-storage-and-cookies.md',
+    title:
+      '브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교',
+    order: 13,
+    publishedAt: '2026-08-25',
+    tags: ['Network', 'WebStorage', 'Cookie', 'Browser'],
+    units: [
+      {
+        title: '웹브라우저의 캐시 #1. 로컬스토리지의 개념과 실습 ★★★',
+        unitId: 120258,
+      },
+      {
+        title: '웹브라우저의 캐시 #2. 로컬스토리지와 오리진(origin) ★★★',
+        unitId: 140056,
+      },
+      {
+        title: '웹브라우저의 캐시 #3. 로컬스토리지의 활용사례 : 캐싱 ★★★',
+        unitId: 120257,
+      },
+      {
+        title: '웹브라우저의 캐시 #4. 세션스토리지 ★★★',
+        unitId: 116075,
+      },
+      {
+        title: '웹브라우저의 캐시 #5. 쿠키(Cookie) ★★★',
+        unitId: 140423,
+      },
+      {
+        title:
+          '웹브라우저의 캐시 #6. 로컬스토리지, 세션스토리지, 쿠키의 공통점과 차이점 ★★★',
+        unitId: 140839,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      '브라우저에 저장된다고 모두 HTTP 캐시는 아니다',
+      '로컬스토리지는 오리진별로 오래 남는 문자열 저장소다',
+      '세션스토리지는 탭의 작업 흐름을 분리한다',
+      '쿠키는 요청에 실려 서버로 돌아가는 상태다',
+      '세 저장소의 선택 기준',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -531,7 +578,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all twelve articles as exact links in reading order', async () => {
+  it('defines all thirteen articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');

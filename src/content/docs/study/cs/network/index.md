@@ -7,8 +7,8 @@ sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 12편으로 정리했다.
-성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, 라우팅과 IP 주소 체계, HTTP와 TLS로 이어진다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 13편으로 정리했다.
+성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, 라우팅과 IP 주소 체계, HTTP와 TLS, 브라우저 저장소로 이어진다.
 각 글에서는 개념의 차이와 적용 범위를 구분하고, 장애·성능 판단에 필요한 기준을 함께 살핀다.
 
 ## 읽는 순서
@@ -25,5 +25,6 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 12
 10. [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](./classful-cidr-subnetting-nat/)
 11. [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](./http-headers-and-versions/)
 12. [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](./https-tls-1-3-handshake/)
+13. [브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교](./browser-storage-and-cookies/)
 
 [CS 학습 영역으로 돌아가기](/study/cs/)

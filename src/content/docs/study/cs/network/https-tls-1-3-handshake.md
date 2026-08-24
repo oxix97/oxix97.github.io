@@ -153,4 +153,4 @@ ECDHE는 클라이언트와 서버가 임시 공개값을 교환해 네트워크
 - [RFC 5280: Internet X.509 Public Key Infrastructure Certificate and CRL Profile](https://www.rfc-editor.org/rfc/rfc5280)
 - [RFC 9525: Service Identity in TLS](https://www.rfc-editor.org/rfc/rfc9525)
 
-이전: [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](/study/network/http-headers-and-versions/) · [연재 목록](/study/network/)
+이전: [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](/study/network/http-headers-and-versions/) · [연재 목록](/study/network/) · 다음: [브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교](/study/network/browser-storage-and-cookies/)

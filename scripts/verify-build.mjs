@@ -29,6 +29,7 @@ const expectedFiles = [
   'study/network/classful-cidr-subnetting-nat/index.html',
   'study/network/http-headers-and-versions/index.html',
   'study/network/https-tls-1-3-handshake/index.html',
+  'study/network/browser-storage-and-cookies/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -195,6 +196,11 @@ const expectedNetworkLinks = [
   {
     href: './https-tls-1-3-handshake/',
     title: 'HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크',
+  },
+  {
+    href: './browser-storage-and-cookies/',
+    title:
+      '브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교',
   },
 ];
 const networkLinks = [
