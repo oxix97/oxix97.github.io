@@ -464,6 +464,49 @@ const articles: ArticleContract[] = [
       '참고 자료',
     ],
   },
+  {
+    file: 'session-vs-token-authentication.md',
+    title: '로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교',
+    order: 14,
+    publishedAt: '2026-08-25',
+    tags: ['Network', 'Authentication', 'Session', 'JWT'],
+    units: [
+      {
+        title: '로그인 #1. 세션기반인증방식 : 개념 ★★★',
+        unitId: 116072,
+      },
+      {
+        title: '로그인 #2. 세션기반인증방식 : 실습 ★★★',
+        unitId: 116076,
+      },
+      {
+        title: '로그인 #3. 토큰기반인증방식(access토큰, refresh토큰) 개념 ★★★',
+        unitId: 141252,
+      },
+      {
+        title: '로그인 #4. 토큰기반인증방식(access토큰, refresh토큰) 실습 ★★★',
+        unitId: 141253,
+      },
+    ],
+    sections: [
+      '핵심 요약',
+      'HTTP가 요청 사이의 로그인 상태를 기억하지 않는 이유',
+      '세션 기반 인증은 서버가 상태를 보관한다',
+      'JWT 기반 Access Token은 클라이언트가 증표를 보낸다',
+      'Access Token과 Refresh Token을 나누는 이유',
+      '세션과 토큰의 인증 흐름 비교',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      {
+        directory: 'http',
+        file: 'session-token-auth-flow.svg',
+      },
+    ],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -578,7 +621,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all thirteen articles as exact links in reading order', async () => {
+  it('defines all fourteen articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
@@ -684,6 +727,17 @@ describe('network Study series', () => {
     expect(markdown).toMatch(/CertificateVerify/);
     expect(markdown).toMatch(/HKDF로 여러 트래픽 키를 파생/);
     expect(markdown).toMatch(/0-RTT[\s\S]*replay/);
+  });
+
+  it('keeps session state, JWT visibility, and refresh token state separate', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/session-vs-token-authentication.md',
+    );
+
+    expect(markdown).toMatch(/서버가 로그인 상태를 저장하고 세션 ID로 찾는다/);
+    expect(markdown).toMatch(/Base64url 인코딩은 암호화가 아니다/);
+    expect(markdown).toMatch(/Access Token이 항상 JWT인 것은 아니다/);
+    expect(markdown).toMatch(/회전 관계와 폐기 상태[\s\S]*정보를 보관/);
   });
 
   for (const article of articles) {

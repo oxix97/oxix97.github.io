@@ -30,6 +30,7 @@ const expectedFiles = [
   'study/network/http-headers-and-versions/index.html',
   'study/network/https-tls-1-3-handshake/index.html',
   'study/network/browser-storage-and-cookies/index.html',
+  'study/network/session-vs-token-authentication/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -201,6 +202,10 @@ const expectedNetworkLinks = [
     href: './browser-storage-and-cookies/',
     title:
       '브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교',
+  },
+  {
+    href: './session-vs-token-authentication/',
+    title: '로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교',
   },
 ];
 const networkLinks = [

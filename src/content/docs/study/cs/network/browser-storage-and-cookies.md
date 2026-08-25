@@ -173,4 +173,4 @@ Web Storage는 애플리케이션이 문자열 키와 값을 직접 읽고 쓰�
 - [RFC 10025: Cookies: HTTP State Management Mechanism](https://www.rfc-editor.org/info/rfc10025)
 - [RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111)
 
-이전: [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](/study/network/https-tls-1-3-handshake/) · [연재 목록](/study/network/)
+이전: [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](/study/network/https-tls-1-3-handshake/) · [연재 목록](/study/network/) · 다음: [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](/study/network/session-vs-token-authentication/)
