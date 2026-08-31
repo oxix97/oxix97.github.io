@@ -47,7 +47,20 @@ export default defineConfig({
       ],
       sidebar: [
         { label: 'Home', link: '/' },
-        { label: 'Study', items: [{ autogenerate: { directory: 'study' } }] },
+        {
+          label: 'Study',
+          items: [
+            { slug: 'study' },
+            {
+              label: 'CS',
+              items: [{ autogenerate: { directory: 'study/cs' } }],
+            },
+            {
+              label: 'Spring',
+              items: [{ autogenerate: { directory: 'study/spring' } }],
+            },
+          ],
+        },
         {
           label: 'Troubleshooting',
           items: [{ autogenerate: { directory: 'troubleshooting' } }],
