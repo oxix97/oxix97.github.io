@@ -1,5 +1,5 @@
 ---
-title: About
+title: 소개
 description: 문제를 구조화하고 운영 가능한 해법을 만드는 백엔드 개발자 oxix97를 소개합니다.
 contentType: page
 sidebar:
@@ -23,10 +23,10 @@ sidebar:
 - 장애 격리, 재처리, 관측 가능성
 - 자동화된 테스트와 배포 파이프라인
 
-대표 작업은 [Projects](/projects/)에서, 학습 과정은 [Study](/study/)에서 볼 수
+대표 작업은 [프로젝트](/projects/)에서, 학습 과정은 [학습](/study/)에서 볼 수
 있습니다.
 
-## Links
+## 링크
 
 - [GitHub](https://github.com/oxix97)
 - [이력서 PDF](/resume.pdf)

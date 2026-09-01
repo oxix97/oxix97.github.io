@@ -9,7 +9,7 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     starlight({
-      title: "oxix97's Dev Log",
+      title: 'oxix97의 개발 기록',
       description: '문제 해결 과정과 기술적 판단을 기록하는 백엔드 개발자 포트폴리오',
       disable404Route: true,
       locales: {
@@ -24,7 +24,7 @@ export default defineConfig({
           authors: {
             oxix97: {
               name: 'oxix97',
-              title: 'Backend Developer',
+              title: '백엔드 개발자',
               url: 'https://github.com/oxix97',
             },
           },
@@ -46,9 +46,9 @@ export default defineConfig({
         { icon: 'github', label: 'GitHub', href: 'https://github.com/oxix97' },
       ],
       sidebar: [
-        { label: 'Home', link: '/' },
+        { label: '홈', link: '/' },
         {
-          label: 'Study',
+          label: '학습',
           items: [
             { slug: 'study' },
             {
@@ -79,9 +79,9 @@ export default defineConfig({
             },
           ],
         },
-        { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
-        { label: 'Blog', link: '/blog/' },
-        { label: 'About', link: '/about/' },
+        { label: '프로젝트', items: [{ autogenerate: { directory: 'projects' } }] },
+        { label: '블로그', link: '/blog/' },
+        { label: '소개', link: '/about/' },
       ],
     }),
   ],

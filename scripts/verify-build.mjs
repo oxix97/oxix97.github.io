@@ -69,7 +69,7 @@ for (const requiredText of [
   'lang="ko"',
   '기록으로 성장하는 백엔드 개발자',
   '대표 프로젝트',
-  'Study에서 지식을, 면접 질문에서 복습할 질문을, Blog에서 시간순 기록을',
+  '학습에서 지식을, 면접 질문에서 복습할 질문을, 블로그에서 시간순 기록을',
   '/projects/stockwellness/',
   '/blog/',
   '개발 블로그',

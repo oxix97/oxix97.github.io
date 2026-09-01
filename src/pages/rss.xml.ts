@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
   );
 
   return rss({
-    title: `${SITE.title} Blog`,
+    title: `${SITE.title} 블로그`,
     description: SITE.description,
     site: context.site ?? SITE.url,
     items: entries.flatMap((entry) => {

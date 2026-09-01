@@ -1,5 +1,5 @@
 ---
-title: Study
+title: 학습
 description: 다시 설명할 수 있을 때까지 학습한 개념을 구조화합니다.
 contentType: page
 sidebar:
