@@ -49,6 +49,7 @@ jobs:
           node-version: 24
           package-manager: pnpm@11.21.0
           build-cmd: pnpm run build
+          cache: false
 
   deploy:
     name: Deploy Pages artifact
