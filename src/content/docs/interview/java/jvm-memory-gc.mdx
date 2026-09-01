@@ -1,0 +1,334 @@
+---
+title: "JVM / Memory / GC"
+description: JVM 메모리 구조와 GC, 클래스 로딩을 면접 질문과 답변으로 정리합니다.
+slug: interview/java/jvm-memory-gc
+contentType: page
+sidebar:
+  order: 7
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>71. JVM의 메모리 구조를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+대표적으로 Heap, JVM Stack, Method Area에 대응하는 Metaspace, PC Register, Native Method Stack 등이 있습니다.
+
+Heap에는 주로 객체와 배열이 저장되고 여러 스레드가 공유합니다.
+
+각 Thread마다 별도의 JVM Stack이 존재하며 메서드 호출마다 Stack Frame이 생성됩니다.
+
+클래스 메타데이터는 Java 8 이후 HotSpot 기준 Metaspace에 저장됩니다.
+
+이 구조를 이해하면 OOM이나 StackOverflow 같은 문제를 분석하는 데 도움이 됩니다.
+
+### 예상 꼬리질문
+
+* Heap은 모든 스레드가 공유하나요?
+* Metaspace는 Heap에 있나요?
+* Stack Frame에는 어떤 데이터가 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>72. Heap과 Stack의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Heap은 객체와 배열 등이 저장되는 공유 메모리 영역이며 Garbage Collection의 주요 대상입니다.
+
+Stack은 각 Thread마다 독립적으로 존재하며 메서드 호출마다 Stack Frame이 생성됩니다.
+
+Stack Frame에는 지역 변수, operand stack, 메서드 반환 정보 등이 포함됩니다.
+
+Heap은 GC 관리 비용이 있지만 객체 생명주기가 자유로운 반면 Stack은 메서드 호출이 끝나면 frame 단위로 빠르게 정리됩니다.
+
+### 예상 꼬리질문
+
+* 지역 변수 객체는 Stack에 저장되나요?
+* Escape Analysis가 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>73. Stack에는 어떤 데이터가 저장되나요?</summary>
+
+
+### 면접 답변
+
+각 Thread의 JVM Stack에는 메서드 호출마다 Stack Frame이 만들어집니다.
+
+Frame에는 지역 변수 배열, Operand Stack, 반환 정보 등이 포함됩니다.
+
+참조형 지역 변수가 있는 경우 일반적으로 Stack에는 객체 자체가 아니라 객체를 가리키는 참조 값이 저장됩니다.
+
+메서드 호출이 끝나면 해당 Stack Frame도 제거됩니다.
+
+### 예상 꼬리질문
+
+* 재귀 호출이 너무 깊으면 왜 StackOverflow가 발생하나요?
+* Stack 크기를 조절할 수 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>74. Heap에는 어떤 데이터가 저장되나요?</summary>
+
+
+### 면접 답변
+
+일반적으로 Java에서 생성한 객체와 배열이 Heap에 저장됩니다.
+
+Heap은 여러 Thread가 공유하며 Garbage Collector가 더 이상 접근할 수 없는 객체를 찾아 회수합니다.
+
+많은 GC에서는 객체의 생존 기간을 활용하기 위해 Young과 Old 영역 같은 세대별 구조를 사용합니다.
+
+다만 실제 객체 배치 방식은 JVM과 GC 구현 최적화에 따라 달라질 수 있습니다.
+
+### 예상 꼬리질문
+
+* 모든 객체가 반드시 Heap에 생성되나요?
+* Escape Analysis가 GC에 어떤 영향을 미치나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>75. Metaspace란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Metaspace는 Java 8부터 HotSpot JVM에서 클래스 메타데이터를 저장하기 위해 사용하는 영역입니다.
+
+이전에는 PermGen이 사용됐지만 Metaspace는 주로 Native Memory를 사용하도록 변경되었습니다.
+
+클래스가 과도하게 동적으로 로딩되고 해제되지 않으면 Metaspace도 부족해져 `OutOfMemoryError: Metaspace`가 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* PermGen과 차이는 무엇인가요?
+* ClassLoader Leak이 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>76. Garbage Collection이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Garbage Collection은 개발자가 직접 메모리를 해제하지 않아도 JVM이 더 이상 사용하지 않는 객체를 찾아 메모리를 회수하는 기능입니다.
+
+GC는 단순 Reference Count 방식이 아니라 일반적으로 GC Root에서 객체로 도달 가능한지를 분석합니다.
+
+GC 덕분에 수동 메모리 관리 오류를 줄일 수 있지만, 객체 할당량이나 Heap 설정이 잘못되면 GC Pause나 처리량 저하가 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* GC가 있어도 Memory Leak이 발생할 수 있나요?
+* GC 종류에는 어떤 것들이 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>77. GC 대상 객체는 어떻게 판단하나요?</summary>
+
+
+### 면접 답변
+
+일반적으로 GC Root에서 해당 객체까지 참조 경로가 존재하는지를 기준으로 판단합니다.
+
+GC Root에서 도달할 수 있는 객체는 살아 있는 객체로 보고, 어떤 Root에서도 도달할 수 없는 객체는 Garbage로 판단할 수 있습니다.
+
+GC Root에는 실행 중인 Thread의 Stack 참조나 static 필드, JNI 참조 등이 포함될 수 있습니다.
+
+이 방식을 Reachability Analysis라고 합니다.
+
+### 예상 꼬리질문
+
+* Reference Counting 방식의 문제점은 무엇인가요?
+* 순환 참조도 GC가 처리할 수 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>78. Reachability Analysis란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+GC Root라는 시작점에서 참조 그래프를 따라가며 객체가 도달 가능한지를 판단하는 방식입니다.
+
+Root에서 도달 가능하다면 사용 중인 객체로 보고, 도달할 수 없다면 GC 대상으로 볼 수 있습니다.
+
+이 방식은 단순 Reference Count와 달리 서로 참조만 하고 외부에서는 접근할 수 없는 순환 참조 객체도 정상적으로 제거할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 어떤 객체들이 GC Root가 되나요?
+* WeakReference는 Reachability와 어떤 관계가 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>79. Minor GC와 Major/Full GC의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+전통적인 세대별 GC 용어에서는 Young Generation을 대상으로 수행되는 GC를 Minor GC 또는 Young GC라고 부릅니다.
+
+Old Generation까지 포함하는 수집을 Major GC라고 표현하기도 하고 전체 Heap이나 JVM 영역을 크게 정리하는 작업을 Full GC라고 부르기도 합니다.
+
+다만 이 용어의 정확한 의미는 사용하는 Collector마다 차이가 있기 때문에 실제 운영에서는 G1, ZGC 등의 GC 로그를 기준으로 판단하는 것이 정확합니다.
+
+일반적으로 큰 범위를 수집하는 GC일수록 Pause 영향이 커질 가능성이 있습니다.
+
+### 예상 꼬리질문
+
+* Full GC가 자주 발생하면 어떻게 분석하겠습니까?
+* G1 GC는 어떻게 동작하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>80. Young Generation과 Old Generation 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Generational GC에서는 대부분 객체가 짧게 살아남는다는 Generational Hypothesis를 활용합니다.
+
+새 객체는 주로 Young 영역에 생성되고 GC에서 일정 기간 살아남은 객체는 Old 영역으로 이동합니다.
+
+Young 영역은 객체가 자주 사라지기 때문에 비교적 빈번하게 수집하고 Old 영역은 오래 살아남는 객체를 관리합니다.
+
+이를 통해 전체 Heap을 매번 검사하는 비용을 줄일 수 있습니다.
+
+### 예상 꼬리질문
+
+* Eden과 Survivor 영역은 무엇인가요?
+* Promotion은 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>81. Stop-The-World란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JVM이 GC 같은 특정 작업을 수행하기 위해 애플리케이션 Thread의 실행을 일시적으로 중단하는 현상입니다.
+
+STW 시간이 길어지면 애플리케이션의 응답 지연이 발생할 수 있기 때문에 서버 운영에서는 중요한 지표입니다.
+
+최근 GC들은 Concurrent 작업을 늘려 STW 시간을 줄이는 방향으로 발전했지만 완전히 모든 정지 시간을 없애는 것은 어렵습니다.
+
+### 예상 꼬리질문
+
+* GC가 발생하면 항상 모든 작업이 오래 멈추나요?
+* ZGC가 Low Latency GC라고 불리는 이유는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>82. Java에서도 Memory Leak이 발생할 수 있나요?</summary>
+
+
+### 면접 답변
+
+발생할 수 있습니다.
+
+GC는 접근할 수 없는 객체만 제거하기 때문에 애플리케이션이 더 이상 사용할 필요가 없는 객체를 계속 강한 참조로 유지하면 GC가 제거하지 못합니다.
+
+예를 들어 static Collection에 데이터를 계속 추가하거나 캐시에 만료 정책이 없거나 ThreadLocal을 제대로 정리하지 않는 경우가 있습니다.
+
+이 경우 Heap Dump를 분석해 어떤 객체가 많이 존재하는지와 GC Root까지의 참조 경로를 확인할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Heap Dump는 어떻게 분석하나요?
+* ThreadLocal에서 Memory Leak이 발생하는 이유는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>83. OutOfMemoryError와 StackOverflowError의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+OutOfMemoryError는 JVM이 필요한 메모리를 더 이상 확보할 수 없을 때 발생합니다.
+
+예를 들어 Heap에 객체가 과도하게 쌓이거나 Metaspace가 부족한 경우가 있습니다.
+
+StackOverflowError는 한 Thread의 Stack 공간이 부족할 때 발생하며 대표적으로 무한 재귀나 지나치게 깊은 메서드 호출이 원인입니다.
+
+둘 다 Error이지만 발생 영역과 분석 방법이 다릅니다.
+
+### 예상 꼬리질문
+
+* OOM이 발생하면 서버가 바로 종료되나요?
+* Heap OOM을 분석하는 방법은 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>84. ClassLoader의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+ClassLoader는 필요한 `.class` 바이트코드를 찾아 JVM 메모리에 로딩하는 역할을 합니다.
+
+Java에서는 Bootstrap, Platform, Application ClassLoader 같은 계층 구조를 사용합니다.
+
+일반적으로 부모 ClassLoader가 먼저 클래스를 찾도록 위임하는 Parent Delegation 방식을 사용해 Java 핵심 클래스가 사용자 클래스에 의해 임의로 대체되는 것을 방지합니다.
+
+### 예상 꼬리질문
+
+* Parent Delegation을 사용하는 이유는 무엇인가요?
+* Custom ClassLoader는 언제 사용하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>85. 클래스 로딩 과정을 설명해주세요.</summary>
+
+
+### 면접 답변
+
+큰 흐름은 **Loading → Linking → Initialization**입니다.
+
+Loading 단계에서 클래스 바이트코드를 읽어 JVM에 로드합니다.
+
+Linking에는 검증, 준비, 해석 과정이 있고 바이트코드가 올바른지 검사하거나 static 필드 공간 등을 준비합니다.
+
+Initialization 단계에서는 static 변수의 실제 초기화와 static block 등이 실행됩니다.
+
+### 예상 꼬리질문
+
+* 클래스는 언제 초기화되나요?
+* static final 상수 사용 시 항상 클래스가 초기화되나요?
+
+
+
+</details>

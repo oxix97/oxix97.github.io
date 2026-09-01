@@ -1,0 +1,355 @@
+---
+title: "Thread / 동시성"
+description: Java 스레드와 동시성 제어 방식을 면접 질문과 답변으로 정리합니다.
+slug: interview/java/threads-and-concurrency
+contentType: page
+sidebar:
+  order: 8
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>86. Process와 Thread의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Process는 실행 중인 프로그램의 독립적인 실행 단위로 각각 별도의 메모리 공간을 가집니다.
+
+Thread는 Process 내부의 실행 단위로 같은 Process의 Heap 같은 자원을 공유하지만 각 Thread는 자신의 Stack을 가집니다.
+
+Thread 간 데이터 공유는 비교적 빠르지만 같은 메모리에 동시에 접근하기 때문에 Race Condition 같은 동시성 문제가 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Thread마다 독립적인 메모리는 무엇인가요?
+* Context Switching은 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>87. Java에서 Thread를 생성하는 방법에는 무엇이 있나요?</summary>
+
+
+### 면접 답변
+
+직접 Thread 클래스를 상속하거나 Runnable을 구현해서 Thread에 전달할 수 있습니다.
+
+결과가 필요한 작업이라면 Callable과 Future를 사용할 수도 있습니다.
+
+하지만 실제 서버 애플리케이션에서는 요청마다 직접 Thread를 생성하는 것보다 ExecutorService와 Thread Pool을 사용하는 것이 일반적입니다.
+
+Thread 생성과 제거 비용을 줄이고 동시에 실행할 작업 수를 제어할 수 있기 때문입니다.
+
+### 예상 꼬리질문
+
+* Runnable과 Callable 차이는 무엇인가요?
+* Spring의 `@Async`는 어떻게 동작하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>88. synchronized는 어떻게 동작하나요?</summary>
+
+
+### 면접 답변
+
+synchronized는 특정 Monitor Lock을 기준으로 한 번에 하나의 Thread만 임계 영역에 진입하도록 만드는 Java의 동기화 기능입니다.
+
+동일한 Lock을 사용하는 Thread가 이미 임계 영역을 실행 중이라면 다른 Thread는 Lock을 얻을 때까지 대기합니다.
+
+단순 상호 배제뿐 아니라 Lock 해제와 획득 사이에 happens-before 관계를 형성해 메모리 가시성도 보장합니다.
+
+다만 Lock 범위를 크게 잡으면 경쟁이 증가해 처리량이 떨어질 수 있습니다.
+
+### 예상 꼬리질문
+
+* 객체마다 Monitor가 있나요?
+* synchronized는 재진입 가능한가요?
+* synchronized와 ReentrantLock 차이는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>89. synchronized method와 synchronized block의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+synchronized method는 메서드 전체를 임계 영역으로 만듭니다.
+
+인스턴스 메서드라면 현재 객체 `this`의 Monitor를 사용하고 static synchronized method는 해당 Class 객체의 Monitor를 사용합니다.
+
+synchronized block은 Lock 객체와 임계 영역을 직접 지정할 수 있기 때문에 필요한 부분에만 동기화를 적용할 수 있습니다.
+
+따라서 경쟁을 줄이기 위해 가능한 작은 범위에 동기화를 적용할 때 block이 더 유연할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 서로 다른 인스턴스의 synchronized method는 동시에 실행될 수 있나요?
+* static synchronized와 instance synchronized가 같은 Lock인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>90. volatile의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+volatile은 여러 Thread가 공유하는 변수의 **가시성**을 보장하기 위해 사용합니다.
+
+한 Thread가 volatile 변수에 값을 쓰면 다른 Thread가 해당 값을 읽을 때 최신 값을 확인할 수 있도록 Java Memory Model이 보장합니다.
+
+또한 특정 명령어 재배치를 제한하는 효과도 있습니다.
+
+하지만 `count++`처럼 읽기-수정-쓰기가 여러 단계로 이루어진 연산의 원자성까지 보장하지는 않습니다.
+
+### 예상 꼬리질문
+
+* volatile로 counter를 만들면 안전한가요?
+* Memory Visibility란 무엇인가요?
+* Happens-before란 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>91. volatile과 synchronized의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+volatile은 주로 하나의 공유 변수에 대한 가시성과 일정한 순서 보장을 제공합니다.
+
+하지만 여러 연산을 하나의 원자적인 작업으로 묶지는 못합니다.
+
+synchronized는 상호 배제를 통해 임계 영역에서 한 Thread만 실행되도록 하며 가시성까지 함께 보장합니다.
+
+따라서 단순 상태 플래그처럼 원자적 갱신이 필요 없는 값은 volatile을 사용할 수 있지만 복합 연산을 보호해야 한다면 synchronized나 Lock 등을 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* boolean flag는 volatile만으로 충분한가요?
+* volatile이 lock보다 항상 빠른가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>92. Race Condition이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+여러 Thread가 동일한 공유 데이터에 동시에 접근하면서 실행 순서에 따라 결과가 달라지는 문제입니다.
+
+예를 들어 두 Thread가 동시에 `count++`를 수행하면 각각 같은 기존 값을 읽은 뒤 값을 갱신해 증가 연산 하나가 유실될 수 있습니다.
+
+이를 해결하려면 공유 mutable state를 줄이거나 synchronized, Lock, Atomic 클래스 같은 동기화 기법을 적용해야 합니다.
+
+서버가 여러 인스턴스로 실행되는 환경이라면 JVM 내부 Lock만으로는 충분하지 않기 때문에 DB나 분산락까지 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* Spring Singleton Bean에서도 Race Condition이 발생할 수 있나요?
+* synchronized로 다중 서버 동시성을 해결할 수 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>93. Deadlock이란 무엇이고 어떤 조건에서 발생하나요?</summary>
+
+
+### 면접 답변
+
+Deadlock은 둘 이상의 Thread가 서로 필요한 Lock을 보유한 상태에서 상대방의 Lock을 기다리면서 영원히 진행하지 못하는 상태입니다.
+
+대표적인 발생 조건은 상호 배제, 점유와 대기, 비선점, 순환 대기 네 가지입니다.
+
+예를 들어 Thread A가 Lock1을 잡고 Lock2를 기다리는 동시에 Thread B가 Lock2를 잡고 Lock1을 기다리는 경우입니다.
+
+예방 방법으로 Lock 획득 순서를 통일하거나 Lock 범위를 줄이고 `tryLock()`과 Timeout 등을 사용할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Deadlock과 Livelock 차이는 무엇인가요?
+* Thread Dump에서 Deadlock을 어떻게 찾나요?
+* DB Deadlock과 차이는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>94. Thread-safe하다는 것은 무엇을 의미하나요?</summary>
+
+
+### 면접 답변
+
+여러 Thread가 동시에 동일한 코드나 객체에 접근해도 프로그램의 상태가 올바르게 유지되는 것을 의미합니다.
+
+단순히 Exception이 발생하지 않는다는 의미가 아니라 객체가 지켜야 하는 불변식이 동시 접근에서도 유지되어야 합니다.
+
+Thread-safe하게 만드는 방법으로 불변 객체를 사용하거나 공유 상태를 제거하고 필요한 경우 Lock이나 Atomic 연산을 적용할 수 있습니다.
+
+가장 좋은 방법 중 하나는 처음부터 공유 mutable state를 최소화하는 것입니다.
+
+### 예상 꼬리질문
+
+* Stateless 객체는 항상 thread-safe한가요?
+* Spring Service Bean은 thread-safe한가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>95. AtomicInteger가 필요한 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`count++`는 하나의 연산처럼 보이지만 실제로는 값을 읽고 증가시킨 뒤 다시 저장하는 여러 단계로 이루어집니다.
+
+따라서 여러 Thread가 동시에 수행하면 증가 연산이 유실될 수 있습니다.
+
+AtomicInteger는 CAS 같은 원자적 연산을 이용해 별도의 명시적인 synchronized 없이도 안전하게 값을 갱신할 수 있습니다.
+
+다만 여러 변수의 상태를 하나의 트랜잭션처럼 변경해야 하는 복잡한 경우에는 Atomic 클래스 하나만으로 해결하기 어렵습니다.
+
+### 예상 꼬리질문
+
+* CAS란 무엇인가요?
+* CAS의 ABA Problem은 무엇인가요?
+* LongAdder는 언제 사용하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>96. ExecutorService를 사용하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Thread를 직접 생성하고 관리하는 책임을 애플리케이션 코드에서 분리할 수 있기 때문입니다.
+
+ExecutorService에 작업을 제출하면 Thread Pool이 사용 가능한 Thread를 선택해 실행합니다.
+
+이를 통해 Thread 재사용, 동시 실행 개수 제한, 작업 Queue 관리, 종료 처리 등을 체계적으로 할 수 있습니다.
+
+서버에서 작업마다 Thread를 무제한 생성하면 메모리와 Context Switching 비용이 커질 수 있기 때문에 Pool 관리가 중요합니다.
+
+### 예상 꼬리질문
+
+* `submit()`과 `execute()` 차이는 무엇인가요?
+* shutdown과 shutdownNow 차이는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>97. Thread Pool이 필요한 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Thread를 생성하고 제거하는 데에는 비용이 있기 때문에 일정 수의 Thread를 미리 만들어 재사용하면 이 비용을 줄일 수 있습니다.
+
+또한 동시에 실행 가능한 작업 수를 제한해 서버 자원이 고갈되는 것도 방지할 수 있습니다.
+
+다만 Pool 크기가 너무 작으면 작업이 Queue에 많이 쌓이고 너무 크면 Context Switching과 메모리 사용이 증가합니다.
+
+따라서 CPU Bound 작업인지 I/O Bound 작업인지와 시스템 자원, 요청량을 기준으로 크기를 결정해야 합니다.
+
+### 예상 꼬리질문
+
+* CPU Bound 작업의 Pool 크기는 어떻게 정하나요?
+* Queue를 무제한으로 두면 어떤 문제가 있나요?
+* RejectedExecutionHandler란 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>98. CompletableFuture는 어떤 경우 사용하나요?</summary>
+
+
+### 면접 답변
+
+CompletableFuture는 비동기 작업을 실행하고 여러 비동기 작업을 조합하기 위한 Java API입니다.
+
+예를 들어 서로 독립적인 두 외부 API를 동시에 호출한 뒤 결과를 합쳐야 할 때 사용할 수 있습니다.
+
+`thenApply`, `thenCompose`, `thenCombine`, `allOf` 등을 이용해 작업 의존 관계를 표현할 수 있고 예외 처리도 연결할 수 있습니다.
+
+다만 별도 Executor를 지정하지 않으면 Common ForkJoinPool을 사용할 수 있기 때문에 Blocking I/O가 많은 서버 코드에서는 Executor 설계를 주의해야 합니다.
+
+### 예상 꼬리질문
+
+* `thenApply`와 `thenCompose` 차이는 무엇인가요?
+* `get()`과 `join()` 차이는 무엇인가요?
+* Common Pool 사용의 문제점은 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>99. Stream과 Parallel Stream의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+일반 Stream은 기본적으로 하나의 Thread에서 데이터를 처리하지만 Parallel Stream은 데이터를 분할해 여러 Thread에서 병렬로 처리합니다.
+
+CPU 연산량이 많고 데이터가 충분히 크며 각 작업이 서로 독립적인 경우 성능이 향상될 수 있습니다.
+
+하지만 작업량이 작거나 Blocking I/O가 포함되거나 공유 상태를 수정하면 오히려 성능이 떨어지거나 동시성 문제가 생길 수 있습니다.
+
+Parallel Stream은 기본적으로 Common ForkJoinPool을 사용하기 때문에 서버 환경에서는 다른 작업에 영향을 미칠 가능성도 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* Parallel Stream을 API 호출에 사용하는 것이 좋은가요?
+* ForkJoinPool이 무엇인가요?
+* Stream에서 side effect를 피해야 하는 이유는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>100. Java에서 동시성 문제가 발생했을 때 어떤 순서로 분석하겠습니까?</summary>
+
+
+### 면접 답변
+
+먼저 문제가 발생하는 조건을 최대한 재현하고 어떤 공유 상태에서 문제가 생기는지 확인하겠습니다.
+
+그다음 로그와 Thread Dump를 통해 Thread 상태, Lock 대기, Deadlock 여부를 확인하고 문제가 발생한 코드에서 공유 mutable state와 임계 영역을 찾겠습니다.
+
+Race Condition이라면 해당 연산이 실제로 원자적인지, `synchronized`, Lock, Atomic 등을 통해 올바르게 보호되는지 확인합니다.
+
+그리고 단일 JVM 문제가 아니라 여러 서버 인스턴스가 동일한 데이터를 변경하는 상황이라면 JVM Lock만 보는 것이 아니라 DB Lock, Unique Constraint, Optimistic Lock 또는 Distributed Lock까지 확인해야 합니다.
+
+수정 후에는 단순 단위 테스트만이 아니라 여러 Thread에서 동시에 요청하는 동시성 테스트를 반복해 문제가 다시 발생하지 않는지 검증하겠습니다.
+
+### 핵심 키워드
+
+`재현 → 공유 상태 → Thread Dump → Race/Deadlock → Lock 범위 → 다중 인스턴스 → 동시성 테스트`
+
+### 예상 꼬리질문
+
+* Thread Dump는 어떤 명령으로 확인할 수 있나요?
+* synchronized와 DB Lock 중 무엇을 선택하겠습니까?
+* Redis 분산락을 사용했는데 DB Unique Constraint도 필요한가요?
+* 낙관적 락과 비관적 락은 어떻게 선택하겠습니까?
+* 동시성 테스트 코드는 어떻게 작성하겠습니까?
+
+
+
+</details>

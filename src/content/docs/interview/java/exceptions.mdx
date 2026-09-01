@@ -1,0 +1,231 @@
+---
+title: "Exception"
+description: Java 예외 계층과 처리 원칙을 면접 질문과 답변으로 정리합니다.
+slug: interview/java/exceptions
+contentType: page
+sidebar:
+  order: 6
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>61. Java Exception 계층 구조를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+최상위에는 `Throwable`이 있고 그 아래 크게 `Error`와 `Exception`이 있습니다.
+
+Error는 OutOfMemoryError처럼 애플리케이션에서 일반적으로 복구하기 어려운 JVM 수준의 문제를 나타냅니다.
+
+Exception은 애플리케이션에서 처리할 수 있는 예외이고 그중 RuntimeException과 하위 타입은 Unchecked Exception입니다.
+
+RuntimeException을 제외한 일반 Exception 계열은 Checked Exception으로 분류됩니다.
+
+### 예상 꼬리질문
+
+* Error를 catch하면 안 되나요?
+* RuntimeException을 사용하는 이유는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>62. Checked Exception과 Unchecked Exception 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Checked Exception은 컴파일러가 예외 처리 여부를 검사하기 때문에 catch하거나 throws로 선언해야 합니다.
+
+Unchecked Exception은 RuntimeException의 하위 타입으로 컴파일러가 예외 처리를 강제하지 않습니다.
+
+Checked Exception은 호출자가 복구할 가능성이 있는 상황을 명시적으로 표현할 수 있지만 계층 전체에 throws가 전파될 수 있습니다.
+
+Spring 애플리케이션의 비즈니스 예외에서는 처리 강제보다 트랜잭션과 코드 단순성을 고려해 RuntimeException을 많이 사용하는 편입니다.
+
+### 예상 꼬리질문
+
+* IOException은 어떤 타입인가요?
+* Spring Transaction의 rollback과 어떤 관계가 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>63. RuntimeException의 예시를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+대표적으로 `NullPointerException`, `IllegalArgumentException`, `IllegalStateException`, `IndexOutOfBoundsException` 등이 있습니다.
+
+NullPointerException은 null 참조를 사용할 때 발생하고 IllegalArgumentException은 메서드 인자가 유효하지 않을 때 사용할 수 있습니다.
+
+IllegalStateException은 현재 객체의 상태에서 요청된 동작을 수행할 수 없을 때 사용할 수 있습니다.
+
+실무에서는 비즈니스 상황을 더 명확하게 표현하기 위해 RuntimeException을 상속한 커스텀 예외를 만들기도 합니다.
+
+### 예상 꼬리질문
+
+* IllegalArgumentException과 IllegalStateException 차이는 무엇인가요?
+* 커스텀 예외를 너무 많이 만들면 어떤 문제가 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>64. Checked Exception을 반드시 처리하도록 만든 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+호출자가 복구하거나 대응할 가능성이 있는 예외를 컴파일 시점에 강제로 인지하게 하기 위한 목적이 있습니다.
+
+예를 들어 파일 접근이나 외부 I/O 과정에서 실패할 수 있음을 호출자가 명시적으로 알 수 있습니다.
+
+다만 실제 애플리케이션에서는 복구할 방법이 없는 예외까지 Checked Exception으로 전달하면 불필요한 catch나 throws 코드가 많아질 수 있습니다.
+
+따라서 예외 성격과 호출자의 복구 가능성을 기준으로 판단하는 것이 중요합니다.
+
+### 예상 꼬리질문
+
+* SQLException을 Spring에서는 왜 RuntimeException으로 변환하나요?
+* 예외 추상화가 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>65. throw와 throws 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`throw`는 실제로 예외 객체를 발생시키는 명령어입니다.
+
+예를 들어 `throw new IllegalArgumentException()`처럼 사용합니다.
+
+`throws`는 메서드 선언부에서 해당 메서드가 특정 예외를 호출자에게 전달할 수 있다는 사실을 나타냅니다.
+
+즉 throw는 **예외 발생**, throws는 **예외 전파 가능성 선언**입니다.
+
+### 예상 꼬리질문
+
+* 여러 예외를 throws할 수 있나요?
+* RuntimeException도 throws에 선언할 수 있나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>66. try-catch-finally 실행 순서를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+먼저 try 블록이 실행되고 예외가 발생하면 해당 예외를 처리할 수 있는 catch 블록으로 이동합니다.
+
+그 후 일반적으로 finally 블록이 실행됩니다.
+
+try나 catch에서 return이 있어도 finally가 실행된 후 반환되는 것이 일반적입니다.
+
+다만 `System.exit()`처럼 JVM 자체가 종료되거나 비정상적인 상황에서는 finally가 실행되지 않을 수 있습니다.
+
+그리고 finally에서 return을 사용하는 것은 원래 예외나 반환 값을 덮어버릴 수 있기 때문에 피해야 합니다.
+
+### 예상 꼬리질문
+
+* catch에서 예외가 다시 발생하면 finally는 실행되나요?
+* finally에서 예외가 발생하면 어떻게 되나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>67. try-with-resources란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+파일이나 DB Connection처럼 사용 후 반드시 닫아야 하는 Resource를 자동으로 정리해주는 문법입니다.
+
+`AutoCloseable`을 구현한 객체를 try 괄호 안에 선언하면 블록 종료 시 자동으로 `close()`가 호출됩니다.
+
+finally에서 직접 close를 호출하는 방식보다 코드가 단순하고 예외 처리도 안전합니다.
+
+여러 Resource를 선언했다면 일반적으로 선언 역순으로 close됩니다.
+
+### 예상 꼬리질문
+
+* close 중 예외가 발생하면 기존 예외는 어떻게 되나요?
+* Suppressed Exception이란 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>68. AutoCloseable이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+try-with-resources에서 자동으로 자원을 정리할 수 있도록 하는 인터페이스입니다.
+
+`close()` 메서드를 하나 정의하고 있으며 Connection, InputStream 등 많은 Resource 타입이 이를 구현합니다.
+
+개발자가 직접 만든 Resource 클래스도 AutoCloseable을 구현하면 try-with-resources로 안전하게 사용할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Closeable과 AutoCloseable의 차이는 무엇인가요?
+* close는 반드시 한 번만 호출되어야 하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>69. 비즈니스 예외를 RuntimeException으로 구현하는 경우가 많은 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+많은 비즈니스 예외는 호출자가 즉시 복구하기보다는 트랜잭션을 중단하고 상위 계층에서 적절한 HTTP 오류로 변환하는 경우가 많습니다.
+
+Checked Exception으로 만들면 서비스 계층을 따라 throws 선언이 계속 전파되어 코드가 복잡해질 수 있습니다.
+
+또한 Spring Transaction은 기본적으로 RuntimeException과 Error가 발생하면 rollback합니다.
+
+따라서 Spring 애플리케이션에서는 RuntimeException 기반 커스텀 예외가 많이 사용됩니다.
+
+### 예상 꼬리질문
+
+* Checked Exception에서도 rollback하려면 어떻게 하나요?
+* 모든 비즈니스 예외에서 rollback하는 것이 맞나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>70. 예외를 지나치게 catch하면 어떤 문제가 발생하나요?</summary>
+
+
+### 면접 답변
+
+예외를 잡은 뒤 적절히 처리하거나 다시 던지지 않으면 실제 오류가 숨겨질 수 있습니다.
+
+특히 `catch (Exception e) {}`처럼 예외를 무시하면 장애 원인 추적이 매우 어려워집니다.
+
+또한 하위 계층의 구체 예외를 그대로 노출하면 계층 간 결합도가 높아질 수도 있습니다.
+
+따라서 복구할 수 있는 위치에서만 catch하고, 그렇지 않다면 의미 있는 예외로 변환하거나 상위 계층으로 전파하는 것이 좋습니다.
+
+### 예상 꼬리질문
+
+* 예외를 wrapping할 때 cause를 넣어야 하는 이유는 무엇인가요?
+* 로그를 여러 계층에서 중복으로 찍으면 어떤 문제가 있나요?
+
+
+
+</details>

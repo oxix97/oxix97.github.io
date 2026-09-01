@@ -22,6 +22,40 @@ body {
   overflow-x: auto;
 }
 
+.sl-markdown-content .interview-question {
+  margin-block: 1rem;
+  border: 1px solid var(--sl-rapide-ui-border-color);
+  border-radius: 0.75rem;
+  background: var(--sl-color-bg-nav);
+  overflow: clip;
+}
+
+.sl-markdown-content .interview-question summary {
+  padding: 1rem 3rem 1rem 1.25rem;
+  color: var(--sl-color-white);
+  font-weight: 700;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.sl-markdown-content .interview-question[open] summary {
+  border-bottom: 1px solid var(--sl-rapide-ui-border-color);
+  color: var(--sl-color-text-accent);
+}
+
+.sl-markdown-content .interview-question > :not(summary) {
+  margin-inline: 1.25rem;
+}
+
+.sl-markdown-content .interview-question > :last-child {
+  margin-bottom: 1.25rem;
+}
+
+.sl-markdown-content .interview-question h3 {
+  margin-top: 1.25rem;
+  font-size: 1rem;
+}
+
 .principle-grid,
 .project-grid {
   display: grid;

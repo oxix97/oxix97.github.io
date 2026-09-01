@@ -1,0 +1,237 @@
+---
+title: "Object / String / 불변 객체"
+description: Object 계약과 String의 동작, 불변 객체 설계를 면접 질문과 답변으로 정리합니다.
+slug: interview/java/object-string-immutability
+contentType: page
+sidebar:
+  order: 3
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>21. Java의 모든 클래스가 Object를 상속하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`Object`는 Java 클래스 계층 구조의 최상위 클래스입니다.
+
+따라서 모든 객체는 공통적으로 `equals()`, `hashCode()`, `toString()`, `getClass()` 같은 기본 동작을 사용할 수 있습니다.
+
+명시적으로 다른 클래스를 상속하지 않더라도 컴파일러가 `Object`를 상속하도록 처리합니다.
+
+이를 통해 Java에서 모든 객체를 하나의 공통 타입으로 다룰 수 있습니다.
+
+### 예상 꼬리질문
+
+* Object의 주요 메서드를 설명해주세요.
+* Object 타입에 모든 객체를 저장할 수 있는 이유는 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>22. equals()와 ==의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+기본형에서 `==`는 실제 값을 비교합니다.
+
+참조형에서는 `==`가 두 변수가 동일한 객체를 참조하고 있는지 비교합니다.
+
+반면 `equals()`는 객체의 논리적 동등성을 비교하기 위해 사용하는 메서드입니다. Object의 기본 구현은 참조 비교지만 String 같은 클래스에서는 값 기준으로 오버라이딩되어 있습니다.
+
+따라서 도메인 객체에서 값 기준 동등성이 필요하다면 equals를 적절하게 구현해야 합니다.
+
+### 예상 꼬리질문
+
+* String 비교에 `==`를 사용하면 왜 문제가 되나요?
+* equals의 계약은 무엇인가요?
+* Entity에서는 equals를 어떻게 구현해야 하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>23. equals()와 hashCode()를 같이 구현해야 하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Java의 계약상 `equals()`가 true인 두 객체는 반드시 동일한 `hashCode()` 값을 가져야 합니다.
+
+HashMap이나 HashSet은 먼저 hashCode로 저장 위치를 좁힌 다음 equals로 실제 동일성을 비교합니다.
+
+따라서 equals만 값 기준으로 변경하고 hashCode를 그대로 두면 논리적으로 동일한 객체가 서로 다른 bucket에 저장될 수 있습니다.
+
+그 결과 HashSet에 중복 데이터가 들어가거나 HashMap에서 저장한 key를 찾지 못하는 문제가 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* hashCode가 같으면 equals도 true인가요?
+* Hash Collision이 발생하면 어떻게 하나요?
+* JPA Entity의 hashCode 구현 시 주의점은 무엇인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>24. hashCode()의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+hashCode는 객체를 정수형 해시 값으로 변환하는 메서드입니다.
+
+HashMap이나 HashSet 같은 해시 기반 자료구조가 데이터를 저장할 bucket을 빠르게 찾기 위해 사용합니다.
+
+다만 서로 다른 객체가 같은 hashCode를 가질 수 있기 때문에 hashCode만으로 동일성을 판단하지 않고 최종적으로 equals를 확인합니다.
+
+좋은 hashCode 구현은 객체들을 bucket에 균등하게 분산시켜 해시 자료구조의 평균적인 O(1) 성능을 유지하는 데 도움을 줍니다.
+
+### 예상 꼬리질문
+
+* hashCode 충돌을 완전히 제거할 수 있나요?
+* hashCode가 매번 달라져도 되나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>25. toString()은 언제 사용하나요?</summary>
+
+
+### 면접 답변
+
+toString은 객체를 사람이 이해할 수 있는 문자열 형태로 표현할 때 사용합니다.
+
+주로 로그 출력이나 디버깅 과정에서 객체 상태를 빠르게 확인하기 위해 오버라이딩합니다.
+
+다만 비밀번호나 개인정보처럼 민감한 정보가 toString에 포함되면 로그를 통해 노출될 수 있기 때문에 주의해야 합니다.
+
+또한 연관관계가 순환하는 객체를 전부 출력하도록 만들면 StackOverflow나 과도한 로그가 발생할 수도 있습니다.
+
+### 예상 꼬리질문
+
+* Lombok `@ToString` 사용 시 주의사항은 무엇인가요?
+* JPA 양방향 연관관계에서 문제는 없나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>26. String이 immutable한 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+String은 생성된 후 내부 값을 변경할 수 없는 불변 객체입니다.
+
+불변이기 때문에 여러 코드가 동일한 String 객체를 공유해도 상태가 변경되지 않아 안전하고 String Pool을 사용할 수 있습니다.
+
+또한 HashMap의 Key로 사용할 때 hashCode가 바뀌지 않는다는 장점도 있습니다.
+
+URL, 클래스 이름, 파일 경로처럼 중요한 문자열이 다른 코드에 의해 변경되는 문제도 방지할 수 있습니다.
+
+### 예상 꼬리질문
+
+* String 연결 연산은 내부적으로 어떻게 처리되나요?
+* 불변 객체는 thread-safe한가요?
+* String Pool과 불변성이 무슨 관계인가요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>27. String Pool이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+String Pool은 동일한 문자열 리터럴을 재사용하기 위한 영역입니다.
+
+예를 들어 `"hello"`라는 리터럴을 여러 번 선언하면 JVM은 가능한 경우 동일한 String 객체를 재사용합니다.
+
+String은 불변 객체이기 때문에 여러 곳에서 하나의 객체를 공유해도 상태 변경 문제가 발생하지 않습니다.
+
+이를 통해 동일한 문자열 객체가 반복 생성되는 메모리 낭비를 줄일 수 있습니다.
+
+### 예상 꼬리질문
+
+* `intern()`은 무엇인가요?
+* String Pool은 JVM의 어느 메모리에 있나요?
+* `new String()`을 사용하면 어떻게 되나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>28. new String("abc")와 "abc"의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+문자열 리터럴 `"abc"`는 String Pool에서 동일한 문자열이 있는지 확인한 후 기존 객체를 재사용할 수 있습니다.
+
+반면 `new String("abc")`는 명시적으로 새로운 String 객체를 Heap에 생성합니다.
+
+따라서 두 객체의 값은 같아 `equals()`는 true가 될 수 있지만 참조가 달라 `==`는 false가 될 수 있습니다.
+
+일반적인 상황에서는 불필요하게 `new String()`을 사용하는 것보다 문자열 리터럴을 사용하는 것이 적절합니다.
+
+### 예상 꼬리질문
+
+* `intern()`을 호출하면 어떻게 되나요?
+* 문자열 리터럴은 언제 생성되나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>29. String, StringBuilder, StringBuffer 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+String은 immutable하기 때문에 문자열을 수정할 때마다 새로운 객체가 생성될 수 있습니다.
+
+반복적인 문자열 변경이 필요하다면 mutable한 StringBuilder를 사용하면 불필요한 객체 생성을 줄일 수 있습니다.
+
+StringBuffer도 mutable하지만 주요 메서드에 동기화가 적용되어 있어 thread-safe하다는 차이가 있습니다.
+
+대부분의 단일 스레드 문자열 조작에서는 동기화 비용이 없는 StringBuilder를 사용합니다.
+
+### 예상 꼬리질문
+
+* `+` 연산자는 항상 성능이 나쁜가요?
+* StringBuilder는 thread-safe한가요?
+* 컴파일러가 문자열 연결을 최적화하기도 하나요?
+
+
+
+</details>
+<details class="interview-question">
+<summary>30. Immutable 객체를 직접 설계하려면 어떻게 해야 하나요?</summary>
+
+
+### 면접 답변
+
+객체 생성 이후 상태를 변경할 수 없도록 설계해야 합니다.
+
+필드는 가능하면 `private final`로 만들고 setter 같은 상태 변경 메서드를 제공하지 않습니다.
+
+List 같은 mutable 객체를 필드로 받는다면 외부에서 수정되지 않도록 방어적 복사를 수행해야 합니다.
+
+객체 변경이 필요하면 기존 객체를 수정하기보다 새로운 객체를 반환하도록 설계할 수 있습니다.
+
+### 예상 꼬리질문
+
+* final만 붙이면 불변 객체인가요?
+* 방어적 복사란 무엇인가요?
+* 불변 객체의 단점은 무엇인가요?
+
+
+
+</details>

@@ -61,7 +61,16 @@ export default defineConfig({
             },
           ],
         },
-        { label: '면접 질문', items: [{ slug: 'interview' }] },
+        {
+          label: '면접 질문',
+          items: [
+            { slug: 'interview' },
+            {
+              label: 'Java',
+              items: [{ autogenerate: { directory: 'interview/java' } }],
+            },
+          ],
+        },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
         { label: 'Blog', link: '/blog/' },
         { label: 'About', link: '/about/' },
