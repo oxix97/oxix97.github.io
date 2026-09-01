@@ -1,0 +1,205 @@
+---
+title: "실행 계획 / 성능"
+description: 옵티마이저와 실행 계획, 스캔 및 조인 방식, 쿼리 분석 절차를 면접 질문과 답변으로 정리합니다.
+slug: interview/db/execution-plan-performance
+contentType: page
+sidebar:
+  order: 5
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>51. Query Optimizer의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+SQL을 실제로 어떤 순서와 알고리즘으로 실행할지 결정합니다.
+
+가능한 Access Path, Join 순서, Join Algorithm, Index 사용 여부 등을 후보로 평가하고 통계 정보를 기반으로 비용이 낮다고 예상되는 계획을 선택합니다.
+
+따라서 개발자가 SQL을 작성한 순서 그대로 실행된다고 생각하면 안 됩니다.
+
+### 예상 꼬리질문
+
+* Cost-Based Optimizer란 무엇인가요?
+* 통계가 잘못되면 어떤 일이 발생하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>52. Execution Plan이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Optimizer가 선택한 Query 실행 전략입니다.
+
+어떤 Table을 먼저 읽는지, Index를 사용하는지, 예상 Row 수가 얼마나 되는지, 어떤 Join Algorithm과 Sort를 사용하는지 등을 확인할 수 있습니다.
+
+Slow Query를 분석할 때 SQL만 보고 판단하기보다 실행 계획을 확인하는 것이 중요합니다.
+
+### 예상 꼬리질문
+
+* 실행 계획에서 가장 먼저 무엇을 보나요?
+* Estimated Rows와 Actual Rows가 많이 다르면 무엇을 의미하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>53. MySQL의 `EXPLAIN`에서는 무엇을 확인하나요?</summary>
+
+
+### 면접 답변
+
+MySQL에서 SELECT 등의 실행 계획을 확인할 때 `EXPLAIN`을 사용합니다.
+
+주로 접근 방식, 예상 Row 수, 사용 가능한 Index와 실제 선택한 Key, Join 순서, Extra 정보를 확인합니다.
+
+MySQL 8에서는 `EXPLAIN ANALYZE`를 통해 실제 실행 시간과 Row 처리량도 비교할 수 있습니다.
+
+### 예상 꼬리질문
+
+* `type=ALL`은 무엇을 의미하나요?
+* `Using filesort`가 나오면 항상 문제인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>54. PostgreSQL의 `EXPLAIN`과 `EXPLAIN ANALYZE` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`EXPLAIN`은 Query를 실제로 실행하지 않고 Optimizer가 예상한 Plan과 Cost, Row 수 등을 보여줍니다.
+
+`EXPLAIN ANALYZE`는 Query를 실제로 실행하고 실제 실행 시간, 실제 Row 수, Loop 횟수를 함께 보여줍니다.
+
+따라서 예상치와 실제치의 차이를 분석할 수 있지만 UPDATE나 DELETE 등에 사용하면 실제 데이터 변경이 발생할 수 있으므로 주의해야 합니다.
+
+### 예상 꼬리질문
+
+* `BUFFERS` 옵션은 무엇인가요?
+* Estimated Row와 Actual Row가 크게 다른 이유는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>55. Sequential Scan이 항상 나쁜가요?</summary>
+
+
+### 면접 답변
+
+아닙니다.
+
+Table이 작거나 조건에 해당하는 Row 비율이 높다면 Index Scan보다 Table을 순차적으로 읽는 것이 더 빠를 수 있습니다.
+
+특히 Disk 또는 Memory Page를 순차적으로 접근하면 Random I/O보다 효율적인 경우가 많습니다.
+
+따라서 Seq Scan 자체를 문제라고 보기보다 **왜 Optimizer가 선택했는지와 실제 처리 Row 수**를 확인해야 합니다.
+
+### 예상 꼬리질문
+
+* Table 전체의 80%를 조회한다면 어떤 Scan이 유리한가요?
+* Seq Scan을 강제로 막는 것은 좋은 방법인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>56. Index Scan과 Index Only Scan의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Index Scan은 Index에서 조건에 맞는 Entry를 찾고 실제 Table Row까지 접근합니다.
+
+Index Only Scan은 Query에 필요한 데이터가 Index에 모두 있어서 Table 접근을 줄일 수 있는 방식입니다.
+
+PostgreSQL에서는 MVCC Visibility 확인 때문에 Visibility Map 상태에 따라 Heap 접근이 일부 필요할 수도 있습니다.
+
+### 예상 꼬리질문
+
+* Covering Index와 같은 개념인가요?
+* Visibility Map은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>57. Nested Loop Join이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+한쪽 Table의 Row를 읽으면서 다른 Table에서 조건에 맞는 Row를 반복적으로 찾는 Join 방식입니다.
+
+Outer Table의 Row 수가 적고 Inner Table Join Key에 적절한 Index가 있다면 매우 효율적입니다.
+
+반대로 Outer Row가 매우 많은데 Inner Lookup 비용까지 커지면 성능이 나빠질 수 있습니다.
+
+### 예상 꼬리질문
+
+* N+1과 Nested Loop Join은 같은 문제인가요?
+* 언제 Hash Join이 더 적합한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>58. Hash Join이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Join Key를 기반으로 한쪽 입력을 Hash Table로 만들고 다른 쪽 입력을 탐색하면서 일치하는 값을 찾는 방식입니다.
+
+일반적으로 Equality Join에 적합하고 큰 데이터 집합을 처리할 때 Nested Loop보다 유리할 수 있습니다.
+
+다만 Hash Table이 Memory를 많이 사용할 수 있고 Memory가 부족하면 Disk Spill이 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Hash Join은 Range Join에도 사용할 수 있나요?
+* 작은 Table과 큰 Table 중 어느 쪽을 Hash Table로 만드나요?
+
+
+</details>
+<details class="interview-question">
+<summary>59. Merge Join이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Join Key를 기준으로 양쪽 입력이 정렬되어 있을 때 두 입력을 순차적으로 비교하면서 Join하는 방식입니다.
+
+이미 적절한 Index 순서가 있거나 정렬 비용이 낮은 경우 효율적일 수 있습니다.
+
+대량의 Equality Join에 활용될 수 있지만 입력이 정렬되어 있지 않다면 별도 Sort 비용을 고려해야 합니다. 지원하는 연산자와 세부 조건은 DBMS마다 다릅니다.
+
+### 예상 꼬리질문
+
+* Hash Join과 비교하면 어떤 차이가 있나요?
+* Index가 있으면 Sort를 생략할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>60. 데이터가 많아질수록 느려지는 Query는 어떻게 분석하나요?</summary>
+
+
+### 면접 답변
+
+먼저 Query의 실행 계획을 확인해서 Scan 방식과 처리 Row 수를 봅니다.
+
+Index가 적절하게 사용되는지, 예상 Row와 실제 Row 차이가 큰지, Sort나 Hash가 Disk로 Spill되는지 확인합니다.
+
+Pagination이라면 Offset이 커지는 문제인지 보고 Join 또는 Subquery에서 Row 폭증이 발생하는지도 확인합니다.
+
+그리고 Query 개선만이 아니라 Index, 데이터 모델, 통계, Cache 사용 여부까지 단계적으로 검토합니다.
+
+### 예상 꼬리질문
+
+* 어떤 Metric을 함께 확인하나요?
+* Index 추가 전후를 어떻게 검증하나요?
+
+
+</details>

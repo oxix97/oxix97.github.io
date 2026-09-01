@@ -1,0 +1,312 @@
+---
+title: "Database / RDB 기본"
+description: 데이터베이스와 관계형 데이터베이스의 기본 개념을 면접 질문과 답변으로 정리합니다.
+slug: interview/db/database-rdb-basics
+contentType: page
+sidebar:
+  order: 2
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>1. 데이터베이스를 사용하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+데이터베이스는 애플리케이션의 데이터를 영속적으로 저장하고, 여러 사용자가 동시에 접근하더라도 일관성을 유지하기 위해 사용합니다.
+
+단순 파일 저장과 달리 SQL을 이용한 조회, Index를 이용한 빠른 검색, Transaction을 통한 원자성, 동시성 제어, 복구 기능 등을 제공합니다.
+
+특히 백엔드에서는 여러 요청이 동시에 같은 데이터를 수정할 수 있기 때문에 단순 저장뿐 아니라 **데이터 정합성을 보장하는 역할**이 중요하다고 생각합니다.
+
+### 핵심 포인트
+
+`영속성`, `동시성`, `Transaction`, `Index`, `정합성`
+
+### 예상 꼬리질문
+
+* 파일에 저장하면 안 되는 이유는 무엇인가요?
+* DB가 장애 나면 데이터는 어떻게 복구하나요?
+* Cache와 DB의 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>2. RDBMS란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+RDBMS는 Relational Database Management System으로 데이터를 Table 형태로 저장하고 Table 간 관계를 기반으로 관리하는 시스템입니다.
+
+Primary Key, Foreign Key, Constraint 등을 통해 데이터 관계와 무결성을 표현할 수 있고 SQL을 이용해 데이터를 조회하고 수정합니다.
+
+대표적으로 MySQL, PostgreSQL, Oracle 등이 있습니다.
+
+### 예상 꼬리질문
+
+* 관계형이라는 것은 어떤 의미인가요?
+* NoSQL과 비교하면 어떤 장단점이 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>3. RDB와 NoSQL의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+RDB는 Schema가 명확하고 Table 간 관계와 Transaction을 강하게 지원하는 것이 특징입니다.
+
+NoSQL은 Key-Value, Document, Wide Column 등 다양한 데이터 모델을 사용하며 Schema 유연성이나 수평 확장을 중요하게 보는 경우가 많습니다.
+
+다만 NoSQL이라고 Transaction을 지원하지 않는 것은 아니고, RDB도 수평 확장이 불가능한 것은 아닙니다.
+
+따라서 단순히 성능만으로 선택하기보다는 **데이터 구조, Query 패턴, 일관성 요구사항, 운영 복잡도**를 기준으로 판단해야 합니다.
+
+### 예상 꼬리질문
+
+* Redis와 PostgreSQL을 어떻게 구분해서 사용하나요?
+* MongoDB를 선택할 만한 상황은 언제인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>4. MySQL과 PostgreSQL의 특징과 차이를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+둘 다 대표적인 오픈소스 RDBMS이지만 내부 구조와 제공 기능에 차이가 있습니다.
+
+MySQL에서는 일반적으로 InnoDB Storage Engine을 사용하고 Primary Key를 중심으로 한 Clustered Index 구조가 중요한 특징입니다.
+
+PostgreSQL은 Table 데이터가 Heap에 저장되고 Index는 별도 구조로 관리됩니다. MVCC 과정에서 발생하는 Dead Tuple을 정리하기 위해 VACUUM이 중요합니다.
+
+PostgreSQL은 복잡한 SQL, 확장 타입, Window Function, JSONB 등 풍부한 기능을 제공하는 것으로 알려져 있고, MySQL은 웹 서비스 생태계와 운영 경험이 매우 넓다는 장점이 있습니다.
+
+### 예상 꼬리질문
+
+* MySQL Secondary Index 구조를 설명해주세요.
+* PostgreSQL에서 VACUUM이 필요한 이유는 무엇인가요?
+* 두 DB의 MVCC 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>5. Table, Row, Column을 설명해주세요.</summary>
+
+
+### 면접 답변
+
+Table은 동일한 구조의 데이터를 저장하는 논리적인 단위입니다.
+
+Row는 하나의 Record를 의미하고 Column은 각 Record가 가지는 속성을 정의합니다.
+
+예를 들어 Order Table에 `id`, `buyer_id`, `status` Column이 있고 각각의 주문 하나가 Row가 됩니다.
+
+### 예상 꼬리질문
+
+* 하나의 Table에 Column이 지나치게 많으면 어떤 문제가 있나요?
+* Table을 분리하는 기준은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>6. Primary Key란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Primary Key는 Table에서 각 Row를 유일하게 식별하는 Column 또는 Column 조합입니다.
+
+중복될 수 없고 NULL도 허용하지 않습니다.
+
+단순 식별 역할뿐 아니라 MySQL InnoDB에서는 Primary Key가 Clustered Index 역할을 하기 때문에 PK 설계가 물리적인 저장과 Secondary Index 크기에도 영향을 줄 수 있습니다.
+
+### 예상 꼬리질문
+
+* 자연키와 대리키의 차이는 무엇인가요?
+* UUID를 Primary Key로 사용하면 어떤 문제가 있을 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>7. Foreign Key란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Foreign Key는 한 Table의 Column이 다른 Table의 Primary Key나 Unique Key를 참조하도록 만드는 제약입니다.
+
+존재하지 않는 부모 데이터를 참조하는 것을 DB 차원에서 막아 Referential Integrity를 보장할 수 있습니다.
+
+다만 삭제나 수정 시 Cascade 정책과 Lock 영향 등을 고려해야 하고 대규모 분산 시스템에서는 서비스 간 DB를 분리하기 때문에 DB FK를 사용할 수 없는 경우도 있습니다.
+
+### 예상 꼬리질문
+
+* Foreign Key를 사용하지 않는 경우도 있나요?
+* ON DELETE CASCADE의 장단점은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>8. Unique Constraint란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+특정 Column 또는 Column 조합의 값이 중복되지 않도록 DB가 보장하는 제약입니다.
+
+예를 들어 email에 Unique Constraint를 설정하면 동시에 여러 요청이 들어오더라도 최종적으로 중복 데이터 저장을 막을 수 있습니다.
+
+애플리케이션에서 `exists()`로 먼저 확인하더라도 조회와 INSERT 사이에 Race Condition이 있을 수 있기 때문에 중요한 정합성은 DB Constraint를 마지막 방어선으로 두는 것이 좋습니다.
+
+### 예상 꼬리질문
+
+* Unique Index와 Unique Constraint는 같은가요?
+* 애플리케이션 중복 검사가 있는데도 필요한 이유는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>9. Primary Key와 Unique Constraint의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Primary Key와 Unique Constraint 모두 중복을 방지하지만 목적과 제약이 다릅니다.
+
+Primary Key는 Row를 대표해서 식별하는 Key이므로 Table당 하나만 정의할 수 있고 NULL을 허용하지 않습니다.
+
+Unique Constraint는 여러 개를 만들 수 있으며 NULL 처리 방식은 DB마다 차이가 있을 수 있습니다.
+
+MySQL 8.4와 PostgreSQL 18은 기본적으로 Unique 대상의 NULL을 서로 다른 값으로 취급해 여러 NULL을 허용합니다. PostgreSQL에서는 `NULLS NOT DISTINCT`로 NULL도 하나만 허용하도록 바꿀 수 있습니다.
+
+MySQL InnoDB에서는 Primary Key가 Clustered Index이기 때문에 저장 구조에도 직접적인 영향을 줍니다.
+
+### 예상 꼬리질문
+
+* Composite Primary Key는 언제 사용하나요?
+* PostgreSQL Unique에서 NULL은 어떻게 처리되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>10. NULL은 무엇을 의미하나요?</summary>
+
+
+### 면접 답변
+
+NULL은 값이 0이나 빈 문자열이라는 의미가 아니라 **값이 없거나 알 수 없음**을 나타냅니다.
+
+SQL에서는 NULL과의 일반적인 비교가 true나 false가 아니라 UNKNOWN이 될 수 있기 때문에 `= NULL` 대신 `IS NULL`을 사용해야 합니다.
+
+또한 NULL이 포함된 조건식에서는 SQL의 Three-Valued Logic을 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* `NULL = NULL`은 true인가요?
+* COUNT(column)은 NULL을 포함하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>11. NULL과 빈 문자열의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+NULL은 값 자체가 없는 상태이고 빈 문자열 `''`은 길이가 0인 문자열이라는 실제 값입니다.
+
+따라서 의미가 다르고 Query 결과에도 영향을 줍니다.
+
+예를 들어 `COUNT(column)`은 NULL은 제외하지만 빈 문자열은 값으로 취급합니다.
+
+따라서 도메인에서 값이 없는 상태와 빈 값이 의미상 다른지를 기준으로 설계해야 합니다.
+
+### 예상 꼬리질문
+
+* 모든 문자열 Column에 NOT NULL을 붙이는 것이 좋은가요?
+* NULL을 많이 허용하면 어떤 문제가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>12. Constraint에는 어떤 것들이 있나요?</summary>
+
+
+### 면접 답변
+
+대표적으로 Primary Key, Foreign Key, Unique, NOT NULL, CHECK Constraint 등이 있습니다.
+
+Constraint는 애플리케이션 코드에만 의존하지 않고 DB 자체가 데이터 규칙을 보장하도록 만드는 장치입니다.
+
+예를 들어 주문 금액이 음수가 될 수 없다면 CHECK Constraint로 DB 수준의 방어선을 추가할 수도 있습니다.
+
+### 예상 꼬리질문
+
+* Application Validation과 DB Constraint 중 어느 것이 더 중요하나요?
+* CHECK Constraint는 언제 사용하는 것이 좋나요?
+
+
+</details>
+<details class="interview-question">
+<summary>13. Referential Integrity란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Table 간 관계에서 참조하는 데이터가 항상 유효하도록 유지하는 것을 의미합니다.
+
+예를 들어 Order의 `buyer_id`가 User를 참조한다면 존재하지 않는 User ID가 Order에 저장되지 않도록 보장하는 것입니다.
+
+DB에서는 Foreign Key를 통해 이를 강제할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Microservice에서는 Referential Integrity를 어떻게 보장하나요?
+* FK 없이 정합성을 유지하려면 어떻게 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>14. Schema란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Schema는 데이터의 논리적인 구조를 정의하는 개념입니다.
+
+Table, Index, Constraint, View 등의 구조와 관계가 포함됩니다.
+
+다만 `schema`라는 용어의 구체적인 의미는 DB 제품마다 조금 다릅니다.
+
+### 예상 꼬리질문
+
+* Database와 Schema는 같은 것인가요?
+* Schema Migration은 어떻게 관리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>15. MySQL의 Database와 PostgreSQL의 Schema는 어떻게 다른가요?</summary>
+
+
+### 면접 답변
+
+MySQL에서는 Database와 Schema가 사실상 거의 같은 의미로 사용됩니다.
+
+반면 PostgreSQL에서는 하나의 Database 안에 여러 Schema를 둘 수 있습니다.
+
+따라서 PostgreSQL에서는 연결한 Database 내부에서 `schema.table`로 객체를 구분합니다. `database.schema.table` 형태를 쓰더라도 Database 이름은 현재 연결한 Database여야 하며, 다른 Database의 Table을 직접 조회하는 의미는 아닙니다.
+
+### 예상 꼬리질문
+
+* PostgreSQL의 기본 Schema는 무엇인가요?
+* 여러 Schema를 사용하는 장점은 무엇인가요?
+
+
+</details>

@@ -13,3 +13,4 @@ sidebar:
 
 - [Java 면접 질문 100선](/interview/java/)
 - [Spring 면접 질문 100선](/interview/spring/)
+- [DB 면접 질문 100선](/interview/db/)

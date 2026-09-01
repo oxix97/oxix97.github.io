@@ -1,0 +1,393 @@
+---
+title: "Transaction / ACID"
+description: 트랜잭션과 ACID, 격리 수준 및 동시성 현상을 면접 질문과 답변으로 정리합니다.
+slug: interview/db/transactions-acid
+contentType: page
+sidebar:
+  order: 6
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>61. Transaction이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+여러 DB 작업을 하나의 논리적 작업 단위로 묶는 기능입니다.
+
+모든 작업이 성공하면 Commit하고 중간에 실패하면 Rollback해서 일부만 반영되는 상태를 방지합니다.
+
+예를 들어 주문 생성과 주문 상품 저장이 하나의 논리적 작업이라면 같은 Transaction으로 처리할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Transaction 범위를 크게 잡으면 어떤 문제가 있나요?
+* 외부 API까지 Transaction에 포함할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>62. ACID를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+Atomicity는 Transaction 작업이 전부 성공하거나 전부 실패해야 한다는 의미입니다.
+
+Consistency는 Transaction 전후에 DB가 정의한 무결성 규칙을 만족해야 한다는 의미입니다.
+
+Isolation은 동시에 실행되는 Transaction이 서로 간섭하는 정도를 제어하는 것이고 Durability는 Commit된 데이터가 장애 이후에도 보존되어야 한다는 의미입니다.
+
+### 예상 꼬리질문
+
+* Consistency를 DB가 전부 보장해주나요?
+* Durability는 어떤 기술로 보장하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>63. Atomicity란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Transaction 안의 여러 작업을 하나의 단위로 처리해 일부만 반영되지 않도록 하는 성질입니다.
+
+예를 들어 주문 Row는 저장됐는데 주문 상품 저장이 실패했다면 전체를 Rollback해야 합니다.
+
+DB는 Undo 정보 등을 사용해 Rollback을 지원할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Kafka 이벤트 발행까지 Atomic하게 처리할 수 있나요?
+* Transactional Outbox는 왜 필요한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>64. Consistency란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Transaction 전후에 데이터가 정의된 규칙을 만족하는 상태를 유지하는 것을 의미합니다.
+
+예를 들어 Primary Key 중복 금지, Foreign Key 관계, CHECK Constraint 같은 DB 규칙뿐 아니라 애플리케이션의 비즈니스 불변식도 포함할 수 있습니다.
+
+다만 DB가 모든 비즈니스 Consistency를 자동으로 보장하는 것은 아니므로 Application Logic과 Constraint 설계가 함께 필요합니다.
+
+### 예상 꼬리질문
+
+* ACID의 Consistency와 CAP의 Consistency는 같은 개념인가요?
+* 비즈니스 불변식이란 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>65. Isolation이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+여러 Transaction이 동시에 실행될 때 서로의 중간 상태를 어느 정도까지 보게 할 것인지를 의미합니다.
+
+Isolation Level이 낮으면 동시성은 높아질 수 있지만 Dirty Read나 Non-Repeatable Read 같은 이상 현상이 발생할 수 있습니다.
+
+반대로 높은 Isolation은 정합성을 강화하지만 Lock 충돌이나 재시도 등의 비용이 증가할 수 있습니다.
+
+### 예상 꼬리질문
+
+* MVCC와 Isolation은 어떤 관계인가요?
+* Isolation Level을 높이면 동시성이 항상 낮아지나요?
+
+
+</details>
+<details class="interview-question">
+<summary>66. Durability란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Transaction이 Commit되었다면 서버 장애가 발생하더라도 해당 변경이 보존되어야 한다는 성질입니다.
+
+DB는 일반적으로 WAL이나 Redo Log 같은 순차 로그를 먼저 안정적인 저장장치에 기록한 뒤 데이터 Page를 나중에 반영하는 방식으로 이를 지원합니다.
+
+MySQL InnoDB의 Redo Log나 PostgreSQL의 WAL이 대표적입니다.
+
+### 예상 꼬리질문
+
+* WAL이 왜 필요한가요?
+* fsync 설정과 Durability는 어떤 관계인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>67. Commit과 Rollback의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Commit은 현재 Transaction에서 수행한 변경을 최종적으로 확정합니다.
+
+Rollback은 해당 Transaction에서 수행한 변경을 취소하고 이전 일관된 상태로 되돌립니다.
+
+JPA에서 Flush가 발생했다고 Commit된 것은 아니며 Transaction이 최종 Rollback되면 Flush된 SQL 변경도 취소될 수 있습니다.
+
+### 예상 꼬리질문
+
+* Rollback은 어떻게 이전 상태로 돌아가나요?
+* Commit 전에 장애가 발생하면 어떻게 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>68. Auto Commit이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+각 SQL Statement를 별도의 Transaction으로 보고 자동 Commit하는 모드입니다.
+
+명시적인 Transaction 없이 `UPDATE` 한 문장을 실행하면 해당 Statement 완료 후 자동으로 Commit될 수 있습니다.
+
+Spring의 `@Transactional`을 사용하면 Framework가 Connection의 Transaction을 제어하기 때문에 개발자가 직접 Auto Commit을 다룰 일이 많지는 않습니다.
+
+### 예상 꼬리질문
+
+* Connection Pool에서 Auto Commit 상태는 어떻게 관리되나요?
+* SELECT도 Transaction인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>69. Transaction Isolation Level을 설명해주세요.</summary>
+
+
+### 면접 답변
+
+SQL 표준에서는 대표적으로 Read Uncommitted, Read Committed, Repeatable Read, Serializable 네 단계를 정의합니다.
+
+낮은 단계일수록 다른 Transaction의 변경을 더 많이 볼 수 있고 높은 단계로 갈수록 더 강한 격리를 제공합니다.
+
+다만 MySQL과 PostgreSQL은 MVCC 구현 방식이 다르기 때문에 같은 명칭의 Isolation Level도 세부 동작이 완전히 같지는 않습니다.
+
+### 예상 꼬리질문
+
+* MySQL과 PostgreSQL 기본 Isolation은 무엇인가요?
+* Snapshot Isolation은 어디에 해당하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>70. Read Uncommitted란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+다른 Transaction이 아직 Commit하지 않은 데이터까지 읽을 수 있는 가장 낮은 수준의 Isolation입니다.
+
+그래서 Dirty Read가 발생할 수 있습니다.
+
+일관성이 중요한 일반적인 비즈니스 시스템에서는 거의 사용하지 않는 편입니다.
+
+PostgreSQL은 `READ UNCOMMITTED`을 요청해도 내부적으로 `READ COMMITTED`처럼 처리하므로 Dirty Read를 허용하지 않습니다.
+
+### 예상 꼬리질문
+
+* Dirty Read가 실제로 어떤 문제를 만들 수 있나요?
+* PostgreSQL은 Read Uncommitted를 실제로 어떻게 처리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>71. Read Committed란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+다른 Transaction에서 Commit된 데이터만 볼 수 있도록 하는 수준입니다.
+
+Dirty Read는 방지하지만 같은 Transaction에서 동일 Row를 두 번 조회했을 때 중간에 다른 Transaction이 수정하고 Commit하면 결과가 달라지는 Non-Repeatable Read가 발생할 수 있습니다.
+
+PostgreSQL의 기본 Isolation Level입니다.
+
+### 예상 꼬리질문
+
+* 각 Statement마다 Snapshot이 달라질 수 있나요?
+* Non-Repeatable Read 예시를 들어주세요.
+
+
+</details>
+<details class="interview-question">
+<summary>72. Repeatable Read란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+같은 Transaction 안에서 한 번 읽은 Row를 다시 읽었을 때 동일한 값을 볼 수 있도록 하는 Isolation Level입니다.
+
+MySQL InnoDB의 기본 Isolation Level입니다. 일반 `SELECT`인 Consistent Read는 같은 Transaction에서 처음 만든 Snapshot을 재사용합니다.
+
+반면 `SELECT ... FOR UPDATE` 같은 Locking Read는 Snapshot Read가 아니라 최신 상태의 Record를 읽고 잠급니다. 범위 Locking Read에서는 Next-Key Lock 등으로 Phantom을 막습니다.
+
+PostgreSQL Repeatable Read는 Snapshot Isolation 기반이며 Phantom Read를 허용하지 않지만 Serialization Anomaly는 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* MySQL Repeatable Read에서 Phantom이 발생하나요?
+* PostgreSQL Repeatable Read와 어떤 차이가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>73. Serializable이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+동시에 실행되는 Transaction의 결과가 마치 하나씩 순서대로 실행된 것과 동일하도록 보장하는 가장 강한 Isolation Level입니다.
+
+정합성은 강하지만 충돌 시 Transaction 대기나 실패, 재시도가 증가해 동시성이 떨어질 수 있습니다.
+
+PostgreSQL은 Serializable Snapshot Isolation 방식으로 직렬화할 수 없는 실행을 감지합니다. 이때 Serialization Failure로 Transaction을 중단하므로 애플리케이션은 전체 Transaction을 재시도해야 합니다.
+
+### 예상 꼬리질문
+
+* Serializable이면 모든 Transaction이 실제로 순차 실행되나요?
+* Serialization Failure는 어떻게 처리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>74. Dirty Read란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+다른 Transaction이 아직 Commit하지 않은 변경 데이터를 읽는 현상입니다.
+
+예를 들어 A가 잔액을 100에서 0으로 변경했지만 아직 Commit하지 않았는데 B가 0을 읽은 뒤 A가 Rollback하면 B는 실제 존재하지 않았던 값을 사용한 것입니다.
+
+Read Committed 이상에서는 방지됩니다.
+
+### 예상 꼬리질문
+
+* Dirty Write는 무엇인가요?
+* PostgreSQL에서는 Dirty Read가 가능한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>75. Non-Repeatable Read란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+한 Transaction 안에서 같은 Row를 두 번 읽었는데 중간에 다른 Transaction이 해당 Row를 변경하고 Commit해서 값이 달라지는 현상입니다.
+
+Read Committed에서는 발생할 수 있고 Repeatable Read에서는 일반적으로 방지됩니다.
+
+### 예상 꼬리질문
+
+* Phantom Read와 차이는 무엇인가요?
+* Snapshot이 있으면 왜 방지되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>76. Phantom Read란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+같은 조건의 범위 Query를 Transaction 안에서 다시 실행했는데 다른 Transaction이 새로운 Row를 INSERT하거나 DELETE해서 결과 Row 집합이 달라지는 현상입니다.
+
+Non-Repeatable Read가 기존 Row의 값 변화라면 Phantom Read는 조건에 해당하는 **Row 집합 변화**에 가깝습니다.
+
+다만 MySQL과 PostgreSQL의 MVCC 구현 때문에 SQL 표준의 단순 설명과 실제 동작이 다를 수 있습니다.
+
+### 예상 꼬리질문
+
+* MySQL에서 Next-Key Lock이 어떻게 Phantom을 막나요?
+* PostgreSQL Repeatable Read에서는 Phantom이 발생하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>77. MySQL InnoDB의 기본 Isolation Level은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+MySQL InnoDB의 기본 Transaction Isolation Level은 **Repeatable Read**입니다.
+
+Consistent Read에서는 첫 조회 시 만든 Snapshot을 같은 Transaction의 이후 조회에서도 사용합니다.
+
+Locking Read는 최신 상태를 읽고 Record Lock과 Gap/Next-Key Lock 등을 사용하므로 Consistent Read와 구분해야 합니다.
+
+### 예상 꼬리질문
+
+* 왜 MySQL은 Repeatable Read를 기본으로 사용하나요?
+* `SELECT FOR UPDATE`도 Snapshot Read인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>78. PostgreSQL 기본 Isolation Level은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+PostgreSQL의 기본 Isolation Level은 **Read Committed**입니다.
+
+각 SQL Statement가 시작될 때 해당 시점에 Commit된 데이터를 기준으로 Snapshot을 볼 수 있습니다.
+
+따라서 같은 Transaction이라도 두 SELECT 사이에 다른 Transaction이 Commit하면 결과가 달라질 수 있습니다.
+
+### 예상 꼬리질문
+
+* Repeatable Read에서는 Snapshot이 언제 생성되나요?
+* Read Uncommitted를 요청하면 어떻게 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>79. Isolation Level이 높아지면 어떤 Trade-off가 발생하나요?</summary>
+
+
+### 면접 답변
+
+더 강한 일관성을 제공할 수 있지만 동시에 처리할 수 있는 Transaction 수가 줄어들거나 충돌과 재시도가 증가할 수 있습니다.
+
+Lock 기반이라면 대기 시간이 늘어날 수 있고 MVCC 기반 Serializable에서도 Serialization Failure가 발생할 수 있습니다.
+
+따라서 무조건 가장 높은 Isolation을 선택하기보다 비즈니스에서 실제로 방지해야 하는 이상 현상에 맞게 선택합니다.
+
+### 예상 꼬리질문
+
+* 결제 시스템이면 무조건 Serializable이 좋은가요?
+* Application Lock으로 대체할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>80. Isolation Level을 어떤 기준으로 선택하겠습니까?</summary>
+
+
+### 면접 답변
+
+먼저 해당 비즈니스가 어떤 동시성 이상 현상을 허용하면 안 되는지 정의하겠습니다.
+
+그다음 DB가 제공하는 MVCC와 Lock 동작을 확인하고 필요한 Query에 비관적 락, 낙관적 락, Unique Constraint 등을 조합하겠습니다.
+
+전체 시스템 Isolation을 무조건 높이기보다 기본 Level을 유지하면서 경쟁이 발생하는 중요한 지점만 명시적으로 제어하는 방법을 우선 검토하겠습니다.
+
+### 예상 꼬리질문
+
+* 중복 주문에는 Isolation Level을 올리는 것이 좋은가요?
+* Unique Constraint와 Lock 중 무엇을 선택하나요?
+
+
+</details>

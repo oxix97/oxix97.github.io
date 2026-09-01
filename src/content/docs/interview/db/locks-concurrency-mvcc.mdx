@@ -1,0 +1,207 @@
+---
+title: "Lock / Concurrency / MVCC"
+description: 데이터베이스 잠금과 교착 상태, MVCC의 동작을 면접 질문과 답변으로 정리합니다.
+slug: interview/db/locks-concurrency-mvcc
+contentType: page
+sidebar:
+  order: 7
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>81. DB Lock이 필요한 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+여러 Transaction이 동시에 같은 데이터에 접근하고 수정할 때 데이터 손실이나 잘못된 상태 전이를 방지하기 위해 필요합니다.
+
+예를 들어 같은 재고 수량을 두 Transaction이 동시에 읽고 차감하면 Lost Update가 발생할 수 있습니다.
+
+DB는 Row Lock 등 다양한 Lock을 제공하고 애플리케이션에서는 필요에 따라 Pessimistic Lock이나 Optimistic Lock을 활용합니다.
+
+### 예상 꼬리질문
+
+* 모든 조회에 Lock을 걸면 어떻게 되나요?
+* Lost Update란 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>82. Shared Lock과 Exclusive Lock의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Shared Lock은 여러 Transaction이 동시에 읽을 수 있도록 허용하지만 일반적으로 해당 Row에 대한 충돌하는 쓰기는 제한합니다.
+
+Exclusive Lock은 데이터 변경을 위한 Lock으로 다른 Transaction의 충돌하는 Lock 획득을 제한합니다.
+
+구체적인 호환성 규칙은 DB와 Lock 종류에 따라 다르므로 실제 DB 문서를 기준으로 봐야 합니다.
+
+### 예상 꼬리질문
+
+* SELECT는 항상 Shared Lock을 획득하나요?
+* MVCC에서는 일반 SELECT에 Lock이 필요한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>83. Optimistic Lock과 Pessimistic Lock의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Optimistic Lock은 충돌이 자주 발생하지 않는다고 가정하고 실제 UPDATE 시점에 Version 등을 비교해 충돌을 감지합니다.
+
+충돌하면 한 Transaction이 실패하고 애플리케이션이 재시도하거나 사용자에게 실패를 반환합니다.
+
+Pessimistic Lock은 충돌 가능성이 높다고 보고 데이터를 읽는 시점부터 Lock을 획득해 다른 Transaction의 접근을 제한합니다.
+
+따라서 충돌 빈도, Lock 보유 시간, 실패 재시도 비용을 기준으로 선택합니다.
+
+### 예상 꼬리질문
+
+* JPA `@Version`은 어떻게 동작하나요?
+* 재고 차감에는 어떤 방식을 사용하시겠습니까?
+
+
+</details>
+<details class="interview-question">
+<summary>84. `SELECT ... FOR UPDATE`는 언제 사용하나요?</summary>
+
+
+### 면접 답변
+
+조회한 Row를 이후 변경할 예정이고 그 사이 다른 Transaction이 충돌하는 변경을 하지 못하도록 막아야 할 때 사용합니다.
+
+예를 들어 특정 계좌나 재고 Row를 읽은 뒤 현재 값을 기반으로 변경해야 하는 경우입니다.
+
+기본적으로 Query가 찾아 잠근 Row에 효과가 있으며, 존재하지 않는 Row나 범위 조건을 어떻게 보호하는지는 Index와 격리 수준, DBMS의 Gap 또는 Predicate Lock 동작에 따라 달라집니다.
+
+Lock은 Transaction 종료까지 유지될 수 있기 때문에 Transaction 안에서 외부 API 호출처럼 오래 걸리는 작업을 함께 수행하지 않는 것이 중요합니다.
+
+### 예상 꼬리질문
+
+* 존재하지 않는 Row를 FOR UPDATE 하면 어떻게 되나요?
+* MySQL Gap Lock과 어떤 관계가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>85. Deadlock이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+두 개 이상의 Transaction이 서로 상대방이 보유한 Lock을 기다려 더 이상 진행할 수 없는 상태입니다.
+
+예를 들어 A Transaction이 Row 1을 잠근 뒤 Row 2를 기다리고 B가 Row 2를 잠근 뒤 Row 1을 기다리는 경우입니다.
+
+DB는 Deadlock을 감지하면 일반적으로 한 Transaction을 Victim으로 선택해 Rollback시키고 나머지가 진행하도록 합니다.
+
+### 예상 꼬리질문
+
+* Lock Wait Timeout과 Deadlock의 차이는 무엇인가요?
+* Deadlock 로그는 어디서 확인하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>86. DB는 Deadlock이 발생하면 어떻게 처리하나요?</summary>
+
+
+### 면접 답변
+
+DB는 Lock 대기 관계를 분석해 Cycle을 감지하고 하나의 Transaction을 중단시켜 Deadlock을 해소합니다.
+
+MySQL InnoDB나 PostgreSQL 모두 Deadlock 상황에서 하나의 Transaction이 오류로 종료될 수 있습니다.
+
+따라서 애플리케이션은 중요한 Transaction에 대해 Deadlock 오류를 적절히 재시도할 수 있도록 설계할 필요가 있습니다.
+
+### 예상 꼬리질문
+
+* 무조건 재시도해도 되나요?
+* Retry 횟수와 Backoff는 어떻게 정하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>87. Deadlock을 줄이는 방법에는 무엇이 있나요?</summary>
+
+
+### 면접 답변
+
+가장 기본적인 방법은 여러 Row나 Resource를 잠글 때 항상 동일한 순서로 접근하는 것입니다.
+
+Transaction 범위를 줄여 Lock 보유 시간을 최소화하고 필요한 Row만 Lock하도록 Query와 Index를 개선하는 것도 중요합니다.
+
+대량 UPDATE를 작은 단위로 나누거나 실패 시 짧은 Backoff를 두고 재시도하는 방식도 고려할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Index가 Deadlock에 영향을 줄 수 있나요?
+* Transaction이 짧으면 Deadlock이 완전히 없어지나요?
+
+
+</details>
+<details class="interview-question">
+<summary>88. MVCC란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+MVCC는 Multi-Version Concurrency Control로 하나의 데이터에 여러 Version을 유지해서 Reader와 Writer의 충돌을 줄이는 동시성 제어 방식입니다.
+
+일반적인 Reader가 Writer의 미완료 변경을 기다리는 대신 자신이 볼 수 있는 Version을 읽도록 합니다. 다만 DDL이나 명시적 Lock 등 모든 종류의 대기를 없애는 것은 아닙니다.
+
+MySQL InnoDB는 Undo 정보를 활용해 이전 Version을 제공하고 PostgreSQL은 Tuple Version 자체를 Heap에 유지하는 방식이 핵심적인 차이입니다.
+
+### 예상 꼬리질문
+
+* MVCC가 있으면 Lock이 필요 없나요?
+* Snapshot은 어떻게 결정되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>89. MVCC가 동시성을 높이는 원리를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+읽기 작업이 반드시 최신 Physical Row 하나만 읽지 않고 현재 Transaction의 Snapshot에서 보이는 Version을 읽을 수 있게 하기 때문입니다.
+
+따라서 Writer가 Row를 수정하고 있어도 일반적인 Reader는 이전 Commit Version을 읽으면서 진행할 수 있습니다.
+
+그 결과 Read와 Write 사이의 Lock 경쟁이 줄어듭니다.
+
+하지만 동시에 같은 Row를 수정하는 Write-Write 충돌에는 여전히 Lock이나 충돌 제어가 필요합니다.
+
+### 예상 꼬리질문
+
+* MVCC에서 오래 열린 Transaction이 왜 문제가 되나요?
+* Vacuum이나 Undo 정리에 어떤 영향을 주나요?
+
+
+</details>
+<details class="interview-question">
+<summary>90. MySQL과 PostgreSQL의 MVCC 구현 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+MySQL InnoDB는 현재 Record와 함께 Undo Log를 이용해서 이전 Version을 찾아가는 구조입니다.
+
+PostgreSQL은 UPDATE 시 기존 Tuple을 직접 덮어쓰기보다 새로운 Tuple Version을 생성하고 기존 Version은 이후 VACUUM 대상이 됩니다.
+
+그래서 PostgreSQL에서는 Dead Tuple과 VACUUM 관리가 특히 중요하고, MySQL에서는 Undo History와 장기 Transaction이 문제될 수 있습니다.
+
+### 예상 꼬리질문
+
+* PostgreSQL UPDATE가 새로운 Tuple을 만든다는 의미는 무엇인가요?
+* MySQL Undo Log가 길어지면 어떤 문제가 있나요?
+
+
+</details>

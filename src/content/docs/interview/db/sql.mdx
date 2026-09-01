@@ -1,0 +1,300 @@
+---
+title: "SQL"
+description: SQL 실행 순서와 JOIN, 집계, 서브쿼리, Window Function을 면접 질문과 답변으로 정리합니다.
+slug: interview/db/sql
+contentType: page
+sidebar:
+  order: 3
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>16. SELECT문의 논리적 실행 순서를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+SQL을 작성하는 순서와 논리적으로 처리되는 순서는 다릅니다.
+
+일반적으로 개념적인 순서는 `FROM/JOIN → WHERE → GROUP BY → HAVING → SELECT → DISTINCT → ORDER BY → LIMIT`으로 이해할 수 있습니다.
+
+이 때문에 SELECT에서 만든 Alias를 같은 단계보다 앞서 처리되는 WHERE에서 바로 사용할 수 없는 경우가 있습니다.
+
+실제 물리적 실행 순서는 Optimizer가 실행 계획에 따라 변경할 수 있습니다.
+
+### 예상 꼬리질문
+
+* SQL 문법 순서와 실행 순서가 다른 이유는 무엇인가요?
+* Optimizer가 JOIN 순서를 변경할 수도 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>17. WHERE와 HAVING의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+WHERE는 Grouping 전에 개별 Row를 필터링하고 HAVING은 GROUP BY로 집계된 결과를 필터링합니다.
+
+예를 들어 주문 금액이 10,000원 이상인 Row만 대상으로 하고 싶다면 WHERE를 사용하고, 사용자별 주문 건수가 10건 이상인 그룹만 찾고 싶다면 HAVING을 사용합니다.
+
+가능하면 집계 전에 제거할 수 있는 조건은 WHERE에서 처리하는 것이 처리할 Row 수를 줄일 수 있습니다.
+
+### 예상 꼬리질문
+
+* HAVING을 GROUP BY 없이 사용할 수 있나요?
+* WHERE에 aggregate function을 사용할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>18. GROUP BY는 언제 사용하나요?</summary>
+
+
+### 면접 답변
+
+여러 Row를 특정 기준으로 그룹화해서 COUNT, SUM, AVG 같은 집계 연산을 수행할 때 사용합니다.
+
+예를 들어 사용자별 주문 건수나 상품별 매출 합계를 계산할 때 사용할 수 있습니다.
+
+GROUP BY 대상이 많고 데이터량이 크다면 정렬이나 Hash Aggregate 비용이 커질 수 있어 실행 계획을 확인해야 합니다.
+
+### 예상 꼬리질문
+
+* GROUP BY가 느려지는 원인은 무엇인가요?
+* Index가 GROUP BY에 도움이 될 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>19. ORDER BY가 성능에 영향을 주는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+원하는 순서와 일치하는 Index가 없다면 DB가 결과 Row를 별도로 정렬해야 하기 때문입니다.
+
+데이터가 많으면 정렬에 CPU와 Memory가 필요하고 메모리가 부족하면 Disk 작업으로 이어질 수도 있습니다.
+
+반대로 `WHERE + ORDER BY` 조건과 맞는 적절한 Index가 있다면 Index 순서를 활용해 추가 Sort를 줄일 수 있습니다.
+
+### 예상 꼬리질문
+
+* Index를 만들면 ORDER BY가 항상 빨라지나요?
+* ASC와 DESC가 섞인 정렬은 어떻게 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>20. INNER JOIN과 LEFT JOIN의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+INNER JOIN은 양쪽 Table에서 Join 조건에 일치하는 Row만 반환합니다.
+
+LEFT JOIN은 왼쪽 Table의 모든 Row를 유지하고 오른쪽에 매칭되는 Row가 없다면 해당 Column을 NULL로 반환합니다.
+
+따라서 연관 데이터가 반드시 존재하는지 아니면 없어도 기준 Table 결과를 유지해야 하는지에 따라 선택합니다.
+
+### 예상 꼬리질문
+
+* LEFT JOIN 후 WHERE에 오른쪽 Table 조건을 넣으면 어떻게 되나요?
+* OUTER JOIN에는 어떤 종류가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>21. CROSS JOIN이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+두 Table의 모든 Row 조합을 만들어 Cartesian Product를 반환하는 Join입니다.
+
+A Table에 100 Row, B Table에 100 Row가 있다면 최대 10,000 Row가 생성됩니다.
+
+의도적으로 조합을 생성할 때 사용할 수 있지만 Join 조건을 실수로 빠뜨렸을 때도 비슷한 결과가 나와 성능 문제를 만들 수 있습니다.
+
+### 예상 꼬리질문
+
+* Cartesian Product란 무엇인가요?
+* 실수로 CROSS JOIN이 발생했는지 어떻게 확인하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>22. Self Join은 언제 사용하나요?</summary>
+
+
+### 면접 답변
+
+하나의 Table이 자기 자신과 관계를 가지고 있는 데이터를 조회할 때 사용합니다.
+
+예를 들어 Employee Table에 `manager_id`가 같은 Employee Table의 `id`를 참조한다면 직원과 상사를 함께 조회하기 위해 같은 Table에 Alias를 주어 Join할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 계층형 데이터에는 Self Join이 항상 적합한가요?
+* Recursive CTE는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>23. Subquery와 Join 중 어떤 것을 선택하시겠습니까?</summary>
+
+
+### 면접 답변
+
+무조건 Join이 빠르거나 Subquery가 느리다고 단정하지 않습니다.
+
+현대 DB Optimizer는 Subquery를 Join 형태로 변환하는 등 다양한 최적화를 수행할 수 있습니다.
+
+따라서 먼저 의도를 가장 명확하게 표현하는 Query를 작성하고 데이터량과 실행 계획을 확인해서 결정합니다.
+
+특히 Correlated Subquery처럼 Row마다 반복 실행될 가능성이 있는 구조는 주의해서 봅니다.
+
+### 예상 꼬리질문
+
+* 실행 계획에서 무엇을 확인하나요?
+* Subquery가 더 적합한 사례도 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>24. Correlated Subquery란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+외부 Query의 Column을 참조하는 Subquery입니다.
+
+논리적으로 외부 Query의 각 Row에 대해 Subquery를 평가하는 형태가 될 수 있어 데이터량이 크면 비용이 증가할 수 있습니다.
+
+다만 실제 실행 방식은 Optimizer에 따라 달라질 수 있기 때문에 실행 계획을 확인해야 합니다.
+
+### 예상 꼬리질문
+
+* EXISTS가 Correlated Subquery로 사용되는 예를 들어주세요.
+* Join으로 변경하면 항상 빨라지나요?
+
+
+</details>
+<details class="interview-question">
+<summary>25. EXISTS와 IN의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+IN은 특정 값이 집합 안에 존재하는지를 확인하고 EXISTS는 Subquery 결과에 Row가 하나라도 존재하는지를 확인합니다.
+
+EXISTS는 조건을 만족하는 Row를 찾으면 논리적으로 더 이상 확인할 필요가 없습니다.
+
+하지만 실제 성능은 Optimizer가 Semi Join 등으로 변환할 수 있기 때문에 단순히 EXISTS가 항상 빠르다고 말하면 안 됩니다.
+
+또한 `NOT IN`은 Subquery 결과에 NULL이 포함되면 예상과 다른 결과가 나올 수 있어 주의해야 합니다.
+
+### 예상 꼬리질문
+
+* NOT EXISTS와 NOT IN의 차이는 무엇인가요?
+* NULL이 들어가면 왜 문제가 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>26. UNION과 UNION ALL의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+둘 다 여러 SELECT 결과를 합치는 연산입니다.
+
+UNION은 중복을 제거하고 UNION ALL은 중복을 그대로 유지합니다.
+
+UNION은 중복 제거를 위해 추가적인 Sort나 Hash 작업이 필요할 수 있기 때문에 중복 제거가 필요하지 않다면 UNION ALL이 더 효율적입니다.
+
+### 예상 꼬리질문
+
+* UNION할 Column 타입이 다르면 어떻게 되나요?
+* JOIN과 UNION의 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>27. COUNT(*)와 COUNT(column)의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`COUNT(*)`는 조건에 해당하는 Row 수를 세고 NULL 여부와 관계없이 계산합니다.
+
+`COUNT(column)`은 해당 Column 값이 NULL이 아닌 Row만 셉니다.
+
+따라서 의미가 다르기 때문에 전체 Row 수를 알고 싶다면 일반적으로 COUNT(*)를 사용합니다.
+
+### 예상 꼬리질문
+
+* COUNT(1)이 COUNT(*)보다 빠른가요?
+* Index만으로 COUNT가 처리될 수도 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>28. DISTINCT는 어떻게 처리될 수 있나요?</summary>
+
+
+### 면접 답변
+
+DISTINCT는 SELECT 결과에서 중복 Row를 제거합니다.
+
+DB는 이를 위해 Sort 후 중복 제거를 하거나 Hash 기반 중복 제거를 사용할 수 있습니다.
+
+대상 데이터가 많으면 비용이 커질 수 있기 때문에 JOIN이 잘못되어 중복이 발생한 것을 단순히 DISTINCT로 감추는 것은 피해야 합니다.
+
+### 예상 꼬리질문
+
+* JOIN 후 DISTINCT를 사용하는 것이 왜 위험할 수 있나요?
+* GROUP BY로도 중복 제거가 가능한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>29. Window Function이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Window Function은 Row를 GROUP BY처럼 하나로 합치지 않고 각 Row를 유지하면서 그룹 단위 계산을 수행하는 기능입니다.
+
+`ROW_NUMBER`, `RANK`, `SUM() OVER`, `LAG`, `LEAD` 등이 대표적입니다.
+
+예를 들어 각 사용자별 최신 주문을 찾거나 누적 합계를 계산하는 데 유용합니다.
+
+### 예상 꼬리질문
+
+* GROUP BY와 차이는 무엇인가요?
+* PARTITION BY와 ORDER BY의 역할은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>30. ROW_NUMBER, RANK, DENSE_RANK 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`ROW_NUMBER`는 정렬 결과에 무조건 고유한 순번을 부여합니다.
+
+`RANK`는 동점이면 같은 순위를 주고 다음 순위가 건너뜁니다. 예를 들어 1, 1, 3이 됩니다.
+
+`DENSE_RANK`도 동점은 같은 순위를 주지만 다음 순위를 건너뛰지 않아 1, 1, 2가 됩니다.
+
+### 예상 꼬리질문
+
+* 그룹별 최신 Row 하나를 구하려면 어떻게 하나요?
+* 동일 값의 순서가 결정되지 않으면 어떤 문제가 있나요?
+
+
+</details>

@@ -73,6 +73,10 @@ export default defineConfig({
               label: 'Spring',
               items: [{ autogenerate: { directory: 'interview/spring' } }],
             },
+            {
+              label: 'DB',
+              items: [{ autogenerate: { directory: 'interview/db' } }],
+            },
           ],
         },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
