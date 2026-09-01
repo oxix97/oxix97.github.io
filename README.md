@@ -29,7 +29,7 @@ artifact checks.
 ## Content
 
 - `src/content/docs/study/`: evergreen knowledge documents
-- `src/content/docs/troubleshooting/`: verified problem-solving records
+- `src/content/docs/interview/`: interview-question index
 - `src/content/docs/projects/`: project context and decisions
 - `src/content/docs/blog/`: chronological posts managed by starlight-blog
 - `src/content/docs/about.md`: profile and work philosophy

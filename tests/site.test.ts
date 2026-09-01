@@ -8,7 +8,7 @@ describe('site navigation contract', () => {
     expect(hrefs).toEqual([
       '/',
       '/study/',
-      '/troubleshooting/',
+      '/interview/',
       '/projects/',
       '/blog/',
       '/about/',

@@ -61,10 +61,7 @@ export default defineConfig({
             },
           ],
         },
-        {
-          label: 'Troubleshooting',
-          items: [{ autogenerate: { directory: 'troubleshooting' } }],
-        },
+        { label: '면접 질문', items: [{ slug: 'interview' }] },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },
         { label: 'Blog', link: '/blog/' },
         { label: 'About', link: '/about/' },

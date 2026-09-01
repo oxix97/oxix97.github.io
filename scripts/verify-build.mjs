@@ -6,7 +6,7 @@ const expectedFiles = [
   'index.html',
   '404.html',
   'about/index.html',
-  'troubleshooting/index.html',
+  'interview/index.html',
   'study/design-patterns/index.html',
   'study/design-patterns/introduction/index.html',
   'study/design-patterns/singleton-basics/index.html',
@@ -62,13 +62,14 @@ await assertMissing('retrospectives/index.html');
 await assertMissing('retrospectives/2026-first-half/index.html');
 await assertMissing('projects/developer-hub/index.html');
 await assertMissing('study/http-cache-control/index.html');
+await assertMissing('troubleshooting/index.html');
 
 const home = await readFile(new URL('index.html', distUrl), 'utf8');
 for (const requiredText of [
   'lang="ko"',
   '기록으로 성장하는 백엔드 개발자',
   '대표 프로젝트',
-  'Study에서 지식을, Blog에서 시간순 기록을',
+  'Study에서 지식을, 면접 질문에서 복습할 질문을, Blog에서 시간순 기록을',
   '/projects/stockwellness/',
   '/blog/',
   '개발 블로그',
