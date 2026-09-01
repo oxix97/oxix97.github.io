@@ -1,0 +1,407 @@
+---
+title: "Spring MVC / HTTP"
+description: Spring MVC 요청 처리와 HTTP API 설계를 면접 질문과 답변으로 정리합니다.
+slug: interview/spring/spring-mvc-http
+contentType: page
+sidebar:
+  order: 4
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>31. Spring MVC의 요청 처리 흐름을 설명해주세요.</summary>
+
+
+### 면접 답변
+
+클라이언트 요청이 들어오면 먼저 DispatcherServlet이 요청을 받습니다.
+
+DispatcherServlet은 HandlerMapping을 이용해 요청을 처리할 Controller를 찾고 HandlerAdapter를 통해 해당 Controller 메서드를 호출합니다.
+
+Controller 결과는 ViewResolver를 통해 View로 전달되거나 REST API라면 HttpMessageConverter를 통해 JSON 같은 응답 Body로 변환됩니다.
+
+예외가 발생한 경우에는 HandlerExceptionResolver 계열이 처리할 수 있습니다.
+
+### 예상 꼬리질문
+
+* DispatcherServlet이 Front Controller인 이유는 무엇인가요?
+* HttpMessageConverter는 언제 사용되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>32. DispatcherServlet의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring MVC에서 모든 HTTP 요청을 중앙에서 받아 적절한 Handler로 연결하는 Front Controller입니다.
+
+요청에 맞는 Controller 탐색, Handler 호출, 결과 처리, 예외 처리 등의 흐름을 조율합니다.
+
+이를 통해 각 Controller가 Servlet API의 전체 흐름을 직접 관리하지 않아도 됩니다.
+
+### 예상 꼬리질문
+
+* Front Controller Pattern의 장점은 무엇인가요?
+* Filter는 DispatcherServlet 이전에 실행되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>33. HandlerMapping이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+HTTP 요청을 처리할 Handler, 일반적으로 Controller 메서드를 찾아주는 역할입니다.
+
+예를 들어 `/orders/1` GET 요청이 들어오면 해당 URL과 HTTP Method에 대응되는 `@GetMapping` 메서드를 찾습니다.
+
+DispatcherServlet은 직접 Controller를 탐색하는 대신 HandlerMapping에게 적절한 Handler를 요청합니다.
+
+### 예상 꼬리질문
+
+* `@RequestMapping` 정보는 언제 등록되나요?
+* Handler가 꼭 Controller 메서드인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>34. HandlerAdapter의 역할은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+DispatcherServlet이 다양한 형태의 Handler를 일관된 방식으로 실행할 수 있도록 중간에서 호출을 추상화하는 역할입니다.
+
+Spring MVC의 `@RequestMapping` 기반 Controller는 일반적으로 RequestMappingHandlerAdapter가 처리합니다.
+
+파라미터 바인딩, `@RequestBody`, `@PathVariable`, 반환값 처리 등도 이 과정과 연관되어 있습니다.
+
+### 예상 꼬리질문
+
+* HandlerAdapter가 없으면 어떤 문제가 있나요?
+* ArgumentResolver와 어떤 관계가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>35. `@Controller`와 `@RestController`의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`@Controller`는 일반적으로 View를 반환하는 Spring MVC Controller에 사용됩니다.
+
+객체를 Response Body에 직접 반환하려면 `@ResponseBody`를 추가할 수 있습니다.
+
+`@RestController`는 사실상 `@Controller`와 `@ResponseBody`가 결합된 형태라 메서드 반환값이 HttpMessageConverter를 통해 JSON 같은 응답 Body로 직렬화됩니다.
+
+REST API에서는 보통 `@RestController`를 사용합니다.
+
+### 예상 꼬리질문
+
+* String을 반환하면 어떻게 되나요?
+* JSON 변환은 누가 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>36. `@RequestMapping`은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+HTTP 요청 URL, Method, Header, Content-Type 등을 특정 Controller 또는 메서드와 매핑하는 애노테이션입니다.
+
+`@GetMapping`, `@PostMapping` 등은 HTTP Method별로 `@RequestMapping`을 편리하게 사용하도록 만든 애노테이션입니다.
+
+클래스 레벨에는 공통 URL을 두고 메서드 레벨에 세부 URL을 정의할 수 있습니다.
+
+### 예상 꼬리질문
+
+* consumes와 produces는 무엇인가요?
+* GET과 POST를 같은 URL에 매핑할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>37. `@PathVariable`과 `@RequestParam` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+PathVariable은 URL Path 자체에 포함된 값을 추출할 때 사용합니다.
+
+예를 들어 `/orders/{orderId}`에서 orderId는 특정 주문이라는 Resource를 식별합니다.
+
+RequestParam은 `/orders?status=PAID`처럼 Query String 값을 받을 때 사용합니다.
+
+일반적으로 Resource 식별자는 PathVariable, 검색 조건이나 필터, Pagination은 Query Parameter를 사용하는 방식이 자연스럽습니다.
+
+### 예상 꼬리질문
+
+* 필수 여부를 지정할 수 있나요?
+* 복잡한 Query Parameter 객체는 어떻게 받나요?
+
+
+</details>
+<details class="interview-question">
+<summary>38. `@RequestBody`는 어떻게 JSON을 객체로 변환하나요?</summary>
+
+
+### 면접 답변
+
+Controller 메서드 파라미터에 `@RequestBody`가 있으면 Spring MVC가 요청 Body를 HttpMessageConverter에게 전달합니다.
+
+JSON 요청의 경우 일반적으로 Jackson 기반 Converter가 사용되어 JSON 데이터를 Java 객체로 역직렬화합니다.
+
+따라서 DTO의 필드와 JSON 구조가 적절하게 매핑되어야 합니다.
+
+### 예상 꼬리질문
+
+* Jackson ObjectMapper는 어떤 역할을 하나요?
+* 생성자가 없으면 역직렬화가 안 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>39. HttpMessageConverter란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+HTTP 요청 Body와 Java 객체 사이를 변환하거나 Java 객체를 HTTP 응답 Body로 변환하는 인터페이스입니다.
+
+JSON의 경우 Jackson 기반 Converter가 대표적입니다.
+
+요청의 Content-Type과 응답의 Accept Header 등을 기준으로 적절한 Converter가 선택됩니다.
+
+### 예상 꼬리질문
+
+* String 응답은 어떤 Converter가 처리하나요?
+* XML도 처리할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>40. Jackson은 Spring에서 어떤 역할을 하나요?</summary>
+
+
+### 면접 답변
+
+Jackson은 Java 객체와 JSON 간 직렬화와 역직렬화를 수행하는 라이브러리입니다.
+
+Spring Boot Web 환경에서 REST Controller가 객체를 반환하면 Jackson ObjectMapper를 이용해 JSON으로 변환하는 경우가 일반적입니다.
+
+필드 이름 변경, 날짜 형식, null 처리 등 직렬화 정책도 설정할 수 있습니다.
+
+### 예상 꼬리질문
+
+* `@JsonIgnore`는 무엇인가요?
+* Entity를 바로 Jackson으로 직렬화하면 어떤 문제가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>41. Controller에서 DTO를 사용하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+API의 요청과 응답 계약을 내부 도메인이나 Entity 구조와 분리하기 위해 사용합니다.
+
+Entity를 직접 Request나 Response에 사용하면 DB 컬럼이나 연관관계 변경이 API 스펙 변경으로 이어질 수 있습니다.
+
+또한 API에서 허용해야 할 값만 명확하게 정의할 수 있어 보안과 Validation 측면에서도 유리합니다.
+
+따라서 Controller 경계에서는 별도의 DTO를 두는 것이 유지보수에 좋다고 생각합니다.
+
+### 예상 꼬리질문
+
+* DTO와 Domain 객체 변환은 어디서 하나요?
+* Request DTO와 Response DTO도 분리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>42. Entity를 API Response로 직접 반환하면 어떤 문제가 있나요?</summary>
+
+
+### 면접 답변
+
+첫 번째는 Persistence Layer 구조가 API 계약에 노출된다는 문제입니다.
+
+두 번째로 Lazy Loading된 연관관계를 직렬화하는 과정에서 추가 Query가 발생하거나 N+1 문제가 발생할 수 있습니다.
+
+양방향 연관관계에서는 순환 참조 문제도 발생할 수 있습니다.
+
+또한 Entity에 민감한 필드가 추가되었을 때 의도치 않게 API로 노출될 가능성도 있어 DTO를 별도로 사용하는 것이 안전합니다.
+
+### 예상 꼬리질문
+
+* OSIV가 켜져 있다면 괜찮은가요?
+* Projection DTO를 사용할 수도 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>43. HTTP GET과 POST의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+GET은 일반적으로 Resource를 조회하는 데 사용하며 Safe하고 Idempotent한 Method입니다.
+
+POST는 Resource 생성이나 서버 상태를 변경하는 작업 등에 사용되며 일반적으로 Idempotent하지 않습니다.
+
+GET 요청은 Body보다는 URL과 Query Parameter를 사용하는 것이 일반적이고 캐싱과도 잘 연동됩니다.
+
+### 예상 꼬리질문
+
+* GET으로 상태 변경을 하면 왜 문제가 되나요?
+* POST도 멱등하게 만들 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>44. PUT과 PATCH의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+PUT은 일반적으로 Resource 전체 상태를 대체하는 의미로 사용하고 PATCH는 일부 필드를 부분 수정하는 의미로 사용합니다.
+
+PUT은 같은 요청을 여러 번 수행해도 동일한 결과가 나오는 Idempotent Method로 정의됩니다.
+
+PATCH는 구현 방법에 따라 반드시 멱등하다고 보장되지는 않습니다.
+
+### 예상 꼬리질문
+
+* 모든 수정 API를 PATCH로 만들어도 되나요?
+* PUT으로 일부 필드만 변경해도 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>45. HTTP Method의 멱등성이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+동일한 요청을 한 번 실행하든 여러 번 실행하든 서버 상태에 미치는 최종 효과가 동일한 성질입니다.
+
+GET, PUT, DELETE 등은 HTTP 의미상 멱등성을 가지지만 POST는 일반적으로 그렇지 않습니다.
+
+백엔드에서는 결제나 주문처럼 POST를 재시도할 수 있는 경우 별도의 Idempotency Key를 사용해 애플리케이션 수준에서 멱등성을 구현하기도 합니다.
+
+### 예상 꼬리질문
+
+* DELETE를 두 번 호출해도 두 번째는 404인데 멱등한가요?
+* 주문 API 멱등성은 어떻게 구현하겠습니까?
+
+
+</details>
+<details class="interview-question">
+<summary>46. HTTP 200, 201, 204의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+200 OK는 요청이 성공했고 일반적으로 응답 Body가 있을 수 있다는 의미입니다.
+
+201 Created는 새로운 Resource 생성이 성공했을 때 사용하고 생성된 Resource 위치를 Location Header에 줄 수도 있습니다.
+
+204 No Content는 요청은 성공했지만 응답 Body를 제공하지 않는 경우 사용합니다.
+
+API 의미에 맞게 Status Code를 선택하는 것이 중요합니다.
+
+### 예상 꼬리질문
+
+* POST 성공이면 항상 201인가요?
+* DELETE 성공은 200과 204 중 무엇을 사용하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>47. 400, 401, 403, 404 차이를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+400은 요청 값이나 형식이 잘못된 Bad Request입니다.
+
+401은 인증되지 않은 사용자처럼 인증이 필요한 상황입니다.
+
+403은 인증은 되었지만 해당 Resource를 사용할 권한이 없는 경우입니다.
+
+404는 요청한 Resource가 존재하지 않는 경우입니다.
+
+### 예상 꼬리질문
+
+* 다른 사용자의 주문에 접근하면 403인가요, 404인가요?
+* 인증과 인가의 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>48. 409 Conflict는 어떤 상황에서 사용할 수 있나요?</summary>
+
+
+### 면접 답변
+
+요청 자체의 문법은 정상적이지만 현재 Resource 상태와 충돌해서 처리할 수 없는 경우 사용할 수 있습니다.
+
+예를 들어 이미 사용 중인 이메일 등록이나 동일 상품에 활성 주문이 존재해서 새로운 주문 생성이 불가능한 상황 등이 있습니다.
+
+단순 Validation 오류인 400과 구분해서 현재 서버 상태와 요청이 충돌한다는 의미를 표현할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 중복 데이터는 400과 409 중 어떤 것이 더 적절한가요?
+* 낙관적 락 충돌도 409로 응답할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>49. REST API URI는 어떻게 설계하나요?</summary>
+
+
+### 면접 답변
+
+URI는 동사보다는 Resource 중심의 명사를 사용하는 것이 좋습니다.
+
+예를 들어 `/getOrders`보다 `GET /orders`, `/createOrder`보다 `POST /orders`처럼 HTTP Method로 행위를 표현합니다.
+
+계층 관계가 명확하면 `/users/{userId}/orders` 같은 구조를 사용할 수 있지만 지나치게 깊은 중첩 URI는 피하는 것이 좋습니다.
+
+### 예상 꼬리질문
+
+* 취소 같은 명확한 행위는 어떻게 표현하나요?
+* `/orders/{id}/cancel`은 RESTful하지 않은가요?
+
+
+</details>
+<details class="interview-question">
+<summary>50. API Versioning은 어떻게 할 수 있나요?</summary>
+
+
+### 면접 답변
+
+대표적으로 URI에 `/api/v1/orders`처럼 버전을 포함하거나 Header 기반으로 버전을 구분하는 방법이 있습니다.
+
+URI 방식은 명확하고 운영하기 쉬워 많이 사용되지만 URL에 버전 정보가 노출됩니다.
+
+버저닝 자체보다 중요한 것은 기존 Client 호환성을 깨는 Breaking Change가 발생하는 경우를 구분하는 것입니다.
+
+가능하면 하위 호환이 가능한 변경은 같은 버전에서 처리하고 큰 계약 변경일 때 새 버전을 고려할 수 있습니다.
+
+### 예상 꼬리질문
+
+* v1과 v2 코드는 어떻게 관리하시겠습니까?
+* API 버전은 언제 올려야 하나요?
+
+
+</details>

@@ -1,0 +1,311 @@
+---
+title: "Transaction"
+description: Spring 트랜잭션의 동작과 전파, 격리 수준을 면접 질문과 답변으로 정리합니다.
+slug: interview/spring/transaction
+contentType: page
+sidebar:
+  order: 6
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>61. Transaction이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+여러 데이터 변경 작업을 하나의 논리적인 작업 단위로 처리하는 개념입니다.
+
+모든 작업이 성공하면 Commit하고 중간에 실패하면 Rollback해서 일부만 반영되는 것을 방지합니다.
+
+대표적인 속성이 ACID입니다.
+
+주문 생성과 재고 차감처럼 서로 연관된 상태 변경에서 데이터 일관성을 유지하기 위해 사용합니다.
+
+### 예상 꼬리질문
+
+* ACID를 설명해주세요.
+* Transaction을 무조건 크게 잡으면 좋은가요?
+
+
+</details>
+<details class="interview-question">
+<summary>62. `@Transactional`은 어떻게 동작하나요?</summary>
+
+
+### 면접 답변
+
+Spring에서는 일반적으로 AOP Proxy를 이용해 동작합니다.
+
+외부에서 `@Transactional` 메서드를 호출하면 Proxy가 Transaction Manager를 이용해 Transaction을 시작하고 실제 메서드를 실행합니다.
+
+정상 종료하면 Commit하고 기본 rollback 조건에 해당하는 예외가 발생하면 Rollback합니다.
+
+개발자는 직접 Connection의 commit, rollback 코드를 작성하지 않아도 됩니다.
+
+### 예상 꼬리질문
+
+* Transaction Manager는 무엇인가요?
+* 같은 클래스 내부 호출에서는 왜 문제가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>63. `@Transactional`이 Proxy 기반이라는 의미는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+호출자가 실제 Service 객체를 직접 호출하지 않고 Spring이 만든 Proxy 객체를 통해 호출한다는 의미입니다.
+
+Proxy가 먼저 Transaction을 시작한 후 실제 대상 객체의 메서드를 호출합니다.
+
+따라서 Proxy를 거치지 않는 private 메서드 호출이나 같은 객체 내부 호출에서는 Transaction Advice가 적용되지 않을 수 있습니다.
+
+### 예상 꼬리질문
+
+* private 메서드에 `@Transactional`을 붙이면 어떻게 되나요?
+* 테스트에서 직접 객체를 new하면 Transaction이 적용되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>64. 같은 클래스 내부 `@Transactional` 호출이 문제인 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+외부에서 Proxy를 통해 들어오는 호출이 아니라 `this.someMethod()`처럼 실제 객체 내부에서 바로 호출되기 때문입니다.
+
+따라서 호출 대상 메서드에 별도의 `@Transactional` 설정이 있더라도 Proxy가 개입하지 못합니다.
+
+특히 REQUIRES_NEW 같은 별도 Transaction을 기대했다면 실제로는 동작하지 않을 수 있습니다.
+
+### 예상 꼬리질문
+
+* 해결 방법은 무엇인가요?
+* 메서드를 다른 Service로 분리하는 기준은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>65. Spring Transaction의 기본 Rollback 조건은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+기본적으로 RuntimeException과 Error가 발생하면 Rollback하고 Checked Exception은 자동 Rollback하지 않습니다.
+
+필요하다면 `rollbackFor` 같은 옵션으로 변경할 수 있습니다.
+
+따라서 예외 계층을 설계할 때 Transaction 정책도 함께 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* Checked Exception에서 Rollback하려면 어떻게 하나요?
+* 예외를 catch해버리면 Rollback되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>66. Checked Exception이 기본 rollback 대상이 아닌 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring의 기본 정책은 EJB 관례와 마찬가지로 RuntimeException과 Error에서 Rollback하고 Checked Exception에서는 Commit하는 방식입니다.
+
+이 기본값이 모든 Checked Exception을 복구 가능한 예외로 판단한다는 뜻은 아닙니다.
+
+다만 실제 시스템 요구사항이 더 중요하므로 Checked 여부만 보고 결정하기보다 Transaction 의미에 맞춰 정책을 설정해야 합니다.
+
+### 예상 꼬리질문
+
+* IOException이 발생했는데 DB 변경도 Rollback해야 한다면 어떻게 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>67. `readOnly = true`는 어떤 효과가 있나요?</summary>
+
+
+### 면접 답변
+
+해당 Transaction이 조회 목적이라는 의도를 표현합니다.
+
+JPA 환경에서는 구현체와 설정에 따라 Flush Mode 최적화 등이 적용될 수 있어 불필요한 Dirty Checking 비용을 줄이는 효과가 있을 수 있습니다.
+
+또한 일부 DB나 Routing 구성에서는 Read Replica로 요청을 분리하는 힌트로 활용할 수도 있습니다.
+
+하지만 이것만으로 모든 DB에서 Update가 물리적으로 완전히 차단된다고 단정하면 안 됩니다.
+
+### 예상 꼬리질문
+
+* readOnly Transaction 안에서 Entity를 변경하면 어떻게 되나요?
+* 조회 메서드마다 붙이는 것이 좋은가요?
+
+
+</details>
+<details class="interview-question">
+<summary>68. Transaction Propagation이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Transaction이 존재하는 상태에서 다른 Transactional 메서드를 호출했을 때 기존 Transaction에 참여할지 새로운 Transaction을 만들지 결정하는 정책입니다.
+
+대표적으로 REQUIRED, REQUIRES_NEW, SUPPORTS, MANDATORY 등이 있습니다.
+
+가장 흔한 기본값은 REQUIRED입니다.
+
+### 예상 꼬리질문
+
+* REQUIRED와 REQUIRES_NEW 차이는 무엇인가요?
+* NESTED는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>69. REQUIRED와 REQUIRES_NEW 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+REQUIRED는 기존 Transaction이 있다면 참여하고 없다면 새 Transaction을 생성합니다.
+
+REQUIRES_NEW는 기존 Transaction이 있어도 이를 잠시 중단하고 새로운 독립 Transaction을 시작합니다.
+
+예를 들어 본 Transaction이 실패하더라도 Audit Log는 별도로 Commit해야 하는 경우 고려할 수 있습니다.
+
+다만 새로운 DB Connection이 필요할 수 있어 Connection Pool 사용량과 Deadlock 가능성도 고려해야 합니다.
+
+### 예상 꼬리질문
+
+* 내부 호출에서 REQUIRES_NEW를 사용하면 동작하나요?
+* Outer Transaction이 Rollback돼도 Inner는 Commit되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>70. Transaction Isolation Level을 설명해주세요.</summary>
+
+
+### 면접 답변
+
+동시에 실행되는 Transaction 간에 서로의 변경 내용을 어느 수준까지 볼 수 있는지를 결정하는 설정입니다.
+
+일반적으로 Read Uncommitted, Read Committed, Repeatable Read, Serializable이 있습니다.
+
+Isolation이 높아질수록 데이터 일관성은 강해질 수 있지만 Lock이나 동시성 측면에서 비용이 커질 수 있습니다.
+
+DB마다 MVCC 구현과 기본 Isolation Level이 다르기 때문에 실제 DB 동작을 함께 이해해야 합니다.
+
+### 예상 꼬리질문
+
+* MySQL과 PostgreSQL 기본 Level은 무엇인가요?
+* Phantom Read란 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>71. Transaction 범위를 너무 크게 잡으면 어떤 문제가 있나요?</summary>
+
+
+### 면접 답변
+
+Transaction이 오래 유지되면 DB Connection을 오래 점유하게 됩니다.
+
+또한 Lock을 오래 보유할 수 있어 다른 Transaction의 대기 시간이 증가하고 Deadlock 가능성도 커질 수 있습니다.
+
+외부 API 호출이나 오래 걸리는 계산을 Transaction 내부에 포함하면 네트워크 지연 때문에 Transaction 시간이 예측하기 어려워집니다.
+
+그래서 필요한 DB 작업을 중심으로 Transaction 경계를 최소화하는 것이 중요합니다.
+
+### 예상 꼬리질문
+
+* Transaction을 작게 나누면 원자성은 어떻게 보장하나요?
+* 외부 API와 DB의 원자성을 어떻게 처리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>72. 외부 API 호출을 DB Transaction 안에서 하면 어떤 문제가 있나요?</summary>
+
+
+### 면접 답변
+
+외부 API 응답이 늦어지면 DB Transaction과 Connection을 그 시간 동안 계속 점유할 수 있습니다.
+
+Lock까지 가진 상태라면 다른 요청이 장시간 대기할 수도 있습니다.
+
+또한 DB Transaction은 외부 API 상태까지 Rollback할 수 없기 때문에 완전한 원자성도 보장하지 못합니다.
+
+상황에 따라 Transaction을 분리하거나 Saga, Outbox, 보상 처리 등을 고려할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 결제 승인 API와 주문 DB 변경은 어떻게 처리하시겠습니까?
+* 분산 Transaction은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>73. Transaction과 DB Connection의 관계를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+일반적인 JDBC 기반 Transaction은 하나의 Connection을 통해 실행되는 DB 작업의 commit과 rollback을 관리합니다.
+
+Spring Transaction이 시작되면 현재 Thread의 Transaction Context에 Connection이 연결되고 Repository에서 같은 DataSource를 사용하면 해당 Connection을 공유할 수 있습니다.
+
+Transaction이 종료되면 Connection은 실제로 종료되는 것이 아니라 Connection Pool로 반환됩니다.
+
+### 예상 꼬리질문
+
+* Connection Pool이 부족하면 어떤 일이 발생하나요?
+* `@Async` 내부에서도 같은 Transaction을 공유하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>74. Transaction에서 Lazy Loading을 사용할 수 있는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPA Lazy Loading은 Entity 자체 대신 Proxy를 두었다가 실제 연관 데이터에 접근할 때 추가 Query를 실행합니다.
+
+이 Query를 실행하려면 Persistence Context와 DB 접근이 가능한 상태여야 합니다.
+
+일반적으로 Transaction 안에서는 EntityManager와 Persistence Context가 활성 상태이므로 Lazy Loading이 가능합니다.
+
+Transaction 밖에서 접근하면 `LazyInitializationException`이 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* OSIV가 켜져 있으면 Transaction 밖에서도 가능한 이유는 무엇인가요?
+* OSIV의 장단점은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>75. `UnexpectedRollbackException`은 언제 발생할 수 있나요?</summary>
+
+
+### 면접 답변
+
+내부 Transaction에서 예외가 발생해 현재 Transaction이 rollback-only로 표시됐지만 외부 코드가 그 예외를 catch하고 정상적으로 종료하려 할 때 발생할 수 있습니다.
+
+외부 메서드는 Commit하려고 하지만 이미 Transaction은 Rollback 대상으로 표시되어 있기 때문에 Spring이 UnexpectedRollbackException을 발생시킵니다.
+
+이 문제는 Transaction 경계와 예외 처리 방식이 맞지 않는 경우 자주 발생합니다.
+
+### 예상 꼬리질문
+
+* 내부 예외를 catch하면 왜 rollback-only 상태가 남나요?
+* REQUIRES_NEW로 해결할 수 있나요?
+
+
+</details>

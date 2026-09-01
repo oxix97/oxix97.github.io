@@ -69,6 +69,10 @@ export default defineConfig({
               label: 'Java',
               items: [{ autogenerate: { directory: 'interview/java' } }],
             },
+            {
+              label: 'Spring',
+              items: [{ autogenerate: { directory: 'interview/spring' } }],
+            },
           ],
         },
         { label: 'Projects', items: [{ autogenerate: { directory: 'projects' } }] },

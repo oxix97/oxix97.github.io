@@ -1,0 +1,413 @@
+---
+title: "JPA / Hibernate"
+description: JPA와 Hibernate의 영속성 관리와 조회 전략을 면접 질문과 답변으로 정리합니다.
+slug: interview/spring/jpa-hibernate
+contentType: page
+sidebar:
+  order: 7
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>76. JPA란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPA는 Java 객체와 관계형 DB 데이터를 매핑하기 위한 ORM 표준 명세입니다.
+
+개발자는 SQL을 직접 작성하는 대신 Entity와 EntityManager 같은 API를 통해 데이터를 다룰 수 있습니다.
+
+Hibernate가 대표적인 JPA 구현체입니다.
+
+JPA는 객체 중심 개발과 변경 감지 같은 편리함을 제공하지만 실제 SQL과 DB 동작을 이해하지 않고 사용하면 N+1이나 성능 문제가 발생할 수 있습니다.
+
+### 예상 꼬리질문
+
+* ORM이란 무엇인가요?
+* MyBatis와 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>77. Hibernate와 JPA 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPA는 인터페이스와 동작 규칙을 정의한 표준 명세이고 Hibernate는 그 명세를 구현한 ORM Framework입니다.
+
+예를 들어 JPA에서 EntityManager 인터페이스를 정의하면 실제 내부 구현은 Hibernate가 담당할 수 있습니다.
+
+따라서 애플리케이션 코드를 JPA 표준 API 중심으로 작성하면 구현체 의존도를 낮출 수 있습니다.
+
+### 예상 꼬리질문
+
+* Hibernate 전용 기능을 사용해도 되나요?
+* Spring Data JPA는 또 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>78. ORM의 장점과 단점은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+장점은 SQL 반복 코드를 줄이고 Java 객체 중심으로 도메인 로직을 작성할 수 있다는 것입니다.
+
+Dirty Checking, 연관관계 관리, 1차 Cache 같은 기능도 제공합니다.
+
+반면 ORM이 생성하는 SQL을 제대로 이해하지 않으면 예상보다 많은 Query가 발생하거나 복잡한 조회에서 성능 문제가 발생할 수 있습니다.
+
+따라서 ORM이 SQL 지식을 대체한다고 생각하면 안 되고 실제 Query와 실행 계획을 함께 확인해야 합니다.
+
+### 예상 꼬리질문
+
+* 복잡한 조회는 JPA로 어떻게 처리하나요?
+* Native Query를 사용해도 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>79. Entity 생명주기를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+대표적으로 비영속, 영속, 준영속, 삭제 상태가 있습니다.
+
+비영속은 아직 Persistence Context가 관리하지 않는 일반 객체입니다.
+
+`persist()` 등을 통해 관리되기 시작하면 영속 상태가 되고 Persistence Context가 변경을 추적합니다.
+
+`detach()`나 Context 종료로 관리에서 벗어나면 준영속 상태가 됩니다.
+
+### 예상 꼬리질문
+
+* 준영속 Entity를 다시 영속 상태로 만들려면 어떻게 하나요?
+* merge는 어떻게 동작하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>80. Persistence Context란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Entity를 영속 상태로 관리하는 논리적인 공간입니다.
+
+EntityManager를 통해 Entity를 조회하거나 저장하면 Persistence Context가 해당 Entity를 관리합니다.
+
+1차 Cache, Dirty Checking, Identity 보장, Write-Behind 같은 기능의 기반이 됩니다.
+
+Spring에서는 일반적으로 Transaction 범위와 Persistence Context의 생명주기가 밀접하게 연결됩니다.
+
+### 예상 꼬리질문
+
+* EntityManager와 Persistence Context는 같은 것인가요?
+* Persistence Context는 Thread-safe한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>81. 1차 Cache란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Persistence Context 내부에서 Entity를 ID 기준으로 보관하는 Cache입니다.
+
+같은 Persistence Context 안에서 동일한 Entity를 다시 조회하면 DB Query를 다시 실행하지 않고 1차 Cache에서 반환할 수 있습니다.
+
+또한 같은 ID의 Entity에 대해 동일한 객체 인스턴스를 반환하는 Identity 보장에도 사용됩니다.
+
+다만 일반적으로 Transaction 범위가 짧기 때문에 애플리케이션 전체 Cache처럼 사용하는 기능은 아닙니다.
+
+### 예상 꼬리질문
+
+* 2차 Cache와 차이는 무엇인가요?
+* Repository에서 같은 Entity를 두 번 조회하면 항상 Query가 한 번만 나가나요?
+
+
+</details>
+<details class="interview-question">
+<summary>82. Dirty Checking이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Persistence Context가 관리 중인 Entity의 상태 변경을 감지해 Flush 시점에 UPDATE SQL을 생성하는 기능입니다.
+
+따라서 영속 Entity의 필드를 수정한 뒤 별도로 `save()`를 호출하지 않아도 변경 사항이 DB에 반영될 수 있습니다.
+
+일반적으로 초기 Snapshot과 현재 Entity 상태를 비교해서 변경을 확인합니다.
+
+### 예상 꼬리질문
+
+* 준영속 Entity에서도 Dirty Checking이 되나요?
+* `@DynamicUpdate`는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>83. Flush란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Persistence Context의 변경 내용을 DB에 SQL로 동기화하는 과정입니다.
+
+Flush가 실행된다고 해서 Transaction이 Commit된 것은 아닙니다.
+
+Commit 전에 자동 Flush가 발생할 수 있고 JPQL Query 실행 전에 Query 결과의 일관성을 위해 Flush가 발생할 수도 있습니다.
+
+### 예상 꼬리질문
+
+* FlushMode는 무엇인가요?
+* `flush()`를 직접 호출하는 경우는 언제인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>84. Flush와 Commit의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Flush는 Persistence Context의 변경 내용을 DB에 SQL로 전달하지만 Transaction은 아직 종료되지 않습니다.
+
+따라서 Flush 이후에도 Transaction이 Rollback되면 DB 변경은 최종적으로 취소됩니다.
+
+Commit은 Transaction을 실제로 확정하는 과정이고 일반적으로 Commit 전에 Flush가 수행됩니다.
+
+### 예상 꼬리질문
+
+* Flush 후 다른 Transaction에서 변경 내용을 볼 수 있나요?
+* Isolation Level과 관계가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>85. `persist()`와 `merge()` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`persist()`는 새로운 Entity를 Persistence Context에 영속 상태로 등록합니다.
+
+`merge()`는 전달받은 객체의 상태를 새로운 영속 Entity에 복사한 뒤 그 영속 Entity를 반환합니다.
+
+중요한 점은 merge 인자로 전달한 객체 자체가 영속 상태가 되는 것이 아니라 반환된 객체가 관리 대상이라는 것입니다.
+
+일반적으로 새로운 Entity 저장에는 persist 방식이 더 명확합니다.
+
+### 예상 꼬리질문
+
+* Spring Data JPA `save()`는 내부적으로 어떤 것을 호출하나요?
+* merge를 무분별하게 사용하면 어떤 문제가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>86. LAZY와 EAGER 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+LAZY는 연관 Entity를 실제로 사용할 때 Query를 실행하고 EAGER는 기본 Entity를 조회할 때 연관 데이터를 즉시 가져오는 전략입니다.
+
+EAGER를 사용하면 항상 필요한지와 무관하게 추가 데이터가 조회될 수 있어 예상하지 못한 Query와 성능 문제가 발생할 수 있습니다.
+
+그래서 일반적으로 연관관계는 LAZY로 두고 실제 Query 요구사항에 따라 Fetch Join이나 EntityGraph를 사용하는 전략을 많이 사용합니다.
+
+### 예상 꼬리질문
+
+* `@ManyToOne` 기본 FetchType은 무엇인가요?
+* LAZY가 실제로 어떻게 구현되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>87. N+1 문제란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+하나의 Query로 N개의 Entity를 조회한 뒤 각 Entity의 연관관계를 조회하기 위해 추가로 N개의 Query가 실행되는 문제입니다.
+
+예를 들어 주문 100개를 조회한 뒤 각 주문의 사용자를 Lazy Loading하면 최대 100개의 추가 Query가 발생할 수 있습니다.
+
+데이터가 늘어날수록 DB Round Trip이 크게 증가해 성능 문제가 됩니다.
+
+### 예상 꼬리질문
+
+* EAGER로 바꾸면 해결되나요?
+* N+1이 발생했는지는 어떻게 확인하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>88. N+1 문제를 해결하는 방법에는 무엇이 있나요?</summary>
+
+
+### 면접 답변
+
+대표적으로 Fetch Join, EntityGraph, Batch Fetch 등이 있습니다.
+
+특정 조회에서 연관관계가 반드시 필요하다면 Fetch Join으로 한 번에 가져올 수 있습니다.
+
+여러 연관 Entity를 일정 크기로 묶어서 조회하는 Batch Fetch 방식도 사용할 수 있습니다.
+
+단순히 모든 연관관계를 EAGER로 변경하는 것은 다른 Query에서 불필요한 데이터 조회를 만들 수 있어 근본적인 해결 방법으로 보기 어렵습니다.
+
+### 예상 꼬리질문
+
+* Collection Fetch Join의 Pagination 문제는 무엇인가요?
+* Batch Size는 어떻게 정하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>89. Fetch Join이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPQL에서 특정 연관관계를 SQL Join으로 함께 조회해서 연관 Entity까지 한 번에 영속화하는 기능입니다.
+
+이를 통해 Lazy Loading으로 인한 N+1을 해결할 수 있습니다.
+
+다만 OneToMany Collection을 Fetch Join하면 Row 수가 증가해 중복 문제가 발생할 수 있고 Pagination에 제약이 생길 수 있습니다.
+
+### 예상 꼬리질문
+
+* 일반 Join과 Fetch Join 차이는 무엇인가요?
+* `distinct`는 왜 사용하는 경우가 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>90. EntityGraph는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Repository Query에서 어떤 연관관계를 함께 조회할지 선언적으로 지정할 수 있는 JPA 기능입니다.
+
+Entity의 기본 Fetch 전략을 변경하지 않고 특정 Query에서만 필요한 연관 데이터를 같이 가져오는 데 사용할 수 있습니다.
+
+단순한 연관 Fetch 요구라면 Fetch Join보다 Repository 코드가 간결해질 수 있습니다.
+
+### 예상 꼬리질문
+
+* Fetch Join과 무엇을 기준으로 선택하나요?
+* Nested 연관관계도 지정할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>91. Cascade와 orphanRemoval 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Cascade는 부모 Entity에 수행한 Persistence 동작을 연관 Entity에도 전파하는 기능입니다.
+
+예를 들어 Cascade Persist가 설정되어 있다면 부모 저장 시 자식도 함께 저장할 수 있습니다.
+
+orphanRemoval은 부모와의 연관관계에서 제거된 자식 Entity를 실제 DB에서도 삭제하는 기능입니다.
+
+두 기능은 비슷해 보이지만 목적이 다릅니다.
+
+### 예상 꼬리질문
+
+* `CascadeType.REMOVE`와 orphanRemoval의 차이는 무엇인가요?
+* 모든 연관관계에 ALL을 쓰면 왜 위험한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>92. 양방향 연관관계에서 연관관계의 주인이 필요한 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+객체에서는 양쪽 객체가 서로를 참조할 수 있지만 관계형 DB의 Foreign Key는 한쪽 Table에만 존재합니다.
+
+그래서 JPA에서는 어느 쪽의 변경을 실제 FK 변경에 반영할지 기준을 정해야 하고 그 역할을 하는 쪽이 연관관계의 주인입니다.
+
+`mappedBy`가 없는 쪽이 주인이며 일반적으로 Foreign Key를 가진 Entity를 주인으로 설정합니다.
+
+### 예상 꼬리질문
+
+* 주인이 아닌 쪽만 변경하면 어떻게 되나요?
+* 편의 메서드가 필요한 이유는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>93. JPA Entity `equals()`와 `hashCode()` 구현 시 주의할 점은 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Entity의 ID가 DB 생성 전략이라면 영속화 이전에는 ID가 null이고 저장 후 값이 생길 수 있습니다.
+
+이 값을 hashCode 계산에 직접 사용하면 HashSet 등에 넣은 뒤 hashCode가 변경될 수 있습니다.
+
+또한 Hibernate Proxy와 실제 클래스 비교 문제도 고려해야 합니다.
+
+그래서 Entity의 동일성 기준은 도메인 요구와 ID 생성 방식에 따라 신중하게 설계해야 합니다.
+
+### 예상 꼬리질문
+
+* Business Key를 사용하는 방법은 어떤가요?
+* `getClass()` 비교와 `instanceof` 차이는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>94. JPQL과 Native Query의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPQL은 Table이나 Column이 아니라 Entity와 Entity 필드를 기준으로 Query를 작성하는 JPA 전용 Query 언어입니다.
+
+JPA 구현체가 JPQL을 실제 SQL로 변환합니다.
+
+Native Query는 DB SQL을 직접 작성하기 때문에 DB 특화 기능을 자유롭게 사용할 수 있지만 특정 DB에 대한 의존성이 커질 수 있습니다.
+
+따라서 일반적인 조회는 JPQL을 사용하고 복잡한 DB 특화 Query가 필요하면 Native SQL을 고려할 수 있습니다.
+
+### 예상 꼬리질문
+
+* JPQL도 결국 SQL이 여러 번 나갈 수 있나요?
+* Native Query에서도 Entity Mapping이 가능한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>95. QueryDSL을 사용하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+JPQL을 문자열로 직접 작성하는 대신 Java 코드와 생성된 Q-Type을 이용해 Type-safe하게 Query를 작성할 수 있습니다.
+
+특히 검색 조건이 동적으로 조합되는 복잡한 조회에서 문자열 Query보다 유지보수가 좋습니다.
+
+컴파일 시점에 필드 변경 오류를 발견할 수 있다는 장점도 있습니다.
+
+다만 단순 CRUD까지 모두 QueryDSL로 작성하면 코드가 불필요하게 복잡해질 수 있으므로 복잡한 동적 Query 중심으로 사용하는 것이 적절합니다.
+
+### 예상 꼬리질문
+
+* Spring Data JPA Specification과 비교하면 어떤가요?
+* QueryDSL에서 DTO Projection은 어떻게 하나요?
+
+
+</details>

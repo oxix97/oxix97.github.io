@@ -1,0 +1,419 @@
+---
+title: "Spring Core"
+description: Spring Framework의 핵심 원리와 Bean, Container의 동작을 면접 질문과 답변으로 정리합니다.
+slug: interview/spring/spring-core
+contentType: page
+sidebar:
+  order: 2
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>1. Spring Framework를 사용하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring은 객체 생성과 의존관계 관리, 트랜잭션, 웹 요청 처리 같은 반복적인 인프라 문제를 프레임워크가 대신 처리해주기 때문에 비즈니스 로직에 집중할 수 있다는 장점이 있습니다.
+
+특히 IoC와 DI를 통해 객체 간 결합도를 낮출 수 있고, AOP를 통해 트랜잭션이나 로깅 같은 공통 관심사를 비즈니스 코드와 분리할 수 있습니다.
+
+또한 Spring MVC, Data, Security 등 생태계가 잘 갖춰져 있어서 백엔드 애플리케이션을 일관된 방식으로 개발할 수 있습니다.
+
+### 핵심 포인트
+
+`IoC`, `DI`, `AOP`, `트랜잭션`, `생태계`
+
+### 예상 꼬리질문
+
+* Spring 없이 DI를 구현할 수 있나요?
+* Spring의 가장 핵심적인 기능 하나를 고른다면 무엇인가요?
+* Spring 사용의 단점은 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>2. Spring과 Spring Boot의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring은 Java 애플리케이션 개발을 위한 핵심 프레임워크이고 Spring Boot는 Spring 기반 애플리케이션을 더 쉽게 구성하고 실행하도록 지원하는 프로젝트입니다.
+
+기존 Spring에서는 서버 설정이나 Bean 설정을 직접 해야 하는 부분이 많았는데 Spring Boot는 Auto Configuration, Starter Dependency, Embedded Server 등을 제공해서 초기 설정 비용을 줄여줍니다.
+
+Spring Boot가 Spring을 대체하는 것은 아니고 내부적으로 Spring Framework를 사용하면서 개발 편의성을 높인 것입니다.
+
+### 예상 꼬리질문
+
+* Auto Configuration이 무엇인가요?
+* Embedded Tomcat은 어떻게 실행되나요?
+* Spring Boot 없이 Spring MVC를 사용할 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>3. IoC란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+IoC는 Inversion of Control, 즉 제어의 역전입니다.
+
+일반적인 코드에서는 개발자가 직접 객체를 생성하고 의존성을 연결하지만 Spring에서는 객체의 생성과 생명주기, 의존성 연결을 Spring Container가 관리합니다.
+
+즉 객체 제어권이 애플리케이션 코드에서 프레임워크로 넘어갔다는 의미입니다.
+
+이를 통해 객체 간 결합도를 낮추고 구성과 비즈니스 로직을 분리할 수 있습니다.
+
+### 예상 꼬리질문
+
+* IoC와 DI는 같은 의미인가요?
+* IoC를 사용하면 어떤 장점이 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>4. DI란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+DI는 Dependency Injection, 즉 객체가 필요한 의존성을 직접 생성하지 않고 외부에서 주입받는 방식입니다.
+
+예를 들어 OrderService 내부에서 직접 OrderRepository 구현체를 생성하지 않고 생성자를 통해 전달받도록 만들 수 있습니다.
+
+이렇게 하면 OrderService가 구체 구현체에 대한 책임을 가지지 않기 때문에 결합도가 낮아지고 테스트 시 Mock이나 다른 구현체로 쉽게 교체할 수 있습니다.
+
+Spring Container가 Bean 간 의존성을 분석하고 이런 주입을 자동으로 수행합니다.
+
+### 예상 꼬리질문
+
+* DI 방식에는 무엇이 있나요?
+* 생성자 주입을 권장하는 이유는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>5. IoC와 DI의 관계를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+IoC는 더 넓은 개념이고 DI는 IoC를 구현하는 대표적인 방식이라고 생각합니다.
+
+IoC는 객체 생성과 실행 흐름의 제어권을 프레임워크가 가진다는 개념입니다.
+
+Spring은 그중에서도 객체가 필요로 하는 의존성을 Container가 외부에서 주입해주는 DI를 통해 IoC를 구현합니다.
+
+즉 Spring에서는 DI를 사용함으로써 객체 생성과 의존성 관리에 대한 제어가 Container로 넘어갑니다.
+
+### 예상 꼬리질문
+
+* IoC의 다른 예시는 무엇인가요?
+* Template Method도 IoC라고 볼 수 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>6. Spring Container란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring Container는 Spring Bean의 생성, 의존관계 주입, 초기화 콜백과 소멸 콜백 등 생명주기를 관리하는 객체입니다.
+
+대표적으로 `BeanFactory`와 이를 확장한 `ApplicationContext`가 있습니다.
+
+애플리케이션 시작 시 설정 정보를 읽어 Bean Definition을 만들고 이를 기반으로 필요한 Bean을 생성한 뒤 의존성을 연결합니다.
+
+일반적으로 Spring Boot 애플리케이션에서는 ApplicationContext를 사용합니다.
+
+### 예상 꼬리질문
+
+* Container는 Bean을 언제 생성하나요?
+* 모든 Bean이 애플리케이션 시작 시 생성되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>7. Spring Bean이란 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring Bean은 Spring Container가 생성하고 관리하는 객체입니다.
+
+일반 Java 객체 자체와 본질적으로 다른 것은 아니지만 생성, 의존성 주입, 생명주기 등을 Spring이 관리한다는 차이가 있습니다.
+
+`@Component`, `@Service`, `@Repository` 등을 Component Scan으로 등록하거나 `@Bean`을 사용해 직접 등록할 수 있습니다.
+
+기본 Scope는 Singleton입니다.
+
+### 예상 꼬리질문
+
+* 일반 객체와 Bean의 차이는 무엇인가요?
+* Singleton Bean은 어떻게 관리되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>8. BeanFactory와 ApplicationContext의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+BeanFactory는 Spring Container의 가장 기본적인 기능인 Bean 생성과 의존성 주입을 제공합니다.
+
+ApplicationContext는 BeanFactory 기능을 확장해서 이벤트 처리, 메시지 국제화, Resource 접근, 환경 설정 등 애플리케이션 개발에 필요한 기능을 추가로 제공합니다.
+
+실제 Spring 애플리케이션에서는 대부분 ApplicationContext를 사용합니다.
+
+### 예상 꼬리질문
+
+* BeanFactory를 직접 사용하는 경우가 있나요?
+* ApplicationContext 구현체에는 어떤 것이 있나요?
+
+
+</details>
+<details class="interview-question">
+<summary>9. Spring Bean을 등록하는 방법에는 무엇이 있나요?</summary>
+
+
+### 면접 답변
+
+대표적으로 Component Scan과 Java Configuration 두 가지가 있습니다.
+
+`@Component`, `@Service`, `@Repository`, `@Controller` 등을 붙이면 Component Scan을 통해 자동 등록할 수 있습니다.
+
+외부 라이브러리 객체처럼 직접 애노테이션을 붙일 수 없는 경우에는 `@Configuration` 클래스에서 `@Bean` 메서드를 사용해 등록할 수 있습니다.
+
+최근 Spring에서는 XML보다 Java Configuration과 Annotation 기반 설정이 주로 사용됩니다.
+
+### 예상 꼬리질문
+
+* `@Bean`과 `@Component` 중 어떤 것을 선택하나요?
+* Bean 이름이 충돌하면 어떻게 되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>10. `@Component`는 어떤 역할을 하나요?</summary>
+
+
+### 면접 답변
+
+`@Component`는 해당 클래스를 Spring이 관리할 Bean 후보로 표시하는 애노테이션입니다.
+
+Component Scan 과정에서 이 애노테이션이 붙은 클래스를 찾아 Bean Definition을 등록합니다.
+
+`@Service`, `@Repository`, `@Controller`도 내부적으로 Component 성격을 가지지만 각 계층의 의미를 명확하게 표현하기 위한 특화 애노테이션입니다.
+
+### 예상 꼬리질문
+
+* Component Scan 범위는 어떻게 결정되나요?
+* `@SpringBootApplication`과 어떤 관계인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>11. `@Controller`, `@Service`, `@Repository` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+모두 Spring Bean으로 등록되는 stereotype 애노테이션입니다.
+
+`@Controller`는 웹 요청을 처리하는 계층, `@Service`는 비즈니스 로직 계층, `@Repository`는 데이터 접근 계층이라는 의미를 표현합니다.
+
+특히 `@Repository`로 표시한 Bean은 예외 변환 후처리기가 활성화된 환경에서 영속성 기술의 예외를 Spring의 `DataAccessException` 계열로 변환할 대상이 됩니다.
+
+즉 단순히 Bean 등록뿐 아니라 애플리케이션 계층의 역할을 명확히 표현하는 목적이 있습니다.
+
+### 예상 꼬리질문
+
+* Service에 `@Component`를 사용해도 동작하나요?
+* Repository의 예외 변환은 어떻게 동작하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>12. `@Bean`과 `@Component`의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`@Component`는 클래스 자체에 애노테이션을 붙여 Component Scan을 통해 자동으로 등록하는 방식입니다.
+
+`@Bean`은 개발자가 직접 객체 생성 방법을 정의하는 방식입니다.
+
+직접 작성한 서비스나 컴포넌트는 Component 방식이 편리하고, 외부 라이브러리 객체나 생성 과정에 세밀한 설정이 필요한 경우 `@Bean`이 적합합니다.
+
+### 예상 꼬리질문
+
+* Configuration 없이 Bean을 선언할 수 있나요?
+* 외부 SDK Client는 어떤 방식으로 등록하시겠습니까?
+
+
+</details>
+<details class="interview-question">
+<summary>13. Component Scan은 어떻게 동작하나요?</summary>
+
+
+### 면접 답변
+
+Spring이 지정된 패키지 범위를 탐색하면서 Component 계열 애노테이션이 붙은 클래스를 찾아 Bean Definition으로 등록하는 과정입니다.
+
+Spring Boot에서는 `@SpringBootApplication`에 Component Scan 기능이 포함되어 있습니다.
+
+기본적으로 애플리케이션 메인 클래스가 위치한 패키지를 기준으로 하위 패키지를 탐색합니다.
+
+따라서 메인 클래스를 루트 패키지에 두는 경우가 많습니다.
+
+### 예상 꼬리질문
+
+* 다른 패키지의 Bean이 등록되지 않는다면 어떻게 해결하나요?
+* Component Scan 제외 설정도 가능한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>14. Bean의 기본 Scope는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Spring Bean의 기본 Scope는 Singleton입니다.
+
+하나의 ApplicationContext 안에서 Bean Definition당 기본적으로 하나의 인스턴스를 만들어 여러 곳에서 공유합니다.
+
+그 외에도 prototype, request, session 같은 Scope가 있습니다.
+
+Singleton Bean은 여러 요청에서 동시에 사용될 수 있기 때문에 mutable한 상태를 Bean 필드에 저장할 때 동시성을 주의해야 합니다.
+
+### 예상 꼬리질문
+
+* Spring Singleton과 디자인 패턴 Singleton의 차이는 무엇인가요?
+* Singleton Bean은 thread-safe한가요?
+
+
+</details>
+<details class="interview-question">
+<summary>15. Spring Singleton과 Singleton Pattern의 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+전통적인 Singleton Pattern은 클래스 스스로 생성자를 private으로 막고 정적 인스턴스를 관리하는 방식입니다.
+
+반면 Spring Singleton은 객체 자체가 Singleton Pattern을 구현하는 것이 아니라 Spring Container가 하나의 인스턴스를 생성해 관리합니다.
+
+따라서 객체는 일반 POJO로 유지하면서도 Container 차원에서 Singleton으로 사용할 수 있다는 차이가 있습니다.
+
+### 예상 꼬리질문
+
+* ApplicationContext가 두 개라면 Singleton Bean도 하나인가요?
+* static Singleton과 Spring Bean 중 어떤 방식이 테스트하기 좋나요?
+
+
+</details>
+<details class="interview-question">
+<summary>16. Singleton Bean은 thread-safe한가요?</summary>
+
+
+### 면접 답변
+
+Singleton이라는 사실만으로 thread-safe한 것은 아닙니다.
+
+Spring MVC에서는 여러 요청 Thread가 같은 Service Bean을 동시에 호출할 수 있습니다.
+
+따라서 Service Bean의 필드에 요청별 mutable state를 저장하면 Race Condition이 발생할 수 있습니다.
+
+일반적으로 Service Bean은 상태를 필드에 저장하지 않는 Stateless 구조로 설계하고 요청 데이터는 지역 변수로 처리합니다.
+
+### 예상 꼬리질문
+
+* 지역 변수는 왜 상대적으로 안전한가요?
+* Service에 카운터 필드를 두면 어떤 문제가 발생하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>17. Prototype Scope는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+Prototype Scope Bean은 Spring Container에 요청할 때마다 새로운 객체를 생성합니다.
+
+Singleton과 달리 Container가 생성 이후 전체 생명주기를 관리하지 않는다는 점도 중요합니다.
+
+실무에서는 일반적인 웹 비즈니스 로직에는 Singleton을 주로 사용하고 객체별 상태가 필요한 특별한 경우에 Prototype을 고려할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Singleton Bean에 Prototype Bean을 주입하면 매번 새로 생성되나요?
+* 해결하려면 어떻게 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>18. Spring Bean 생명주기를 설명해주세요.</summary>
+
+
+### 면접 답변
+
+대략적으로 Bean Definition 등록 이후 객체 생성, 의존관계 주입, 초기화 콜백, 실제 사용, 소멸 콜백 순으로 진행됩니다.
+
+초기화 과정에서는 `@PostConstruct`, `InitializingBean`, custom init method 등을 사용할 수 있습니다.
+
+종료 시점에는 `@PreDestroy` 등을 사용할 수 있습니다.
+
+일반적으로 비즈니스 코드가 Spring 생명주기 인터페이스에 직접 의존하지 않도록 애노테이션 기반 방식을 많이 사용합니다.
+
+### 예상 꼬리질문
+
+* 생성자와 `@PostConstruct` 중 어디에서 초기화해야 하나요?
+* BeanPostProcessor는 언제 동작하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>19. `@PostConstruct`는 어떤 역할을 하나요?</summary>
+
+
+### 면접 답변
+
+Bean 생성과 의존관계 주입이 완료된 이후 한 번 실행할 초기화 로직을 정의할 때 사용합니다.
+
+생성자 주입으로 전달된 의존성은 생성자에서도 사용할 수 있습니다. 다만 `@PostConstruct`는 생성자뿐 아니라 필드와 Setter를 포함한 의존관계 주입이 끝난 뒤 실행됩니다.
+
+다만 외부 네트워크 연결처럼 실패 가능성이 크고 오래 걸리는 작업을 무조건 시작 과정에 넣으면 애플리케이션 시작 자체에 영향을 줄 수 있으므로 주의해야 합니다.
+
+### 예상 꼬리질문
+
+* 생성자 주입이면 생성자에서도 의존성을 사용할 수 있지 않나요?
+* `@PreDestroy`는 언제 실행되나요?
+
+
+</details>
+<details class="interview-question">
+<summary>20. Spring에서 객체를 직접 `new`로 생성하면 어떤 문제가 있나요?</summary>
+
+
+### 면접 답변
+
+직접 `new`로 생성한 객체는 Spring Container가 관리하는 Bean이 아닙니다.
+
+따라서 `@Autowired` 같은 DI 기능이나 AOP Proxy, `@Transactional` 같은 Spring 기능이 적용되지 않을 수 있습니다.
+
+모든 객체를 반드시 Bean으로 만들어야 하는 것은 아니지만 Spring 기능이 필요한 객체라면 Container를 통해 관리해야 합니다.
+
+### 예상 꼬리질문
+
+* Entity도 Bean으로 만들어야 하나요?
+* DTO도 Bean으로 등록해야 하나요?
+
+
+</details>

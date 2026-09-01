@@ -1,0 +1,207 @@
+---
+title: "Validation / Exception"
+description: Spring Validation과 웹 예외 처리 원칙을 면접 질문과 답변으로 정리합니다.
+slug: interview/spring/validation-exception
+contentType: page
+sidebar:
+  order: 5
+---
+
+질문을 먼저 소리 내어 답한 뒤 펼쳐서 답변과 예상 꼬리질문을 확인한다.
+
+<details class="interview-question">
+<summary>51. Spring Validation은 어떻게 동작하나요?</summary>
+
+
+### 면접 답변
+
+DTO 필드에 Bean Validation 애노테이션을 선언하고 Controller 파라미터에 `@Valid` 또는 `@Validated`를 적용하면 Spring이 요청 바인딩 이후 Validator를 실행합니다.
+
+검증 결과를 받을 `BindingResult`나 `Errors` 파라미터가 없다면 검증 실패 시 예외가 발생하며, 이를 전역 예외 처리에서 일정한 Error Response로 변환할 수 있습니다.
+
+다만 Validation 애노테이션은 주로 형식이나 기본적인 값 제약에 사용하고 DB 조회가 필요한 복잡한 비즈니스 검증은 Service나 Domain 계층에서 처리하는 것이 적절합니다.
+
+### 예상 꼬리질문
+
+* Validation과 비즈니스 규칙 검증은 어떻게 구분하나요?
+* Custom Validator는 언제 사용하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>52. `@Valid`와 `@Validated` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`@Valid`는 Jakarta Bean Validation 표준 애노테이션이고 객체의 Validation과 중첩 객체 검증 등에 사용합니다.
+
+`@Validated`는 Spring이 제공하며 기본 Validation 기능에 추가로 Validation Group을 사용할 수 있습니다.
+
+Spring에서는 메서드 레벨 Validation에서도 `@Validated`를 활용할 수 있습니다.
+
+### 예상 꼬리질문
+
+* Validation Group은 언제 사용하나요?
+* Nested DTO Validation은 어떻게 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>53. `@NotNull`, `@NotEmpty`, `@NotBlank` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`@NotNull`은 말 그대로 null만 허용하지 않습니다.
+
+`@NotEmpty`는 문자열이나 Collection이 null이 아니면서 길이나 크기가 0이 아니어야 합니다.
+
+`@NotBlank`는 문자열 전용으로 null, 빈 문자열뿐 아니라 공백만 있는 문자열도 허용하지 않습니다.
+
+따라서 사용자 이름처럼 실제 문자가 있어야 하는 값에는 NotBlank가 적절합니다.
+
+### 예상 꼬리질문
+
+* 숫자의 범위 검증은 무엇을 사용하나요?
+* 문자열 길이는 어떤 애노테이션을 사용하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>54. Controller의 예외를 공통으로 처리하려면 어떻게 하나요?</summary>
+
+
+### 면접 답변
+
+`@RestControllerAdvice`와 `@ExceptionHandler`를 사용할 수 있습니다.
+
+각 Controller에서 반복적으로 try-catch하지 않고 전역 예외 처리 클래스를 만들어 비즈니스 예외, Validation 예외 등을 일정한 Error Response로 변환할 수 있습니다.
+
+이렇게 하면 API Error Format을 일관되게 관리할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 하나의 예외에 여러 Handler가 있다면 어떻게 되나요?
+* Error Code는 어떻게 설계하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>55. `@ControllerAdvice`와 `@RestControllerAdvice` 차이는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+`@ControllerAdvice`는 여러 Controller에 공통 기능을 적용하기 위한 애노테이션입니다.
+
+`@RestControllerAdvice`는 `@ControllerAdvice`와 `@ResponseBody`가 결합된 형태로 예외 처리 결과를 JSON 같은 Response Body로 직접 반환할 때 편리합니다.
+
+REST API 서버에서는 일반적으로 RestControllerAdvice를 사용합니다.
+
+### 예상 꼬리질문
+
+* 특정 패키지에만 Advice를 적용할 수 있나요?
+* ControllerAdvice는 AOP인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>56. `@ExceptionHandler`는 어떻게 동작하나요?</summary>
+
+
+### 면접 답변
+
+특정 Exception 타입이 발생했을 때 해당 예외를 처리할 메서드를 지정하는 애노테이션입니다.
+
+Controller 내부에 둘 수도 있고 ControllerAdvice와 조합해 전역 처리할 수도 있습니다.
+
+Spring MVC의 예외 처리 메커니즘을 통해 발생한 예외에 적합한 Handler 메서드를 찾아 호출합니다.
+
+### 예상 꼬리질문
+
+* RuntimeException 전체를 한 Handler에서 처리해도 되나요?
+* 예상하지 못한 Exception은 어떻게 처리하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>57. 비즈니스 예외와 시스템 예외를 어떻게 구분하나요?</summary>
+
+
+### 면접 답변
+
+비즈니스 예외는 요청 자체는 정상적이지만 비즈니스 규칙상 처리할 수 없는 경우입니다.
+
+예를 들어 잔액 부족이나 이미 환불된 주문 등이 있습니다.
+
+시스템 예외는 DB 연결 실패, 외부 API 장애처럼 시스템 인프라 문제에 가까운 예외입니다.
+
+두 유형을 구분하면 Client에게 보여줄 메시지와 서버 로그 수준, 재시도 여부 등을 다르게 처리할 수 있습니다.
+
+### 예상 꼬리질문
+
+* 비즈니스 예외도 Error 로그를 남기나요?
+* 외부 API Timeout은 어떤 Status로 응답하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>58. 에러 응답 객체를 별도로 설계하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+클라이언트가 오류를 일관된 형식으로 처리할 수 있도록 하기 위해서입니다.
+
+예를 들어 `code`, `message`, `fieldErrors`, `timestamp` 같은 정보를 일정한 구조로 제공할 수 있습니다.
+
+Java Exception 메시지를 그대로 노출하면 내부 구현 정보나 민감한 정보가 노출될 수도 있으므로 서버 내부 예외와 외부 API Error Response를 분리하는 것이 좋습니다.
+
+### 예상 꼬리질문
+
+* HTTP Status와 Business Error Code를 둘 다 사용하는 이유는 무엇인가요?
+* Stack Trace를 Response에 포함하면 안 되는 이유는 무엇인가요?
+
+
+</details>
+<details class="interview-question">
+<summary>59. Validation을 Controller에서만 하면 어떤 문제가 있나요?</summary>
+
+
+### 면접 답변
+
+Controller Validation은 API 입력값 검증에는 적합하지만 시스템의 모든 호출이 Controller를 거친다는 보장은 없습니다.
+
+같은 Service를 Batch나 메시지 Consumer에서 호출할 수도 있습니다.
+
+또한 주문 상태 전이처럼 핵심 비즈니스 규칙은 Domain 자체가 지키도록 하는 것이 안전합니다.
+
+따라서 입력 형식 검증과 핵심 비즈니스 불변식을 구분해서 배치하는 것이 좋습니다.
+
+### 예상 꼬리질문
+
+* Domain Validation과 Service Validation을 어떻게 나누나요?
+* 중복 주문 검증은 어디에서 하나요?
+
+
+</details>
+<details class="interview-question">
+<summary>60. Request DTO와 Response DTO를 분리하는 이유는 무엇인가요?</summary>
+
+
+### 면접 답변
+
+요청과 응답은 목적과 변경 이유가 다르기 때문입니다.
+
+Request DTO는 Client가 입력해야 하는 값과 Validation에 초점이 있고 Response DTO는 서버가 외부에 공개할 데이터 구조에 초점이 있습니다.
+
+하나의 DTO를 공유하면 요청 필드 변경이 응답 스펙에 영향을 주거나 필요 없는 setter 등을 만들게 될 수 있습니다.
+
+### 예상 꼬리질문
+
+* DTO가 너무 많아지는 문제는 어떻게 생각하나요?
+* Record를 DTO로 사용하는 것은 어떤가요?
+
+
+</details>
