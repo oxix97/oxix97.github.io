@@ -78,6 +78,14 @@ describe('DB interview question collection', () => {
     expect(totalSummaries).toBe(100);
   });
 
+  it('hides the generated table of contents on individual question pages', async () => {
+    for (const category of categories) {
+      const content = await readDoc(`interview/db/${category.file}`);
+
+      expect(content).toMatch(/^tableOfContents: false$/m);
+    }
+  });
+
   it('publishes the intended category links and omits prompt artifacts', async () => {
     const database = await readDoc('interview/db/index.md');
 

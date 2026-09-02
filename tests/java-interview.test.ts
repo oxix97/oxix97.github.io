@@ -65,6 +65,14 @@ describe('Java interview question collection', () => {
     }
   });
 
+  it('hides the generated table of contents on individual question pages', async () => {
+    for (const category of categories) {
+      const content = await readDoc(`interview/java/${category.file}`);
+
+      expect(content).toMatch(/^tableOfContents: false$/m);
+    }
+  });
+
   it('marks generic type names as code so MDX does not parse them as tags', async () => {
     const collections = await readDoc('interview/java/collections.mdx');
 

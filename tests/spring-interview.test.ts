@@ -65,6 +65,14 @@ describe('Spring interview question collection', () => {
     }
   });
 
+  it('hides the generated table of contents on individual question pages', async () => {
+    for (const category of categories) {
+      const content = await readDoc(`interview/spring/${category.file}`);
+
+      expect(content).toMatch(/^tableOfContents: false$/m);
+    }
+  });
+
   it('does not mistake source category headings for numbered questions', async () => {
     const springCore = await readDoc('interview/spring/spring-core.mdx');
 
