@@ -1,6 +1,6 @@
 # Study Article Template
 
-Use this as a structural starting point, then replace every angle-bracket placeholder from repository evidence or user input. Remove optional blocks that do not help the topic. Never publish the `AUTHOR_INPUT_REQUIRED` marker.
+Use this as a structural starting point for new posts or authorized structural work, then replace every angle-bracket placeholder from repository evidence or user input. Remove optional blocks that do not help the topic. Follow the [personal learning-note gate](../SKILL.md#personal-learning-note-gate); the template creates no additional question requirement. Never publish the `AUTHOR_INPUT_REQUIRED` marker.
 
 ````markdown
 ---
@@ -17,8 +17,8 @@ sidebar:
   order: <실제 연재 순서>
 ---
 
-<!-- AUTHOR_INPUT_REQUIRED: 실제로 헷갈렸던 지점 또는 다시 정리한 계기 -->
-<한두 문장으로 복습 계기를 쓴다. 사용자가 학습 메모 제공을 거절했다면 개인 경험이 아닌 중립적 동기를 쓴다.>
+<!-- AUTHOR_INPUT_REQUIRED: 개인적 회고가 요청되었고 학습 메모 질문에 대한 답이 필요한 경우에만 사용하는 초안 표시 -->
+<한두 문장으로 복습 계기를 쓴다. 저자 메모 질문과 중립적 도입의 조건은 SKILL.md의 Personal learning-note gate를 따른다. 개인적 회고를 요청하지 않았다면 메모 없이 중립적으로 쓴다.>
 
 ## 핵심 요약
 

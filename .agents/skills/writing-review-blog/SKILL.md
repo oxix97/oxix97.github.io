@@ -26,11 +26,13 @@ Read [references/style-guide.md](references/style-guide.md) before editing prose
 
 ## Personal learning-note gate
 
-When the request calls for a personal review tone but supplies no real learning note, ask exactly one concise question before writing:
+This section is the single source for the learning-note question condition; the style guide and template refer here. Use a neutral motivation without asking when the request does not call for personal reflection. For review-only work, identify unsupported personal claims without requiring a new author note.
+
+When drafting or revising a personal reflection is requested, first reuse any real author note or immediate-drafting instruction already supplied in the conversation. If neither is available, ask exactly one concise question before writing the personal passage:
 
 > 이 주제에서 실제로 헷갈렸거나 다시 정리하게 된 지점 한 가지만 알려주세요.
 
-Never invent first-person history. If the author declines to provide a note or requests immediate drafting, use a neutral motivation with no personal claim.
+Never invent first-person history. While the question is pending, continue research and non-personal portions of the article. Leave only the dependent personal passage pending; silence is not a decline. If the author declines to provide a note or requests immediate drafting, use a neutral motivation with no personal claim. Do not repeat the question when the conversation already resolves it.
 
 ## New-post contract
 
@@ -40,7 +42,7 @@ Derive series order and navigation from repository evidence. Do not guess missin
 
 ## Existing-post revision contract
 
-Change only the requested prose scope unless the user asks for structural work. Preserve frontmatter fields and values, verified sources, SVG paths, alt text, captions, code behavior, bold decision anchors, interview-question placement, checklist placement, and series navigation.
+Change only the requested scope. Apply the [repository preservation contract](../../../AGENTS.md#protected-article-artifacts) and [review and completion scope](../../../AGENTS.md#review-and-completion-scope). Review-only requests produce findings and proposed edits without file changes. Report out-of-scope structural or technical corrections with evidence and await authorization for those changes while completing independent authorized work.
 
 Keep interview answers in `-습니다` even when main prose uses comfortable `-다`. Separate necessary technical corrections from stylistic edits, cite the reason, and report them.
 
@@ -48,15 +50,15 @@ Keep interview answers in `-습니다` even when main prose uses comfortable `-�
 
 Prefer RFCs, standards, specifications, and official project documentation. Distinguish normative behavior from implementation defaults. When sources disagree, state the applicable scope.
 
-Do not add unverified citations or preserve incorrect claims for tone consistency. Mark unverified claims for confirmation instead of guessing.
+Do not add unverified citations or treat incorrect claims as acceptable for tone consistency. Correct verified errors within scope. Report errors in protected artifacts outside scope as pending proposals under the repository contract. Investigate unverified claims using available primary sources; ask the user only when essential information cannot be obtained independently. Do not guess or claim unresolved accuracy issues are fixed.
 
 ## Humanizer coordination
 
-**CONDITIONAL SUB-SKILL:** Use `humanizer` in embedded mode only after structure and claims are final, and only for clusters of AI-writing patterns. Rewrite prose only. This skill overrides humanizer: preserve protected artifacts and add no unsupported opinions, personality, or first-person history. Run final verification again.
+**CONDITIONAL SUB-SKILL:** Follow the [repository study workflow](../../../AGENTS.md#study-content-workflow). Use `humanizer` in embedded mode only for AI-pattern clusters in prose whose structure and claims are settled. Pending out-of-scope issues do not block independent settled passages. In review-only mode, humanizer supplies proposed wording without modifying files. The repository preservation and author-experience boundaries override generic humanizer guidance. Run final verification again for affected passages.
 
 ## Final verification
 
-Confirm every item in the style guide's final checklist. For revisions, compare preserved artifacts against the original. Remove unsupported first-person claims, template sentinels, broken links, and prose that reads like a regulation or API reference.
+Evaluate each item in the style guide's final checklist for the requested mode and scope. For review only, report findings and proposed edits. For revisions, correct in-scope issues and compare preserved artifacts against the original; report out-of-scope findings separately. Mark non-applicable items accordingly. Do not expand the request to satisfy a checklist or claim unresolved issues are fixed. Remove draft-only sentinels before publication and verify that no unsupported personal claims were introduced.
 
 ## References
 

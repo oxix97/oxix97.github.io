@@ -8,7 +8,7 @@
 - Use conversational connectors sparingly: `그래서`, `다시 말해`, `이 차이를 알고 나면`, `표로 묶어 보면`.
 - Keep emotion restrained. Natural prose must not weaken technical precision.
 
-Open with one or two sentences explaining why the topic is worth reviewing. Prefer a real author note. When none is available and the author declines to add one, use a neutral motivation without claiming personal experience.
+For a new opening, explain in one or two sentences why the topic is worth reviewing. Prefer a supplied real author note. Follow the [personal learning-note gate](../SKILL.md#personal-learning-note-gate) to decide whether to ask or use a neutral motivation; neutral writing needs no author note.
 
 ## Paragraph and sentence shape
 
@@ -42,17 +42,7 @@ The interview questions, review checklist, and sources are required for full stu
 
 ## Preserve without unnecessary changes
 
-When revising an existing post, preserve:
-
-- every frontmatter field and value outside the requested scope;
-- validated RFC and official-document links;
-- existing SVG paths, `alt` text, captions, and figure markup;
-- code semantics and language fences;
-- bold sentences that act as scanning anchors;
-- technical-interview and checklist section positions;
-- previous, series, and next links.
-
-Compare these artifacts before and after editing. Do not replace a working diagram or link merely to make the prose feel new.
+When revising an existing post, follow the [repository preservation contract](../../../../AGENTS.md#protected-article-artifacts). Compare protected artifacts before and after editing. Do not replace a working diagram or link merely to make the prose feel new. Follow the repository's review and completion scope for findings outside the requested edit.
 
 ## Personal experience boundary
 
@@ -62,7 +52,7 @@ Allowed with author input:
 
 > 처음에는 ACK가 마지막으로 받은 번호라고 생각했다. 다음에 받을 번호라는 점을 알고 나니 `x+1`이 이해됐다.
 
-Neutral fallback after the author declines to provide a note:
+Neutral motivation when permitted by the [personal learning-note gate](../SKILL.md#personal-learning-note-gate):
 
 > ACK 번호는 면접 답변에서도 자주 섞이는 부분이라, 시퀀스 공간을 기준으로 다시 구분할 필요가 있다.
 
@@ -98,7 +88,7 @@ Verify that each source supports a claim in the article. Do not invent titles or
 | Failure | Correction |
 | --- | --- |
 | Starting immediately with a dictionary definition | Add a real or neutral reason the distinction is worth reviewing. |
-| Inventing `처음에는 …라고 생각했다` | Ask for one real learning note; use a neutral fallback only after decline or explicit immediate-draft instruction. |
+| Inventing `처음에는 …라고 생각했다` | Follow the personal learning-note gate in SKILL.md; use no unsupported personal history. |
 | Replacing accuracy with chatty language | Keep the technical claim precise and soften only sentence shape and connectors. |
 | Packing several conditions into one sentence | Split by cause, rule, and consequence. |
 | Dropping sources, diagrams, or navigation during revision | Compare preserved artifacts against the original before finishing. |
@@ -107,13 +97,15 @@ Verify that each source supports a claim in the article. Do not invent titles or
 
 ## Final checklist
 
+Apply this checklist according to [review and completion scope](../../../../AGENTS.md#review-and-completion-scope). Review-only tasks report findings; partial revisions change only the requested scope. These checks do not authorize structural changes or require unrelated work.
+
 - [ ] Add one or two opening sentences explaining why the topic is being reviewed.
 - [ ] Split sentences around 15–20 words when they carry multiple ideas.
-- [ ] Include at least one real confusion or misconception only when the author supplied it; otherwise ask, or use a neutral motivation after decline.
+- [ ] Personal claims use supplied author input; the conditional learning-note gate in SKILL.md is satisfied without repeated questions.
 - [ ] Preserve the sequence `핵심 요약 → 원리 → 코드·표·다이어그램 → 장점과 한계 → 기술면접 질문 → 복습 체크리스트`.
 - [ ] Keep roughly one meaningful bold decision anchor per major section where a judgment exists.
 - [ ] List verified RFCs, official documentation, or course material under `참고 자료`.
 - [ ] Keep previous, series, and next navigation consistent with the repository.
 - [ ] Keep main prose in `-다` and interview answers in `-습니다`.
-- [ ] Preserve frontmatter, validated links, code behavior, and existing diagram markup during revision.
+- [ ] Compare protected artifacts against the original using the repository preservation contract.
 - [ ] Remove unsupported personal claims and draft-only sentinels before publication.
