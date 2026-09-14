@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 460" role="img" aria-labelledby="topology-mesh-title topology-mesh-desc">
+<title id="topology-mesh-title">메시형: 대체 경로</title>
+<desc id="topology-mesh-desc">연결 구조와 단일 장애의 영향 범위를 표시한 개념도. 붉은 X는 장애 지점이다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="460" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">메시형: 대체 경로</text>
+<path d="M100 105L380 105" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M100 105L380 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M100 105L100 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M380 105L380 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M380 105L100 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M380 250L100 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M231 96L249 114" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M231 114L249 96" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M100 130L100 223" fill="none" stroke="#047857" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<path d="M123 237L355 118" fill="none" stroke="#047857" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<circle cx="100" cy="105" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="100" y="113" class="bold" text-anchor="middle">A</text>
+<circle cx="380" cy="105" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="380" y="113" class="bold" text-anchor="middle">B</text>
+<circle cx="380" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="380" y="258" class="bold" text-anchor="middle">C</text>
+<circle cx="100" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="100" y="258" class="bold" text-anchor="middle">D</text>
+<rect x="24" y="306" width="432" height="130" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="342" class="" text-anchor="start">X A–B 링크 단절 → A–D–B 후보</text>
+<text x="40" y="376" class="" text-anchor="start">대체 경로를 실제로 쓰려면</text>
+<text x="40" y="410" class="" text-anchor="start">경로 전환과 여유 용량이 필요하다.</text>
+</svg>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 460" role="img" aria-labelledby="topology-tree-title topology-tree-desc">
+<title id="topology-tree-title">트리형: 상위 연결</title>
+<desc id="topology-tree-desc">연결 구조와 단일 장애의 영향 범위를 표시한 개념도. 붉은 X는 장애 지점이다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="460" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">트리형: 상위 연결</text>
+<path d="M240 95L130 180" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M240 95L350 180" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M173 131L191 149" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M173 149L191 131" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<rect x="40" y="150" width="180" height="128" rx="12" fill="#fff1f2" stroke="#b91c1c" stroke-width="2" stroke-dasharray="8 6"/>
+<path d="M130 180L70 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M130 180L190 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M350 180L290 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M350 180L410 250" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="240" cy="95" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="240" y="103" class="bold" text-anchor="middle">상위</text>
+<circle cx="130" cy="180" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="130" y="188" class="bold" text-anchor="middle">A</text>
+<circle cx="350" cy="180" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="350" y="188" class="bold" text-anchor="middle">B</text>
+<circle cx="70" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="70" y="258" class="bold" text-anchor="middle">1</text>
+<circle cx="190" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="190" y="258" class="bold" text-anchor="middle">2</text>
+<circle cx="290" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="290" y="258" class="bold" text-anchor="middle">3</text>
+<circle cx="410" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="410" y="258" class="bold" text-anchor="middle">4</text>
+<rect x="24" y="306" width="432" height="130" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="342" class="" text-anchor="start">X 상위 연결 단절 시</text>
+<text x="40" y="376" class="" text-anchor="start">점선 안 하위 집단의</text>
+<text x="40" y="410" class="" text-anchor="start">상위 네트워크 연결이 끊긴다.</text>
+</svg>

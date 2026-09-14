@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 870" role="img" aria-labelledby="tls-key-derivation-title tls-key-derivation-desc">
+<title id="tls-key-derivation-title">TLS 1.3: 키를 보내지 않고 만들기</title>
+<desc id="tls-key-derivation-desc">클라이언트와 서버가 임시 공개 key share만 교환하고 각자 동일한 ECDHE 공유 비밀을 계산한다. HKDF가 transcript와 함께 단계별 방향별 트래픽 비밀 및 키와 IV를 파생한다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="870" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">TLS 1.3: 키를 보내지 않고 만들기</text>
+<rect x="24" y="80" width="432" height="96" rx="12" fill="#eff6ff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="116" class="" text-anchor="start">클라이언트 ↔ 서버</text>
+<text x="40" y="150" class="" text-anchor="start">임시 공개 key share만 교환</text>
+<path d="M240 176L240 205" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="220" width="432" height="96" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="256" class="" text-anchor="start">각자: 내 임시 개인값</text>
+<text x="40" y="290" class="" text-anchor="start">+ 상대의 공개 key share</text>
+<path d="M240 316L240 345" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="360" width="432" height="96" rx="12" fill="#f5f3ff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="396" class="" text-anchor="start">같은 ECDHE 공유 비밀 계산</text>
+<text x="40" y="430" class="" text-anchor="start">공유 비밀 자체는 보내지 않음</text>
+<path d="M240 456L240 485" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="500" width="432" height="96" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="536" class="" text-anchor="start">HKDF + 단계별 transcript 해시</text>
+<text x="40" y="570" class="" text-anchor="start">단계별·방향별 트래픽 비밀 파생</text>
+<path d="M240 596L240 625" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="640" width="432" height="130" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="676" class="" text-anchor="start">핸드셰이크용 / 애플리케이션용</text>
+<text x="40" y="710" class="" text-anchor="start">각각 클라이언트·서버 송신 구분</text>
+<text x="40" y="744" class="" text-anchor="start">레코드 보호 키와 IV 파생</text>
+<text x="24" y="809" class="" text-anchor="start">인증서 키: 신원과 서명에 사용.</text>
+<text x="24" y="846" class="" text-anchor="start">전체 키 스케줄을 줄인 개념도다.</text>
+</svg>

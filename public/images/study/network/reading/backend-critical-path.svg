@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 740" role="img" aria-labelledby="backend-critical-path-title backend-critical-path-desc">
+<title id="backend-critical-path-title">사용자 응답이 기다리는 구간</title>
+<desc id="backend-critical-path-desc">서비스가 DB 조회와 Kafka 발행 확인을 기다린 뒤 사용자에게 응답하는 예시. 비동기 소비는 응답 시간과 별도로 관측한다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="740" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">사용자 응답이 기다리는 구간</text>
+<rect x="24" y="78" width="432" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="114" class="" text-anchor="start">클라이언트 ↔ Gateway ↔ 서비스</text>
+<text x="24" y="186" class="bold" text-anchor="start">서비스가 기다리는 두 호출</text>
+<rect x="24" y="208" width="432" height="96" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="244" class="" text-anchor="start">1. 서비스 ↔ PostgreSQL</text>
+<text x="40" y="278" class="" text-anchor="start">조회 요청 → 결과 수신</text>
+<path d="M240 304L240 335" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="348" width="432" height="96" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="384" class="" text-anchor="start">2. 서비스 ↔ Kafka</text>
+<text x="40" y="418" class="" text-anchor="start">이벤트 발행 → 발행 확인</text>
+<text x="24" y="490" class="bold" text-anchor="start">두 호출 완료 → 사용자 응답</text>
+<path d="M240 520L240 558" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<rect x="24" y="574" width="432" height="96" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="610" class="" text-anchor="start">Kafka → 소비자: 비동기 처리</text>
+<text x="40" y="644" class="" text-anchor="start">소비 완료는 사용자 응답과 별도</text>
+<text x="24" y="716" class="muted" text-anchor="start">점선: 별도로 관측할 후속 처리</text>
+</svg>

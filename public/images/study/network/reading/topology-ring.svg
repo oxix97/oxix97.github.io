@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 460" role="img" aria-labelledby="topology-ring-title topology-ring-desc">
+<title id="topology-ring-title">링형: 고리의 단절</title>
+<desc id="topology-ring-desc">연결 구조와 단일 장애의 영향 범위를 표시한 개념도. 붉은 X는 장애 지점이다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="460" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">링형: 고리의 단절</text>
+<path d="M100 105L380 105" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M380 105L380 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M380 250L100 250" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M100 250L100 105" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="100" cy="105" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="100" y="113" class="bold" text-anchor="middle">A</text>
+<circle cx="380" cy="105" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="380" y="113" class="bold" text-anchor="middle">B</text>
+<circle cx="380" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="380" y="258" class="bold" text-anchor="middle">C</text>
+<circle cx="100" cy="250" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="100" y="258" class="bold" text-anchor="middle">D</text>
+<path d="M231 96L249 114" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M231 114L249 96" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<rect x="24" y="306" width="432" height="130" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="342" class="" text-anchor="start">X 단일 링의 한 링크 단절</text>
+<text x="40" y="376" class="" text-anchor="start">보호·우회 기능이 없다면</text>
+<text x="40" y="410" class="" text-anchor="start">고리를 통한 전달이 중단된다.</text>
+</svg>

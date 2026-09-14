@@ -30,6 +30,40 @@ sidebar:
 
 ## 버스형·스타형·트리형 토폴로지
 
+먼저 여러 노드가 함께 의존하는 부분을 찾는다. 버스형은 매체를 공유하고, 스타형과 트리형은 중앙 노드나 상위 연결에 흐름이 모인다. 그림의 X는 고장 지점이며, 성능 병목이 확인됐다는 뜻은 아니다.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/topology-bus.svg"
+    width="480"
+    height="460"
+    alt="네 노드가 공유 매체에 연결되고 매체 중간의 단절이 여러 노드 통신에 영향을 주는 버스형 구조"
+    loading="lazy"
+  />
+  <figcaption>버스형은 말단 노드의 고장과 공유 매체의 고장을 구분해서 본다.</figcaption>
+</figure>
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/topology-star.svg"
+    width="480"
+    height="460"
+    alt="네 말단이 중앙 노드에 연결되며 중앙 장애가 말단 사이 통신을 중단시키는 스타형 구조"
+    loading="lazy"
+  />
+  <figcaption>중앙 노드 장애와 말단 링크 장애의 영향 범위가 다르다.</figcaption>
+</figure>
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/topology-tree.svg"
+    width="480"
+    height="460"
+    alt="상위 연결 단절로 왼쪽 하위 집단의 상위 네트워크 연결이 끊기는 트리형 구조"
+    loading="lazy"
+  />
+  <figcaption>점선은 상위 연결에 의존하는 하위 집단이다. 내부 통신까지 모두 끊긴다는 뜻은 아니다.</figcaption>
+</figure>
 | 토폴로지 | 구조적 특징 | 장점 | 주요 위험 |
 | --- | --- | --- | --- |
 | 버스형 | 하나의 공유 매체에 여러 노드가 연결된다. | 필요한 링크 수가 적고 구조가 단순하다. | 공유 매체의 장애가 전체에 영향을 주고, 동시에 전송하려는 노드가 많으면 매체 경쟁이 커진다. |
@@ -40,6 +74,29 @@ sidebar:
 
 ## 링형·메시형 토폴로지
 
+이번에는 연결 하나가 끊겼을 때 남는 경로를 본다. 경로가 남아 있어도 실제로 전환할 수 있는지, 우회 트래픽을 감당할 수 있는지는 따로 확인해야 한다.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/topology-ring.svg"
+    width="480"
+    height="460"
+    alt="네 노드가 고리로 연결되고 A와 B 사이 링크가 끊긴 단일 링 구조"
+    loading="lazy"
+  />
+  <figcaption>보호 절체나 우회 기능을 생략한 단일 링 예시다.</figcaption>
+</figure>
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/topology-mesh.svg"
+    width="480"
+    height="460"
+    alt="전체 메시에서 A와 B 사이 링크가 끊겨도 A에서 D를 거쳐 B로 가는 후보가 남는 구조"
+    loading="lazy"
+  />
+  <figcaption>녹색 점선은 대체 경로 후보이며 자동 복구를 보장하지 않는다.</figcaption>
+</figure>
 | 토폴로지 | 구조적 특징 | 장점 | 주요 위험 |
 | --- | --- | --- | --- |
 | 링형 | 각 노드가 양옆 노드와 연결되어 고리 형태를 이룬다. | 정해진 방향과 순서로 매체 접근이나 전달을 제어할 수 있다. | 데이터가 여러 노드를 거칠 수 있고, 우회 장치가 없는 단일 링은 링크나 노드 하나의 장애에 끊길 수 있다. |
@@ -51,7 +108,9 @@ sidebar:
 
 ## 연결 구조에서 병목이 발생하는 지점
 
-병목은 시스템 전체의 처리량이나 지연을 제한하는 가장 제약이 큰 구간이다. 공통 백본, 스타형의 중앙 노드, 트리형의 상위 링크는 많은 흐름이 합쳐지는 후보지만 구조만 보고 병목이라고 확정할 수는 없다. 수요가 용량에 가까워지는 포화, 대기열 증가, 오류와 재시도를 같은 시간대에 확인해야 한다.
+병목은 시스템 전체의 처리량이나 지연을 제한하는 가장 제약이 큰 구간이다. 공통 백본, 스타형의 중앙 노드, 트리형의 상위 링크는 많은 흐름이 합쳐지는 후보지만 구조만 보고 병목이라고 확정할 수는 없다.
+
+수요가 용량에 가까워지는 포화, 대기열 증가, 오류와 재시도를 같은 시간대에 확인해야 한다.
 
 예를 들어 요청이 API Gateway와 서비스를 거쳐 PostgreSQL을 조회한 뒤 Kafka에 이벤트를 발행한다고 하자. 동기 응답이 발행 확인까지 기다린다면 Gateway, 서비스, 데이터베이스, 브로커가 요청의 임계 경로에 놓인다. 소비자가 나중에 비동기로 처리한다면 소비 지연은 사용자 응답 시간과 분리해야 한다. 어느 구성 요소도 제품 이름만으로 병목인 것은 아니다.
 
@@ -59,6 +118,18 @@ sidebar:
 
 ## 백엔드 시스템에서 병목을 찾는 순서
 
+이 예시에서는 서비스가 DB 조회와 Kafka 발행 확인을 마친 뒤 사용자에게 응답한다. 소비자의 후속 처리는 기다리지 않는다. 사용자 응답이 기다리는 구간부터 구분해 보자.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/backend-critical-path.svg"
+    width="480"
+    height="740"
+    alt="클라이언트와 Gateway를 거친 서비스가 DB 조회와 Kafka 발행 확인을 기다리고 소비자는 별도로 처리하는 요청 경로"
+    loading="lazy"
+  />
+  <figcaption>서비스의 동기 대기와 Kafka 소비자의 비동기 처리를 구분한 예시다. 실제 병목은 같은 시간대의 지표로 확인한다.</figcaption>
+</figure>
 병목 분석은 사용자 요청이 실제로 지난 경로와 수치를 맞추는 일에서 시작한다. Google SRE가 제시하는 지연·트래픽·오류·포화는 각 구간을 같은 기준으로 훑는 출발점이 된다.
 
 1. 요청이 이동하는 전체 경로를 그린다.

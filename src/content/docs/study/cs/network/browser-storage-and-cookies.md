@@ -36,6 +36,8 @@ HTTP 캐시는 재사용 가능한 응답 메시지를 저장한다. 같은 요�
 
 `localStorage` 데이터는 현재 창의 오리진에 묶인다. 오리진은 스킴, 호스트, 포트로 구성된다. 셋 중 하나라도 다르면 같은 키를 사용해도 별도의 저장 영역을 보게 된다.
 
+공유 범위를 확인한 뒤에는 수명을 본다.
+
 같은 오리진의 창과 탭은 로컬스토리지 값을 공유할 수 있다. 브라우저 세션을 닫아도 값이 남을 수 있어 테마, 최근 검색어처럼 다음 방문에도 필요한 클라이언트 상태에 어울린다. 다만 사용자가 데이터를 지우거나 브라우저가 저장 정책에 따라 제거할 수 있으므로 영구 보관소로 보면 안 된다.
 
 Web Storage는 키와 값을 문자열로 저장한다. 배열이나 객체는 직렬화한 뒤 넣어야 한다.
@@ -75,7 +77,22 @@ const savedDraft = JSON.parse(
 );
 ```
 
-새 창을 `window.open()`으로 만들면 기존 세션스토리지의 초기 상태가 복사될 수 있다. 복사 뒤에는 서로 독립적으로 바뀐다. 따라서 "모든 새 탭은 언제나 빈 저장소로 시작한다"고 외우기보다 오리진과 최상위 브라우징 컨텍스트를 함께 보는 편이 정확하다.
+같은 오리진의 두 탭에서 저장 영역이 어디까지 공유되는지 비교해 보자.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/storage-tab-boundaries.svg"
+    width="480"
+    height="540"
+    alt="같은 오리진의 탭 A와 B가 localStorage를 공유하지만 sessionStorage는 각각 갖는 구조"
+    loading="lazy"
+  />
+  <figcaption>일반 저장 환경에서 독립적으로 연 두 탭의 예시다. 브라우저 정책에 의한 저장 제한은 생략했다.</figcaption>
+</figure>
+
+로컬스토리지의 값은 다른 탭에서도 볼 수 있지만, 세션스토리지의 변경은 각 탭의 작업 안에 머문다.
+
+새 창을 여는 경우에는 초기 복사 예외를 따로 봐야 한다. `window.open()`으로 만든 창은 기존 세션스토리지의 초기 상태가 복사될 수 있다. 복사 뒤에는 서로 독립적으로 바뀐다. 따라서 "모든 새 탭은 언제나 빈 저장소로 시작한다"고 외우기보다 오리진과 최상위 브라우징 컨텍스트를 함께 보는 편이 정확하다.
 
 **탭마다 독립적인 임시 작업 상태가 필요하다면 세션스토리지가 로컬스토리지보다 경계를 잘 드러낸다.**
 
@@ -93,6 +110,21 @@ GET /me HTTP/1.1
 Host: example.com
 Cookie: sessionId=a8f3d1
 ```
+
+앞의 응답과 요청 사이에는 브라우저의 저장 처리와 전송 조건 확인이 있다.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/cookie-round-trip.svg"
+    width="480"
+    height="720"
+    alt="서버의 Set-Cookie 응답을 브라우저가 저장하고 후속 요청의 조건을 확인해 Cookie 필드로 보내는 흐름"
+    loading="lazy"
+  />
+  <figcaption>저장이 허용되고 후속 요청이 쿠키의 적용 조건을 만족하는 경우다. Set-Cookie 속성이 그대로 Cookie 필드에 복사되는 것은 아니다.</figcaption>
+</figure>
+
+쿠키를 받았다는 사실만으로 모든 요청에 포함되는 것은 아니다. 수명과 요청 범위가 맞아야 자동 전송된다.
 
 `Max-Age`는 쿠키가 유지될 최대 시간을 초 단위로 정한다. `Expires`와 함께 있으면 `Max-Age`가 우선한다. 둘 다 없다면 브라우저가 정의한 현재 세션이 끝날 때 삭제하는 세션 쿠키가 된다.
 

@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 540" role="img" aria-labelledby="storage-tab-boundaries-title storage-tab-boundaries-desc">
+<title id="storage-tab-boundaries-title">같은 오리진의 두 탭</title>
+<desc id="storage-tab-boundaries-desc">독립적으로 연 같은 오리진의 두 탭은 localStorage를 공유하지만 sessionStorage는 각각 갖는다. 새 창 생성 시 초기 복사 예외는 본문에서 설명한다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="540" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">같은 오리진의 두 탭</text>
+<text x="24" y="89" class="muted" text-anchor="start">동일한 스킴·호스트·포트</text>
+<rect x="24" y="117" width="200" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="153" class="" text-anchor="start">탭 A</text>
+<rect x="256" y="117" width="200" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="272" y="153" class="" text-anchor="start">탭 B</text>
+<path d="M124 179L200 239" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<path d="M356 179L280 239" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)" marker-start="url(#arrow)"/>
+<rect x="24" y="250" width="432" height="62" rx="12" fill="#eff6ff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="286" class="" text-anchor="start">localStorage · 두 탭이 공유</text>
+<path d="M24 150L12 150" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M12 150L12 364" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M12 364L124 364" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M124 364L124 379" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<path d="M456 150L468 150" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M468 150L468 364" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M468 364L356 364" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6"/>
+<path d="M356 364L356 379" fill="none" stroke="#475569" stroke-width="3" stroke-dasharray="8 6" marker-end="url(#arrow)"/>
+<rect x="24" y="380" width="208" height="96" rx="12" fill="#f5f3ff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="416" class="" text-anchor="start">탭 A 전용</text>
+<text x="40" y="450" class="" text-anchor="start">sessionStorage</text>
+<rect x="248" y="380" width="208" height="96" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="264" y="416" class="" text-anchor="start">탭 B 전용</text>
+<text x="264" y="450" class="" text-anchor="start">sessionStorage</text>
+<text x="24" y="520" class="" text-anchor="start">독립적으로 연 두 탭의 예시다.</text>
+</svg>

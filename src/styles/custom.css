@@ -170,3 +170,8 @@ body {
   line-height: 1.6;
   text-align: center;
 }
+
+.sl-markdown-content .study-diagram-compact {
+  max-width: 30rem;
+  margin-inline: auto;
+}

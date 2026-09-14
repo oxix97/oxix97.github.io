@@ -77,6 +77,8 @@ Authorization: Bearer access-token
 
 Bearer Token은 그 값을 가진 주체가 사용할 수 있는 자격 증명이다. 서버는 TLS로 전송 구간을 보호하고 토큰이 URL에 남지 않게 해야 한다. URL은 브라우저 기록, 서버 로그, 중간 시스템에 기록될 수 있다.
 
+세션 ID는 저장소를 찾는 식별자이고, Access Token은 자원 접근에 사용하는 자격 증명이다. JWT는 그 토큰을 표현할 수 있는 형식 중 하나다.
+
 Access Token의 형식은 하나로 정해져 있지 않다. 서버가 저장소에서 조회하는 불투명 토큰을 쓸 수도 있고, 검증에 필요한 클레임을 담은 JWT를 쓸 수도 있다. JWT는 토큰 형식이지 토큰 기반 인증 전체를 뜻하는 말이 아니다.
 
 서명된 JWT를 JWS Compact Serialization으로 표현하면 보통 세 부분으로 보인다.
@@ -117,6 +119,8 @@ Refresh Token을 도입했다고 서버가 항상 무상태가 되는 것은 아
 
 두 흐름을 나란히 보면 클라이언트가 보내는 값과 서버가 조회하는 대상이 갈린다. 세션 서버는 세션 ID로 저장소를 찾고, 자원 서버는 Access Token의 유효성을 확인한다.
 
+오른쪽은 자체 검증형 JWT Access Token을 사용하고 Refresh Token을 회전하는 예시다. 왼쪽의 저장소 조회와 오른쪽의 클레임 검증을 비교한다.
+
 <figure class="study-diagram">
   <img
     src="/images/study/network/http/session-token-auth-flow.svg"
@@ -125,6 +129,8 @@ Refresh Token을 도입했다고 서버가 항상 무상태가 되는 것은 아
   />
   <figcaption>세션 방식은 서버 저장소의 상태를 찾고, 토큰 방식은 Access Token을 검증한다. Refresh Token 회전과 폐기를 사용하면 인증 서버에도 상태가 생긴다.</figcaption>
 </figure>
+
+이 그림을 토큰 방식 전체의 공통 동작으로 일반화하지 않는다. 불투명 토큰은 서버 조회가 필요할 수 있고, Refresh Token 발급과 회전 여부도 설계에 따라 다르다.
 
 선택 기준을 표로 묶어 보면 다음과 같다.
 
@@ -138,7 +144,9 @@ Refresh Token을 도입했다고 서버가 항상 무상태가 되는 것은 아
 | 탈취 영향 | 세션을 무효화할 때까지 세션 ID를 재사용할 수 있음 | Bearer Token 만료나 폐기 전까지 재사용할 수 있음 |
 | 주요 운영 상태 | 세션 데이터, 만료, 저장소 가용성 | 서명 키, 클레임 규칙, 만료, Refresh Token 회전·폐기 |
 
-쿠키와 토큰도 서로 반대되는 개념은 아니다. 쿠키는 브라우저가 값을 저장하고 HTTP 요청에 보내는 방법이다. 세션 ID를 쿠키에 넣을 수도 있고 Refresh Token을 쿠키에 넣을 수도 있다. 쿠키가 자동으로 전송되는 구조라면 `Secure`, `HttpOnly`, `SameSite`와 CSRF 방어를 함께 검토해야 한다.
+쿠키와 토큰도 서로 반대되는 개념은 아니다. 쿠키는 브라우저가 값을 저장하고 HTTP 요청에 보내는 방법이다.
+
+세션 ID를 쿠키에 넣을 수도 있고 Refresh Token을 쿠키에 넣을 수도 있다. 쿠키가 자동으로 전송되는 구조라면 `Secure`, `HttpOnly`, `SameSite`와 CSRF 방어를 함께 검토해야 한다.
 
 ## 장점과 한계
 

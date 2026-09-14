@@ -23,7 +23,9 @@ TCP는 양방향 바이트 스트림을 제공하므로 연결 수립에서 두 
 
 ## 3-way handshake가 확인하는 것
 
-연결 시작 측은 `CLOSED`에서 `SYN_SENT`로 이동하며 `SYN seq=x`를 보낸다. 수신 측은 `LISTEN`에서 SYN을 받고 `SYN_RECEIVED`가 된다. 이어 자신의 ISN `y`와 상대 SYN을 확인하는 `ack=x+1`을 담아 `SYN-ACK seq=y ack=x+1`을 보낸다. 시작 측은 `ACK ack=y+1`을 보내 `ESTABLISHED`가 되고, 수신 측도 이 ACK를 받으면 `ESTABLISHED`가 된다.
+연결 시작 측은 `CLOSED`에서 `SYN_SENT`로 이동하며 `SYN seq=x`를 보낸다. 수신 측은 `LISTEN`에서 SYN을 받고 `SYN_RECEIVED`가 된다. 이어 자신의 ISN `y`와 상대 SYN을 확인하는 `ack=x+1`을 담아 `SYN-ACK seq=y ack=x+1`을 보낸다.
+
+시작 측은 `ACK ack=y+1`을 보내 `ESTABLISHED`가 되고, 수신 측도 이 ACK를 받으면 `ESTABLISHED`가 된다.
 
 세 메시지는 두 방향의 시퀀스 공간을 동기화한다. 수신 측은 시작 측의 SYN을 `ack=x+1`로 확인하고, 시작 측은 수신 측의 SYN을 `ack=y+1`로 확인한다. RFC 9293은 3-way handshake의 주된 이유를 오래된 중복 연결 시작이 새 연결로 오인되는 일을 막는 것이라고 설명한다.
 
@@ -44,7 +46,7 @@ ISN(Initial Sequence Number)은 각 TCP 종단이 연결을 시작할 때 선택
 
 ACK 번호는 누적 확인의 다음 기대 번호다. `ack=N`은 일반적으로 `N`보다 작은 시퀀스 번호의 모든 바이트를 연속해서 받았다는 뜻이다. SYN은 데이터가 없어도 시퀀스 공간 한 칸을 소비하므로 `SYN seq=x`의 확인은 `ack=x+1`이다. FIN도 한 칸을 소비하며, 데이터가 함께 있다면 데이터 길이와 FIN 한 칸을 모두 더해 확인한다.
 
-선택적 확인 응답(SACK)을 협상하면 수신 측은 누적 ACK 바깥에서 받은 비연속 블록도 추가로 알릴 수 있다. 그래도 TCP 헤더의 기본 Acknowledgment Number는 다음에 기대하는 연속 시퀀스 번호라는 점은 바뀌지 않는다.
+기본 ACK 번호의 의미를 확인한 뒤에는 보충 정보인 SACK을 구분해서 본다. 선택적 확인 응답(SACK)을 협상하면 수신 측은 누적 ACK 바깥에서 받은 비연속 블록도 추가로 알릴 수 있다. 그래도 TCP 헤더의 기본 Acknowledgment Number는 다음에 기대하는 연속 시퀀스 번호라는 점은 바뀌지 않는다.
 
 ## 4-way handshake에서 FIN과 ACK가 분리되는 이유
 
@@ -69,7 +71,20 @@ FIN을 받은 애플리케이션이 바로 송신도 닫으면 ACK와 FIN을 한
 
 ## TIME_WAIT이 필요한 이유
 
-마지막 ACK에는 다시 돌아오는 ACK가 없다. 이 ACK가 유실되면 상대는 `LAST_ACK`에서 FIN을 재전송한다. TIME_WAIT에 있는 종단은 그 FIN을 다시 ACK하고 2MSL 타이머를 다시 시작할 수 있다. 상대 FIN 자체가 유실되었다면 종료 시작 측은 `FIN_WAIT_2`에서 재전송된 FIN을 기다린 뒤 ACK하고 TIME_WAIT에 들어간다.
+마지막 ACK에는 다시 돌아오는 ACK가 없다. 이 ACK가 유실되면 상대는 `LAST_ACK`에서 FIN을 재전송한다. TIME_WAIT에 있는 종단은 그 FIN을 다시 ACK하고 2MSL 타이머를 다시 시작할 수 있다. 아래 그림에서는 마지막 ACK가 유실된 경우만 따라간다.
+
+<figure class="study-diagram study-diagram-compact">
+  <img
+    src="/images/study/network/reading/time-wait-ack-loss.svg"
+    width="480"
+    height="665"
+    alt="마지막 ACK가 유실돼 LAST_ACK의 상대가 FIN을 재전송하면 TIME_WAIT의 종료 시작 측이 다시 ACK하고 타이머를 재시작하는 흐름"
+    loading="lazy"
+  />
+  <figcaption>앞선 FIN 교환은 생략했다. 마지막 ACK에 또 ACK하는 흐름이 아니라 상대가 FIN을 재전송하는 흐름이다.</figcaption>
+</figure>
+
+재전송된 FIN에 응답할 수 있도록 종료 시작 측이 상태를 유지한다. 상대 FIN 자체가 유실된 경우는 다르다. 이때 종료 시작 측은 `FIN_WAIT_2`에서 재전송된 FIN을 기다린 뒤 ACK하고 TIME_WAIT에 들어간다.
 
 같은 4-tuple의 새 연결을 너무 빨리 만들면 이전 연결에서 지연된 중복 세그먼트가 새 연결과 겹칠 수 있다. TIME_WAIT은 이전 세그먼트가 네트워크에서 사라질 시간을 두고, 새 ISN 선택과 함께 연결 세대를 구분한다. RFC 9293은 능동적으로 닫힌 연결이 2×MSL 동안 TIME_WAIT에 머물도록 요구한다. 실제 운영체제가 사용하는 타이머와 재사용 조건은 구현별로 확인해야 한다.
 

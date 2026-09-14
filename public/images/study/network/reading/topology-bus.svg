@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 460" role="img" aria-labelledby="topology-bus-title topology-bus-desc">
+<title id="topology-bus-title">버스형: 공유 매체</title>
+<desc id="topology-bus-desc">연결 구조와 단일 장애의 영향 범위를 표시한 개념도. 붉은 X는 장애 지점이다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="460" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">버스형: 공유 매체</text>
+<path d="M55 190L425 190" fill="none" stroke="#475569" stroke-width="3"/>
+<path d="M231 181L249 199" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M231 199L249 181" fill="none" stroke="#b91c1c" stroke-width="3"/>
+<path d="M80 115L80 190" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="80" cy="110" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="80" y="118" class="bold" text-anchor="middle">A</text>
+<path d="M190 115L190 190" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="190" cy="110" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="190" y="118" class="bold" text-anchor="middle">B</text>
+<path d="M300 115L300 190" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="300" cy="110" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="300" y="118" class="bold" text-anchor="middle">C</text>
+<path d="M410 115L410 190" fill="none" stroke="#475569" stroke-width="3"/>
+<circle cx="410" cy="110" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="410" y="118" class="bold" text-anchor="middle">D</text>
+<text x="240" y="246" class="red" text-anchor="middle">X 공유 매체 단절</text>
+<rect x="24" y="306" width="432" height="130" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="342" class="" text-anchor="start">공유 매체의 고장은</text>
+<text x="40" y="376" class="" text-anchor="start">여러 노드의 통신에 영향을 준다.</text>
+<text x="40" y="410" class="" text-anchor="start">말단 고장과 매체 고장은 다르다.</text>
+</svg>

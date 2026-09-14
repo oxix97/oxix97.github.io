@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 720" role="img" aria-labelledby="cookie-round-trip-title cookie-round-trip-desc">
+<title id="cookie-round-trip-title">쿠키: 저장에서 다음 요청까지</title>
+<desc id="cookie-round-trip-desc">서버의 Set-Cookie 응답을 브라우저가 처리해 저장하고 이후 요청에서 만료와 범위 및 보안 조건을 확인해 Cookie 필드를 전송한다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="720" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">쿠키: 저장에서 다음 요청까지</text>
+<rect x="24" y="80" width="432" height="96" rx="12" fill="#eff6ff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="116" class="" text-anchor="start">1. 서버 → 브라우저</text>
+<text x="40" y="150" class="" text-anchor="start">응답: Set-Cookie: sessionId=…</text>
+<path d="M240 176L240 208" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="222" width="432" height="96" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="258" class="" text-anchor="start">2. 브라우저가 쿠키 저장</text>
+<text x="40" y="292" class="" text-anchor="start">정책에 따라 거절될 수도 있음</text>
+<path d="M240 318L240 350" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="364" width="432" height="130" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="400" class="" text-anchor="start">3. 후속 요청의 포함 조건 확인</text>
+<text x="40" y="434" class="" text-anchor="start">만료·도메인·경로·Secure 등</text>
+<text x="40" y="468" class="" text-anchor="start">SameSite와 브라우저 정책</text>
+<path d="M240 494L240 526" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<rect x="24" y="540" width="432" height="96" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="576" class="" text-anchor="start">4. 조건에 맞으면 서버로 전송</text>
+<text x="40" y="610" class="" text-anchor="start">요청: Cookie: sessionId=…</text>
+<text x="24" y="692" class="" text-anchor="start">조건이 맞지 않으면 포함하지 않음.</text>
+</svg>

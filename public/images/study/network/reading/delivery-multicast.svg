@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 480" role="img" aria-labelledby="delivery-multicast-title delivery-multicast-desc">
+<title id="delivery-multicast-title">멀티캐스트: 가입한 그룹</title>
+<desc id="delivery-multicast-desc">같은 송신자와 수신자 A B C 배치에서 전달 대상을 비교한다. 화살표는 논리적 수신 범위이며 실제 링크 구성은 생략한다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="480" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">멀티캐스트: 가입한 그룹</text>
+<rect x="35" y="75" width="410" height="264" rx="12" fill="#fff" stroke="#64748b" stroke-width="2" stroke-dasharray="8 6"/>
+<circle cx="240" cy="105" r="25" fill="#eff6ff" stroke="#475569" stroke-width="2"/>
+<text x="240" y="113" class="bold" text-anchor="middle">송신</text>
+<path d="M240 132L95 253" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="95" cy="285" r="25" fill="#ecfdf5" stroke="#475569" stroke-width="2"/>
+<text x="95" y="293" class="bold" text-anchor="middle">A</text>
+<circle cx="240" cy="285" r="25" fill="#f1f5f9" stroke="#475569" stroke-width="2"/>
+<text x="240" y="293" class="bold" text-anchor="middle">B</text>
+<path d="M240 132L385 253" fill="none" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+<circle cx="385" cy="285" r="25" fill="#ecfdf5" stroke="#475569" stroke-width="2"/>
+<text x="385" y="293" class="bold" text-anchor="middle">C</text>
+<text x="95" y="374" class="green" text-anchor="middle">가입</text>
+<text x="240" y="374" class="muted" text-anchor="middle">미가입</text>
+<text x="385" y="374" class="green" text-anchor="middle">가입</text>
+<text x="24" y="426" class="" text-anchor="start">화살표: 전달 대상의 개념적 표시</text>
+<text x="24" y="461" class="" text-anchor="start">점선: 예시의 로컬 네트워크 범위</text>
+</svg>

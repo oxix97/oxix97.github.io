@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 720" role="img" aria-labelledby="subnet-26-range-title subnet-26-range-desc">
+<title id="subnet-26-range-title">/24를 네 개의 /26으로 나누기</title>
+<desc id="subnet-26-range-desc">192.168.1.0/24의 네 /26 블록 중 130은 128부터 191 블록에 속한다. 128은 네트워크, 191은 브로드캐스트, 129부터 190은 일반 호스트 범위다.</desc>
+<style>text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;font-size:24px;fill:#0f172a} .heading{font-size:28px;font-weight:750}.bold{font-weight:700}.muted{fill:#475569}.blue{fill:#1d4ed8}.red{fill:#b91c1c}.green{fill:#047857}</style>
+<defs><marker id="arrow" markerUnits="userSpaceOnUse" viewBox="0 0 8 8" markerWidth="14" markerHeight="14" refX="7" refY="4" orient="auto-start-reverse"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+<rect width="480" height="720" rx="16" fill="#f8fafc"/>
+<text x="24" y="44" class="heading" text-anchor="start">/24를 네 개의 /26으로 나누기</text>
+<text x="24" y="89" class="" text-anchor="start">192.168.1.0/24 · 마지막 옥텟</text>
+<rect x="24" y="113" width="432" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="149" class="" text-anchor="start">.0 ~ .63</text>
+<rect x="24" y="193" width="432" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="229" class="" text-anchor="start">.64 ~ .127</text>
+<rect x="24" y="273" width="432" height="62" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="309" class="" text-anchor="start">.128 ~ .191  ← .130 포함</text>
+<rect x="24" y="353" width="432" height="62" rx="12" fill="#fff" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="389" class="" text-anchor="start">.192 ~ .255</text>
+<text x="24" y="465" class="bold" text-anchor="start">선택한 /26의 주소 64개</text>
+<rect x="24" y="488" width="432" height="130" rx="12" fill="#ecfdf5" stroke="#cbd5e1" stroke-width="2"/>
+<text x="40" y="524" class="" text-anchor="start">.128             네트워크 주소</text>
+<text x="40" y="558" class="" text-anchor="start">.129 ~ .190   일반 호스트 62개</text>
+<text x="40" y="592" class="" text-anchor="start">.191             브로드캐스트</text>
+<text x="24" y="665" class="" text-anchor="start">일반 브로드캐스트 서브넷 예시.</text>
+<text x="24" y="701" class="" text-anchor="start">/31·/32는 본문의 예외를 따른다.</text>
+</svg>
