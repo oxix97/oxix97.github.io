@@ -12,11 +12,17 @@ sidebar:
   order: 7
 ---
 
-UI 패턴을 비교할 때는 이름보다 View를 누가 갱신하고 상태가 어떻게 전달되는지를 봐야 한다. 이 기준으로 MVC·MVP·MVVM과 서버 측 Spring MVC를 이어 본다.
+프로필 화면에서 이름을 바꾸고 저장 버튼을 누른다고 해 보자. 입력값을 확인하고, 이름을 변경하고, 결과나 오류를 화면에 보여 줘야 한다. 이 일을 나누는 방법이 MVC·MVP·MVVM이다. 같은 이름 변경 사례에서 화면을 누가 갱신하는지 비교한 뒤, 서버가 웹 요청을 처리하는 Spring MVC를 살펴본다.
 
 ## 핵심 요약
 
-MVC, MVP, MVVM은 데이터와 비즈니스 규칙을 화면 표현과 분리하는 UI 아키텍처 패턴이다. MVC의 Controller는 입력을 해석해 Model 작업과 다음 표현을 조정한다. MVP의 Presenter는 View 계약을 직접 갱신하고, MVVM의 ViewModel은 View가 바인딩할 상태와 Command 같은 사용자 동작 진입점을 노출한다. 이름만 바꾼 같은 구현이 아니다. 플랫폼의 이벤트 모델과 바인딩 기능에 따라 의존 방향과 테스트 경계가 달라지는 선택지다.
+MVC·MVP·MVVM은 화면에 보이는 것과 데이터·업무 규칙을 나누는 방법이다. UI는 버튼, 입력란, 결과 문구처럼 사용자가 보고 조작하는 화면을 뜻한다.
+
+- **MVC:** Controller가 입력을 받아 Model의 작업을 호출하고 결과 표현을 조정한다. 화면으로 결과가 전달되는 세부 방식에는 여러 변형이 있다.
+- **MVP:** Presenter가 Model의 결과를 받아 View에 ‘이 결과를 표시하라’고 메서드로 요청한다.
+- **MVVM:** ViewModel이 화면에 필요한 상태를 내놓고, View는 그 상태와 연결되어 표시를 바꾼다. 이 연결을 바인딩이라고 한다.
+
+세 이름을 외우기보다 ‘이름 변경에 실패했을 때 오류 문구가 어떤 경로로 화면에 나타나는가’를 따라가면 차이를 볼 수 있다. 뒤의 Spring MVC는 웹 서버의 요청·응답에 이 역할 분리를 적용한 사례다.
 
 ## 표현 로직을 분리해야 하는 이유
 
@@ -39,7 +45,7 @@ MVC, MVP, MVVM은 데이터와 비즈니스 규칙을 화면 표현과 분리하
 
 개념 흐름은 `사용자 입력 → Controller → Model 변경·조회 → View 표현`으로 정리할 수 있다. 다만 어떤 MVC는 View가 Model을 직접 조회하거나 변경 알림을 구독하고, 어떤 MVC는 Controller가 View에 Model을 전달하므로 모든 프레임워크의 참조 방향이 동일하지 않다.
 
-다음 Java 예시는 View가 입력·표현 계약만 제공하고 Controller가 Model 작업을 조정하는 최소 구조다.
+다음 Java 예시는 View가 입력·표현 계약만 제공하고 Controller가 Model 작업을 조정하는 최소 구조다. Model의 `rename()`은 이름 앞뒤 공백을 없애고 빈 이름을 거부한다. Controller의 `save()`는 그 결과에 따라 View의 `showProfile()` 또는 `showError()`를 호출한다. 이 세 메서드를 먼저 찾으면 된다.
 
 ```java
 record Profile(String name) {}
@@ -83,6 +89,10 @@ final class ProfileController {
 
 ## MVP와 MVVM은 무엇이 다른가
 
+이름을 빈칸으로 제출해 오류를 표시하는 같은 상황을 두 방식으로 살펴보자. MVP에서는 Presenter가 View의 `showError()`를 직접 호출한다. MVVM에서는 ViewModel이 화면용 오류 상태를 바꾸고, 그 상태에 연결된 View가 문구를 표시한다. 바인딩은 데이터와 화면을 연결해 값의 변화가 반영되게 하는 장치다. 연결 자체는 프레임워크나 구독 코드로 준비해야 한다.
+
+Command는 저장 버튼처럼 사용자 동작을 실행할 수 있도록 노출한 진입점이다. 이름은 낯설어도 ‘저장을 실행한다’는 요청을 전달하는 역할로 먼저 이해하면 된다.
+
 MVP의 Presenter는 보통 View가 제공하는 인터페이스에 의존한다. View는 클릭 같은 이벤트를 Presenter에 전달한다. Presenter는 Model을 호출한 뒤 `showProfile`이나 `showError` 같은 View 메서드로 표시 상태를 명령한다. Passive View로 구성하면 Presenter를 실제 UI 없이 가짜 View로 단위 테스트하기 쉽다. 다만 화면마다 View 계약과 연결 코드가 늘고, Presenter가 화면 세부사항을 많이 알면 강한 결합이 생긴다. View와 Presenter를 일대일로 두는 구현이 흔해도 모든 MVP의 불변 규칙은 아니다.
 
 MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 관찰하거나 바인딩할 상태와 Command 같은 사용자 동작 진입점을 노출한다. View는 바인딩 엔진이나 명시적인 구독 코드를 통해 ViewModel의 상태를 화면과 동기화한다. ViewModel은 구체 View를 몰라도 테스트할 수 있지만, 비동기 갱신 순서·양방향 바인딩·구독 해제가 복잡해지면 상태 변화의 원인을 추적하기 어렵고 실제 바인딩은 UI 통합 테스트가 필요하다.
@@ -90,6 +100,15 @@ MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 
 따라서 MVP를 “Controller의 이름만 Presenter로 바꾼 MVC”, MVVM을 “Presenter의 이름만 ViewModel로 바꾼 MVP”로 구현하면 차이를 놓친다. 판단 기준은 중간 객체가 구체 View 계약을 호출하는지, View가 노출된 상태에 바인딩하는지, 상태 동기화를 누가 책임지는지다. Android, WPF, 웹 프레임워크처럼 플랫폼별 수명 주기와 바인딩 기능이 다르므로 같은 패턴 이름도 세부 구현은 달라질 수 있다.
 
 ## MVC·MVP·MVVM 비교
+
+그림은 위에서 살펴본 이름 변경 사례를 비교한다. MVC 칸은 앞의 Java 예시를 나타내며, 모든 MVC가 반드시 이 방향으로 연결되는 것은 아니다. 특히 이 최소 MVC 예시와 MVP는 호출 모양이 겹친다. 이 그림만으로 둘을 분류하기보다 실제 View의 책임과 플랫폼의 구조도 확인해야 한다.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/ui-patterns.svg" width="480" height="812" alt="이름 변경 실패 사례의 비교. 이 글의 MVC 예시는 Controller가 Model의 오류를 받아 View에 표시한다. MVP는 Presenter가 View 계약을 호출하고 MVVM은 ViewModel의 오류 상태를 바인딩이 화면에 반영한다." loading="lazy" decoding="async" />
+  <figcaption>같은 오류 표시도 View 메서드를 호출할지, 화면용 상태를 바인딩할지에 따라 연결 방법이 달라진다.</figcaption>
+</figure>
+
+표에서는 먼저 ‘View와의 관계’ 열을 읽고, 그 연결이 어떤 부담을 만드는지 비교하면 된다.
 
 | 패턴 | 중간 역할 | View와의 관계 | 상태 동기화 | 대표적인 부담 |
 | --- | --- | --- | --- | --- |
@@ -101,7 +120,18 @@ MVVM의 ViewModel은 특정 View 메서드를 직접 호출하기보다 View가 
 
 ## Spring MVC 요청 처리 흐름
 
-Spring Web MVC는 Servlet 기반 웹 프레임워크이며 `DispatcherServlet`을 프론트 컨트롤러로 둔다. 개념적인 주 흐름은 `요청 → DispatcherServlet → HandlerMapping → Controller → ModelAndView 또는 응답 본문`이다. 실제로는 `HandlerMapping`이 찾은 핸들러를 실행하기 위해 `HandlerAdapter`가 사이에 참여하므로 더 정확한 순서는 다음과 같다.
+이 절부터는 브라우저 안의 화면 갱신에서 웹 서버의 요청 처리로 시점을 옮긴다. 예를 들어 주문 상세 페이지를 요청하면 서버가 주문 정보를 조회한 뒤 HTML 화면이나 JSON 데이터를 응답할 수 있다. JSON은 데이터를 주고받는 텍스트 형식이다.
+
+Spring Web MVC는 Servlet 기반 웹 프레임워크이며 `DispatcherServlet`을 프론트 컨트롤러로 둔다. Servlet은 Java 웹 환경에서 요청을 처리하는 구성 요소이고, 프론트 컨트롤러는 요청을 공통으로 받아 처리를 조정하는 입구다.
+
+이름을 읽을 때는 `HandlerMapping`은 담당자 찾기, `HandlerAdapter`는 담당자 실행, `ViewResolver`는 화면 찾기로 연결하면 된다. Mapping이 Controller를 직접 실행하는 것은 아니다. `DispatcherServlet`이 찾기와 실행을 각각 요청한다.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/spring-mvc-response.svg" width="480" height="884" alt="DispatcherServlet이 HandlerMapping으로 핸들러를 찾고 HandlerAdapter에 Controller 실행을 맡긴다. View 이름은 DispatcherServlet과 ViewResolver를 거쳐 HTML로 렌더링하고, ResponseBody 반환값은 어댑터 안에서 HttpMessageConverter로 응답 본문에 쓴다." loading="lazy" decoding="async" />
+  <figcaption>HTML 화면을 만들 때와 응답 본문을 직접 쓸 때의 경로를 구분한다. 모든 응답이 ViewResolver를 거치지는 않는다.</figcaption>
+</figure>
+
+그림의 기본 경로를 이해한 뒤 다음 순서에서 각 구성 요소의 책임과 예외 처리를 확인한다.
 
 1. Servlet 컨테이너가 매핑된 HTTP 요청을 `DispatcherServlet`에 전달한다.
 2. `DispatcherServlet`은 `HandlerMapping`에 요청을 처리할 핸들러와 인터셉터 체인을 조회한다. `HandlerMapping`은 대상을 찾는 책임이며 Controller 메서드를 직접 실행하지 않는다.
@@ -117,6 +147,8 @@ Spring Web MVC는 Servlet 기반 웹 프레임워크이며 `DispatcherServlet`�
 ### REST·`@ResponseBody` 경로
 
 `@ResponseBody` 메서드나 이를 포함하는 `@RestController`가 객체를 반환하면 반환값 처리기가 `HttpMessageConverter`를 선택한다. 변환기는 값을 JSON 같은 HTTP 응답 본문으로 직렬화한다. 이 경로에서는 응답이 `HandlerAdapter` 안에서 작성될 수 있으므로 논리적 View 이름과 `ViewResolver`가 필요하지 않다. 따라서 모든 Spring MVC Controller가 `ModelAndView`를 반환하거나 서버 렌더링 View를 만든다고 설명하면 REST Controller의 동작을 놓친다.
+
+아래 두 예제는 같은 주문 조회 기능을 사용한다. `OrderPageController`의 반환값 `"orders/detail"`은 화면 이름이고, `OrderApiController`가 반환하는 객체는 응답 데이터라는 차이에 주목하자.
 
 ```java
 import org.springframework.stereotype.Controller;

@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="812" viewBox="0 0 480 812" role="img" aria-labelledby="title desc">
+<title id="title">빈 이름을 저장하면 누가 오류를 표시할까?</title><desc id="desc">같은 이름 변경 사례의 표현 책임 비교</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#475569" stroke-width="2"/></marker></defs>
+<rect width="480" height="812" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#172b4d">
+<text x="24" y="38" font-size="24" font-weight="700" text-anchor="start" fill="#172b4d">빈 이름을 저장하면 누가 오류를 표시할까?</text>
+<rect x="32" y="70" width="416" height="65" rx="12" fill="#ffffff" stroke="#aab7c8" stroke-width="1.5"/>
+<text x="240.0" y="110.5" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">사용자: 이름을 비우고 저장</text>
+<text x="28" y="166" font-size="22" font-weight="700" text-anchor="start" fill="#172b4d">MVC · 이 글의 Java 예시</text>
+<rect x="32" y="186" width="416" height="134" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="240.0" y="233.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">입력 → Controller → Model</text>
+<text x="240.0" y="261.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">Controller가 오류를 받아</text>
+<text x="240.0" y="289.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">View.showError() 호출</text>
+<text x="28" y="370" font-size="22" font-weight="700" text-anchor="start" fill="#172b4d">MVP · View 계약을 직접 호출</text>
+<rect x="32" y="390" width="416" height="134" rx="12" fill="#e5f4ef" stroke="#6dab97" stroke-width="1.5"/>
+<text x="240.0" y="437.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">입력 → Presenter → Model</text>
+<text x="240.0" y="465.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">Presenter가 오류를 받아</text>
+<text x="240.0" y="493.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">View.showError() 호출</text>
+<text x="28" y="574" font-size="22" font-weight="700" text-anchor="start" fill="#172b4d">MVVM · 화면용 상태를 연결</text>
+<rect x="32" y="594" width="416" height="134" rx="12" fill="#fff1e1" stroke="#d4a268" stroke-width="1.5"/>
+<text x="240.0" y="641.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">입력 → ViewModel → Model</text>
+<text x="240.0" y="669.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">ViewModel의 오류 상태 변경</text>
+<text x="240.0" y="697.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">바인딩 → View에 문구 반영</text>
+<text x="240" y="781" font-size="20" font-weight="400" text-anchor="middle" fill="#172b4d">MVC의 연결 방식에는 여러 변형이 있다.</text>
+</g></svg>
