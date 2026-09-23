@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="510" viewBox="0 0 480 510" role="img" aria-labelledby="title desc">
+<title id="title">호출을 시작하는 쪽은 누구일까?</title><desc id="desc">라이브러리와 프레임워크의 호출 주체 비교</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#475569" stroke-width="2"/></marker></defs>
+<rect width="480" height="510" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#172b4d">
+<text x="24" y="38" font-size="24" font-weight="700" text-anchor="start" fill="#172b4d">호출을 시작하는 쪽은 누구일까?</text>
+<text x="28" y="84" font-size="22" font-weight="700" text-anchor="start" fill="#172b4d">라이브러리 · 내 코드가 호출</text>
+<rect x="32" y="104" width="416" height="62" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="240.0" y="143.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">내 코드</text>
+<path d="M 240 168 L 240 198" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="32" y="209" width="416" height="62" rx="12" fill="#e5f4ef" stroke="#6dab97" stroke-width="1.5"/>
+<text x="240.0" y="248.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">필요한 라이브러리 기능</text>
+<text x="28" y="320" font-size="22" font-weight="700" text-anchor="start" fill="#172b4d">프레임워크 · 큰 흐름이 내 코드를 호출</text>
+<rect x="32" y="340" width="416" height="62" rx="12" fill="#e5f4ef" stroke="#6dab97" stroke-width="1.5"/>
+<text x="240.0" y="379.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">프레임워크의 요청 처리 흐름</text>
+<path d="M 240 404 L 240 434" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="32" y="444" width="416" height="50" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="240.0" y="477.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">약속된 지점에 작성한 내 코드</text>
+</g></svg>
