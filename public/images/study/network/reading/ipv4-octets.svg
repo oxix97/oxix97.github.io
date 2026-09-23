@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 460" role="img" aria-labelledby="title desc">
+  <title id="title">IPv4 32비트를 네 옥텟으로 읽기</title>
+  <desc id="desc">10101100, 00010000, 11111110, 00000001의 네 8비트 묶음이 각각 172, 16, 254, 1이 되어 IPv4 주소 172.16.254.1로 표시된다.</desc>
+  <style>
+    text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a;font-size:20px}
+    .title{font-size:27px;font-weight:750}.bits{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:22px}.number{font-size:24px;font-weight:750;fill:#1d4ed8}.muted{font-size:18px;fill:#475569}
+  </style>
+  <rect width="480" height="460" rx="16" fill="#f8fafc"/>
+  <text x="24" y="44" class="title">32비트 주소를 네 칸으로 읽기</text>
+  <text x="24" y="82" class="muted">각 칸 = 8비트(1옥텟)</text>
+  <rect x="20" y="102" width="440" height="68" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="38" y="142" class="bits">10101100</text><text x="342" y="142" class="number">172</text>
+  <rect x="20" y="178" width="440" height="68" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <text x="38" y="218" class="bits">00010000</text><text x="342" y="218" class="number">16</text>
+  <rect x="20" y="254" width="440" height="68" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="38" y="294" class="bits">11111110</text><text x="342" y="294" class="number">254</text>
+  <rect x="20" y="330" width="440" height="68" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <text x="38" y="370" class="bits">00000001</text><text x="342" y="370" class="number">1</text>
+  <text x="24" y="437" class="muted">네 십진수 사이에 점을 찍으면 172.16.254.1</text>
+</svg>

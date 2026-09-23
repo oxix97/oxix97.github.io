@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 590" role="img" aria-labelledby="title desc">
+  <title id="title">같은 링크에서 ARP로 MAC 주소 찾기</title>
+  <desc id="desc">호스트 A가 같은 링크의 호스트 B에게 IPv4 주소 192.0.2.20의 MAC 주소를 브로드캐스트로 묻고, B가 자신의 MAC 주소를 응답한다. A는 이후 B의 MAC 주소로 프레임을 보낸다.</desc>
+  <style>
+    text{font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;fill:#0f172a;font-size:20px}
+    .title{font-size:27px;font-weight:750}.head{font-size:22px;font-weight:700}.muted{fill:#475569;font-size:18px}.blue{fill:#1d4ed8}.green{fill:#047857}
+  </style>
+  <defs><marker id="arrow" viewBox="0 0 8 8" markerWidth="12" markerHeight="12" refX="7" refY="4" orient="auto"><path d="M0 0L8 4L0 8Z" fill="#475569"/></marker></defs>
+  <rect width="480" height="590" rx="16" fill="#f8fafc"/>
+  <text x="24" y="44" class="title">같은 링크의 ARP 요청과 응답</text>
+  <rect x="20" y="72" width="440" height="84" rx="12" fill="#eff6ff" stroke="#93c5fd"/>
+  <text x="38" y="108" class="head">호스트 A</text>
+  <text x="38" y="140" class="muted">192.0.2.10 · B의 MAC은 모름</text>
+  <path d="M240 164V194" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="20" y="207" width="440" height="77" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <text x="38" y="240" class="blue">1. ARP 요청 · 브로드캐스트</text>
+  <text x="38" y="270">192.0.2.20은 누구인가?</text>
+  <path d="M240 292V322" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="20" y="335" width="440" height="77" rx="12" fill="#ecfdf5" stroke="#a7f3d0"/>
+  <text x="38" y="368" class="green">2. 호스트 B의 ARP 응답</text>
+  <text x="38" y="398">내 MAC은 bb:bb:bb:bb:bb:bb</text>
+  <path d="M240 420V450" stroke="#475569" stroke-width="3" marker-end="url(#arrow)"/>
+  <rect x="20" y="463" width="440" height="77" rx="12" fill="#fff" stroke="#cbd5e1"/>
+  <text x="38" y="496" class="head">3. A가 B에게 프레임 전송</text>
+  <text x="38" y="526">목적지 MAC = B의 MAC</text>
+  <text x="24" y="571" class="muted">ARP 요청은 이 로컬 링크에 머문다.</text>
+</svg>

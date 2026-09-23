@@ -32,6 +32,8 @@ sidebar:
 
 먼저 여러 노드가 함께 의존하는 부분을 찾는다. 버스형은 매체를 공유하고, 스타형과 트리형은 중앙 노드나 상위 연결에 흐름이 모인다. 그림의 X는 고장 지점이며, 성능 병목이 확인됐다는 뜻은 아니다.
 
+세 그림을 같은 질문으로 읽어 보자. **표시된 한 곳이 끊기면 어느 노드 사이의 통신이 영향을 받는가?** 버스형은 공유 매체, 스타형은 중앙 노드, 트리형은 상위 연결을 먼저 확인하면 된다.
+
 <figure class="study-diagram study-diagram-compact">
   <img
     src="/images/study/network/reading/topology-bus.svg"
@@ -76,6 +78,8 @@ sidebar:
 
 이번에는 연결 하나가 끊겼을 때 남는 경로를 본다. 경로가 남아 있어도 실제로 전환할 수 있는지, 우회 트래픽을 감당할 수 있는지는 따로 확인해야 한다.
 
+링형과 메시형에서도 질문은 같다. 끊어진 연결을 피해서 목적지에 도달할 후보 경로가 남는지 살핀다. 후보가 보이면 그다음에 전환 기능과 남은 경로의 용량을 확인한다.
+
 <figure class="study-diagram study-diagram-compact">
   <img
     src="/images/study/network/reading/topology-ring.svg"
@@ -119,6 +123,8 @@ sidebar:
 ## 백엔드 시스템에서 병목을 찾는 순서
 
 이 예시에서는 서비스가 DB 조회와 Kafka 발행 확인을 마친 뒤 사용자에게 응답한다. 소비자의 후속 처리는 기다리지 않는다. 사용자 응답이 기다리는 구간부터 구분해 보자.
+
+앞의 토폴로지 그림이 **어디가 연결되어 있는가**를 보여 줬다면, 아래 요청 경로는 **사용자가 실제로 어느 작업을 기다리는가**를 보여 준다. 같은 장비를 공유하더라도 요청이 기다리지 않는 Kafka 소비 구간은 사용자 응답 시간에서 따로 다룬다.
 
 <figure class="study-diagram study-diagram-compact">
   <img
