@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="484" viewBox="0 0 480 484" role="img" aria-labelledby="title desc">
+<title id="title">둘 다 “없다”고 확인하면?</title><desc id="desc">단순 지연 생성에서 발생할 수 있는 실행 순서 하나</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#475569" stroke-width="2"/></marker></defs>
+<rect width="480" height="484" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#172b4d">
+<text x="24" y="38" font-size="24" font-weight="700" text-anchor="start" fill="#172b4d">둘 다 “없다”고 확인하면?</text>
+<text x="240" y="77" font-size="20" font-weight="400" text-anchor="middle" fill="#172b4d">위에서 아래로 시간이 흐른다</text>
+<rect x="28" y="101" width="200" height="60" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="128.0" y="139.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">스레드 A</text>
+<rect x="252" y="101" width="200" height="60" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="352.0" y="139.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">스레드 B</text>
+<rect x="28" y="189" width="200" height="66" rx="12" fill="#fff1e1" stroke="#d4a268" stroke-width="1.5"/>
+<text x="128.0" y="230.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">① null 확인</text>
+<rect x="252" y="271" width="200" height="66" rx="12" fill="#fff1e1" stroke="#d4a268" stroke-width="1.5"/>
+<text x="352.0" y="312.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">② null 확인</text>
+<path d="M 128 162 L 128 186" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M 352 162 L 352 267" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="28" y="359" width="200" height="66" rx="12" fill="#fff1e1" stroke="#d4a268" stroke-width="1.5"/>
+<text x="128.0" y="400.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">③ 객체 A 생성</text>
+<rect x="252" y="359" width="200" height="66" rx="12" fill="#fff1e1" stroke="#d4a268" stroke-width="1.5"/>
+<text x="352.0" y="400.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">④ 객체 B 생성</text>
+<path d="M 128 256 L 128 355" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M 352 338 L 352 355" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<text x="240" y="461" font-size="20" font-weight="400" text-anchor="middle" fill="#172b4d">하나를 원했지만 서로 다른 객체가 생긴다.</text>
+</g></svg>
