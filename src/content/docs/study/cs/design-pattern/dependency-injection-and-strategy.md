@@ -12,15 +12,21 @@ sidebar:
   order: 5
 ---
 
-DI, DIP, 전략 패턴은 같은 코드에 함께 등장한다. 원칙, 객체 조립, 행동 교체가 맡는 역할을 각각 짚어야 설명이 겹치지 않는다.
+카드 결제만 지원하던 주문 서비스에 계좌 이체를 추가한다고 해 보자. 주문 서비스가 카드 결제 코드를 직접 만들고 사용한다면 주문 서비스도 고쳐야 한다. 이 글은 같은 결제 예제를 통해 ‘무엇에 의존할지’, ‘누가 객체를 전달할지’, ‘어떤 행동을 바꿀지’를 나누어 살펴본다.
 
 ## 핵심 요약
 
-의존관계 역전 원칙(Dependency Inversion Principle, DIP)은 상위 정책과 하위 세부 구현이 모두 추상화에 의존하도록 방향을 설계하는 **원칙**이다. 추상화가 세부사항에 맞춰지는 것이 아니라 세부사항이 추상화에 맞춰져야 한다. 의존성 주입(Dependency Injection, DI)은 객체가 필요한 의존성을 직접 만들지 않고 외부에서 받게 하는 **구현 방법**이다. DIP를 적용할 때 자주 쓰이지만 DI 자체가 DIP를 자동으로 보장하지는 않는다. 전략 패턴은 같은 목적을 수행하는 여러 행동을 공통 계약 뒤에 캡슐화하는 **디자인 패턴**이다. 컨텍스트는 그 행동을 교체해 사용한다.
+세 개념은 함께 쓰일 수 있지만 답하는 질문이 다르다.
+
+- **DIP는 어떤 기능에 의존할지 정하는 원칙이다.** 주문 서비스가 특정 카드 회사의 기능 대신 ‘결제한다’는 공통 약속을 사용하도록 설계한다.
+- **DI는 필요한 객체를 외부에서 받는 방법이다.** 주문 서비스가 카드 결제 객체를 직접 만들지 않고 생성자 등으로 전달받는다.
+- **전략 패턴은 같은 목적의 행동을 교체하는 구조다.** 카드 결제와 계좌 이체를 같은 결제 약속을 지키는 구현으로 두고 골라 사용한다.
+
+정식 이름은 의존관계 역전 원칙(Dependency Inversion Principle, DIP)과 의존성 주입(Dependency Injection, DI)이다. DIP는 **원칙**, DI는 **구현 방법**, 전략은 **디자인 패턴**이라는 차이를 기억하고 예제를 읽으면 된다. 외부에서 객체를 받았다는 사실만으로 세 가지를 모두 적용한 것은 아니다.
 
 ## 직접 의존이 만드는 문제
 
-결제 서비스가 카드 결제 구현을 직접 생성하면 구체 클래스의 생성 방식과 동작 변화가 상위 흐름으로 퍼진다.
+여기서 의존한다는 말은 다른 객체의 기능이 있어야 내 작업을 할 수 있다는 뜻이다. `CheckoutService`는 주문을 처리하려고 카드 결제 기능을 사용한다. 아래 코드의 `new CardPaymentStrategy()`를 보면 어떤 결제 객체를 만들지 주문 서비스가 직접 결정하고 있다.
 
 ```java
 final class CheckoutService {
@@ -37,13 +43,26 @@ final class CheckoutService {
 
 생성과 사용을 분리하면 영향 범위가 달라진다. `CheckoutService`가 `PaymentStrategy` 계약만 받고 외부 조합 지점이 `CardPaymentStrategy`를 제공하도록 만들 수 있다. 그러면 계좌 이체 추가는 새 전략 구현과 조합 설정에 머물고 기존 체크아웃 흐름은 바뀌지 않는다.
 
+계약은 사용 가능한 메서드와 그 의미에 대한 약속이다. 이 예제에서는 금액을 받아 결제하는 `pay(int amount)`가 그 약속이다. 카드 회사마다 다른 내부 절차를 감추고 필요한 기능만 드러내는 것을 추상화라고 한다.
+
 계약 자체가 바뀌면 영향 범위도 달라진다. `pay`에 통화 매개변수를 추가하면 모든 전략과 이를 호출하는 컨텍스트가 영향을 받는다. 환불 기능은 기존 계약에 새 메서드로 넣거나 별도의 `RefundStrategy`로 분리할 수 있다. 별도 계약으로 분리하면 결제만 사용하는 `CheckoutService`는 바뀌지 않는다. 추상화는 **어느 변화가 어디까지 전파되는지 정하는 경계**다.
 
 ## DIP는 원칙이고 DI는 구현 방법이다
 
+주문 흐름처럼 ‘무엇을 할지’를 정하는 코드를 상위 정책, 카드 회사의 SDK처럼 ‘특정 기술로 어떻게 할지’를 처리하는 코드를 하위 세부 구현이라고 부른다. SDK는 외부 서비스가 제공하는 개발용 도구 모음이다.
+
+아래 그림은 실행 순서가 아니라 코드가 어떤 타입을 사용하는지 나타낸다. 화살표 옆의 ‘사용’과 ‘구현’을 구분해서 읽어야 한다.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/dip-dependencies.svg" width="480" height="668" alt="변경 전에는 CheckoutService가 CardPaymentStrategy를 직접 사용한다. 변경 후에는 CheckoutService가 PaymentStrategy를 사용하고 CardPaymentStrategy가 그 계약을 구현한다." loading="lazy" decoding="async" />
+  <figcaption>상위 정책이 요구하는 결제 계약을 두고 카드별 세부 구현이 그 계약에 맞추게 한다.</figcaption>
+</figure>
+
 DIP의 핵심은 상위 수준의 결제 정책이 카드 SDK 같은 하위 세부 구현을 직접 알지 않고, 둘 다 `PaymentStrategy`라는 추상화에 의존하게 만드는 것이다. 추상화가 카드 SDK의 메서드 모양을 그대로 복제한다면 세부사항이 추상화를 지배하므로 의존 방향만 인터페이스처럼 보일 뿐 원칙의 효과는 약하다. 계약은 `pay(int amount)`처럼 체크아웃 도메인이 필요한 행동을 표현하고, 카드별 호출 방식은 구현 안에 둔다.
 
-DI는 필요한 객체를 생성자, 메서드 또는 설정을 통해 외부에서 전달하는 방법이다. 구체 타입인 `CardPaymentStrategy`를 외부에서 주입해도 생성 책임은 분리되지만 상위 코드가 그 타입을 직접 참조한다면 DIP를 충족한다고 단정할 수 없다. 반대로 작은 프로그램에서는 조합 지점이 직접 `new CheckoutService(new CardPaymentStrategy())`를 호출해도 컨텍스트가 추상화에 의존하므로 DI와 DIP를 프레임워크 없이 적용할 수 있다.
+DI는 필요한 객체를 생성자, 메서드 또는 설정을 통해 외부에서 전달하는 방법이다. ‘주입’은 여기서 객체를 전달한다는 뜻이다. 객체들을 만들고 연결하는 코드를 조합 지점이라고 부른다.
+
+구체 타입인 `CardPaymentStrategy`를 외부에서 주입해도 생성 책임은 분리된다. 하지만 주문 서비스가 여전히 그 구체 타입을 사용한다면 DIP를 충족한다고 단정할 수 없다. 반대로 조합 지점이 직접 `new CheckoutService(new CardPaymentStrategy())`를 호출해도, 주문 서비스가 `PaymentStrategy`에 의존하면 DI와 DIP를 프레임워크 없이 적용할 수 있다.
 
 | 분류 | 주목적 | 교체 대상 | 사용 시점 |
 | --- | --- | --- | --- |
@@ -52,6 +71,13 @@ DI는 필요한 객체를 생성자, 메서드 또는 설정을 통해 외부에
 | 전략 패턴 | 같은 목적의 교체 가능한 행동을 공통 계약으로 캡슐화 | 결제, 정렬, 인증처럼 선택 가능한 알고리즘 또는 정책 | 실행 조건이나 설정에 따라 같은 작업의 수행 방식을 바꿀 때 |
 
 ## 전략 패턴과 컨텍스트
+
+다음 그림은 객체를 준비하고 사용하는 순서다. 앞의 의존 관계 그림과 달리, 누가 실제 객체를 만들어 전달하는지 보여 준다.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/strategy-injection.svg" width="480" height="542" alt="조합 코드가 CardPaymentStrategy를 만들고 CheckoutService 생성자에 전달한다. CheckoutService는 checkout에서 전달받은 전략의 pay를 호출한다." loading="lazy" decoding="async" />
+  <figcaption>결제 행동을 교체할 수 있는 구조가 전략 패턴이고, 선택한 객체를 생성자로 전달하는 부분이 DI다.</figcaption>
+</figure>
 
 전략 패턴에서 **컨텍스트(Context)** 는 전략을 사용해 작업을 수행하는 객체이며, 이 글에서는 `CheckoutService`가 해당한다. 컨텍스트는 결제 전후의 체크아웃 흐름을 알고, 실제 결제 방식은 `PaymentStrategy`에 위임한다. `CardPaymentStrategy`와 이후 추가할 계좌 이체 전략은 같은 계약을 지키므로 컨텍스트는 구체 알고리즘을 몰라도 된다.
 
@@ -92,6 +118,8 @@ final class CheckoutService {
 
 ## Spring 생성자 주입 예시
 
+여기부터는 같은 객체 전달을 Spring에 맡긴다. 앞의 일반 Java 예제로 관계를 이해했다면, `@Component`와 `@Service`가 붙은 객체를 Spring이 찾고 생성자로 연결한다는 차이를 보면 된다. Spring이 관리하는 객체를 빈(bean), 그 객체들을 생성하고 연결하는 주체를 컨테이너라고 한다.
+
 ```java
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -124,7 +152,7 @@ final class CheckoutService {
 
 Spring 컨테이너가 두 클래스를 빈으로 발견하면 `CheckoutService`의 유일한 생성자에 타입이 맞는 `PaymentStrategy` 빈을 전달한다. 대상 빈에 생성자가 하나뿐이면 생성자에 `@Autowired`를 붙이지 않아도 된다. 예시에는 `PaymentStrategy` 구현이 하나라 주입 대상도 모호하지 않다. 구현이 여러 개라면 `@Qualifier`, `@Primary`, 설정 클래스 또는 별도 선택 정책으로 대상을 명시해야 한다. 이 선택은 전략 패턴 자체와 구분되는 조합 책임이다.
 
-테스트에서는 Spring 컨테이너를 띄우지 않고도 생성자에 대역을 넣을 수 있다.
+테스트에서는 Spring 컨테이너를 띄우지 않고도 생성자에 대역을 넣을 수 있다. 대역은 실제 카드 결제 대신 테스트에 필요한 동작만 수행하는 객체다. 아래의 `RecordingPaymentStrategy`는 실제 결제 없이 전달된 금액만 기록한다. `paidAmount`에 `10_000`이 남는지 확인하는 부분을 보면 테스트의 목적을 알 수 있다.
 
 ```java
 final class RecordingPaymentStrategy implements PaymentStrategy {
