@@ -154,6 +154,11 @@ body {
   margin-block: 1.75rem;
 }
 
+.sl-markdown-content .study-diagram--pattern {
+  max-width: 30rem;
+  margin-inline: auto;
+}
+
 .sl-markdown-content .study-diagram img {
   display: block;
   width: 100%;
