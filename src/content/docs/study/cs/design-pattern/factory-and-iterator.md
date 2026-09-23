@@ -12,19 +12,32 @@ sidebar:
   order: 4
 ---
 
-팩토리는 생성 결정을 호출부 밖으로 옮기고, 이터레이터는 컬렉션의 순회 규약을 제공한다. 두 패턴이 실제로 격리하는 변화를 예제로 확인한다.
+알림을 이메일로 보낼지 문자로 보낼지 정하는 일과, 주문 목록을 하나씩 읽는 일은 서로 다른 문제다. 팩토리는 사용할 객체를 만드는 일을 분리하고, 이터레이터는 목록 안에 무엇이 어떻게 저장돼 있는지 몰라도 하나씩 읽게 한다. 두 예제를 각각 따라가며 무엇을 몰라도 사용할 수 있게 되는지 살펴본다.
 
 ## 핵심 요약
 
-팩토리 패턴은 클라이언트가 구체 클래스와 생성 절차를 직접 결정하지 않도록 생성 책임을 분리한다. 이터레이터 패턴은 컬렉션의 저장 구조를 드러내지 않은 채 같은 순회 인터페이스를 제공한다. 전자는 **무엇을 만들지** 바뀌는 지점을 감춘다. 후자는 **어떻게 저장·탐색하는지** 바뀌는 지점을 감추므로 같은 문제를 푸는 패턴으로 보면 안 된다.
+팩토리는 ‘이메일 알림을 만들어 달라’는 요청을 받아 적절한 객체를 만든다. 사용하는 쪽이 구체적인 생성 절차를 몰라도 되게 하는 것이다. 여기서 클라이언트는 그 객체를 사용하는 코드를 뜻한다.
+
+이터레이터는 주문 목록 같은 컬렉션에서 ‘다음 항목이 있는가’, ‘다음 항목을 달라’는 공통 방법을 제공한다. 컬렉션은 여러 데이터를 모아 둔 자료구조이고, 순회는 그 안의 항목을 하나씩 방문하는 일이다.
+
+팩토리는 **무엇을 만들지** 바뀌는 지점을 감춘다. 이터레이터는 **어떻게 저장·탐색하는지** 바뀌는 지점을 감춘다.
 
 ## 팩토리 패턴이 해결하는 문제
 
 알림을 보낼 때 호출부가 `new EmailNotification()`과 `new SmsNotification()`을 직접 선택한다고 해 보자. 채널 추가나 생성 인자·초기화 절차 변경이 모든 호출부로 퍼질 수 있다. 팩토리에 생성 결정을 모으면 호출부는 `Notification` 추상화에만 의존하고, 채널별 생성 규칙은 한곳에서 관리한다.
 
-강의에서 말하는 "팩토리 패턴"은 상위 흐름이 객체 생성을 요청하고 구체 생성 로직을 분리해 유연성과 유지 보수성을 얻는 넓은 의미로 이해할 수 있다. 아래 예시는 선택과 생성을 하나의 클래스에 모은 **단순 팩토리 형태**다. GoF의 Factory Method는 보통 Creator의 팩토리 메서드를 하위 Creator가 재정의해 구체 Product 생성을 결정하는 구조이므로, 이 예시를 그 구조와 동일하다고 부르지는 않는다.
+이 글의 예시는 선택과 생성을 하나의 클래스에 모은 **단순 팩토리 형태**다. 먼저 알림 채널을 선택하고, 선택에 맞는 객체를 반환하는 흐름을 보자.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/notification-factory.svg" width="480" height="542" alt="호출부가 EMAIL 채널로 생성을 요청하면 NotificationFactory가 EmailNotification을 만들고 Notification 계약으로 돌려준다. 호출부는 send로 알림을 보낸다." loading="lazy" decoding="async" />
+  <figcaption>팩토리는 만들 객체를 선택한다. 알림을 보내는 일은 반환된 객체의 send()가 맡는다.</figcaption>
+</figure>
+
+용어의 범위도 구분해야 한다. 강의에서 말하는 "팩토리 패턴"은 생성 로직을 분리하는 넓은 의미다. GoF의 Factory Method는 보통 생성자 역할인 Creator의 팩토리 메서드를 하위 Creator가 재정의해 Product 생성을 결정한다. 아래처럼 한 클래스의 분기로 선택하는 예시와 같은 구조는 아니다.
 
 ## 팩토리 패턴의 구조와 예시
+
+`Notification`은 모든 알림이 제공해야 할 `send()`라는 약속이다. `create()`의 `switch`는 채널에 맞는 객체를 고른다. 처음 읽을 때는 두 부분을 먼저 찾으면 된다.
 
 ```java
 interface Notification {
@@ -67,6 +80,15 @@ final class NotificationFactory {
 
 ## 이터레이터 패턴의 구조와 예시
 
+`hasNext()`는 다음 항목이 있는지 확인하고, `next()`는 다음 항목을 돌려주면서 순회 위치를 앞으로 옮긴다. 주문 두 개를 읽는 과정은 아래와 같다. 화살표는 호출 순서다.
+
+<figure class="study-diagram study-diagram--pattern">
+  <img src="/images/study/design-pattern/orders-iterator.svg" width="480" height="542" alt="주문 A-100과 A-101을 담은 목록을 순회한다. hasNext가 true이면 next로 A-100을 받고, 다시 true이면 A-101을 받는다. 마지막 hasNext는 false이므로 순회를 끝낸다." loading="lazy" decoding="async" />
+  <figcaption>저장 위치를 직접 계산하지 않고 다음 항목이 있는지 확인하며 순회한다.</figcaption>
+</figure>
+
+코드에서는 `OrderHistory`가 `Iterable<Order>`를 구현하는 부분과 마지막 `for-each` 반복문을 연결해서 보자. `Iterable`은 이터레이터를 제공하는 쪽이고, `Iterator`는 한 번의 순회에서 위치를 관리하며 항목을 꺼내는 쪽이다.
+
 ```java
 import java.util.Iterator;
 import java.util.List;
@@ -98,6 +120,8 @@ public final class IteratorExample {
     }
 }
 ```
+
+반복문은 `A-100`, `A-101`을 순서대로 출력한다. `for-each`가 이터레이터를 사용하므로 호출 코드에서 `hasNext()`와 `next()`를 직접 쓰지 않아도 된다.
 
 `OrderHistory`는 내부에 `List<Order>`를 쓰지만 `getOrders()`를 노출하지 않는다. 호출부는 `Iterable<Order>`와 `for-each`를 통해 순회한다. 내부 저장 구조가 달라져도 순회 규약과 요소 순서를 유지하면 호출 코드는 그대로 둘 수 있다.
 
