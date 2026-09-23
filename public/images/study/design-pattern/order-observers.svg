@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="490" viewBox="0 0 480 490" role="img" aria-labelledby="title desc">
+<title id="title">주문 상태가 바뀌면 구독자에게 알린다</title><desc id="desc">주문 상태 변경 후 등록 순서대로 동기 통지</desc>
+<defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto" markerUnits="userSpaceOnUse"><path d="M 1 1 L 8 5 L 1 9" fill="none" stroke="#475569" stroke-width="2"/></marker></defs>
+<rect width="480" height="490" rx="16" fill="#f8fafc"/>
+<g font-family="system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" fill="#172b4d">
+<text x="24" y="38" font-size="24" font-weight="700" text-anchor="start" fill="#172b4d">주문 상태가 바뀌면 구독자에게 알린다</text>
+<rect x="32" y="70" width="416" height="76" rx="12" fill="#ffffff" stroke="#aab7c8" stroke-width="1.5"/>
+<text x="240.0" y="102.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">① 이메일 → SMS 순서로 등록</text>
+<text x="240.0" y="130.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">subscribe(observer)</text>
+<path d="M 240 147 L 240 176" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="32" y="188" width="416" height="82" rx="12" fill="#eaf2ff" stroke="#89aee5" stroke-width="1.5"/>
+<text x="240.0" y="223.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">② Order 상태 변경</text>
+<text x="240.0" y="251.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">changeStatus(SHIPPED)</text>
+<path d="M 158 272 L 128 327" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<path d="M 322 272 L 352 327" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arrow)"/>
+<rect x="28" y="340" width="200" height="76" rx="12" fill="#e5f4ef" stroke="#6dab97" stroke-width="1.5"/>
+<text x="128.0" y="372.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">③ 이메일 통지</text>
+<text x="128.0" y="400.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">update()</text>
+<rect x="252" y="340" width="200" height="76" rx="12" fill="#e5f4ef" stroke="#6dab97" stroke-width="1.5"/>
+<text x="352.0" y="372.0" font-size="22" font-weight="600" text-anchor="middle" fill="#172b4d">④ SMS 통지</text>
+<text x="352.0" y="400.0" font-size="22" font-weight="400" text-anchor="middle" fill="#172b4d">update()</text>
+<text x="240" y="455" font-size="20" font-weight="400" text-anchor="middle" fill="#172b4d">③이 반환된 다음 ④를 호출한다.</text>
+</g></svg>
