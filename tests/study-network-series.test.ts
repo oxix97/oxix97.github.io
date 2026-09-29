@@ -898,7 +898,7 @@ describe('network Study series', () => {
       const markdown = await readStudyFile(`cs/network/${article.file}`);
       const frontmatter = parseFrontmatter(markdown);
 
-      expect(frontmatter.title).toBe(article.title);
+      expect(frontmatter.title).toBe(`${String(article.order).padStart(2, '0')}. ${article.title}`);
       if (article.slug) {
         expect(frontmatter.slug).toBe(`study/network/${article.slug}`);
       }
