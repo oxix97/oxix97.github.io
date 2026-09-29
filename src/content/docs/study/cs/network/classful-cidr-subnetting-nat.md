@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 10
+  order: 13
 ---
 
 IPv4 주소 부족은 32비트라는 크기만의 문제가 아니다. 필요한 규모와 맞지 않는 주소 블록을 할당하면 사용하지 못하는 주소가 늘어난다. 클래스풀에서 CIDR로 바뀐 이유와 사설 주소, NAT가 맡은 역할을 함께 보면 어떤 문제를 각각 줄였는지 구분할 수 있다.
@@ -191,4 +191,4 @@ Basic NAT는 IP 주소를 다른 IP 주소로 변환하고, NAPT는 IP 주소와
 - [RFC 1918: Address Allocation for Private Internets](https://www.rfc-editor.org/rfc/rfc1918)
 - [RFC 3022: Traditional IP Network Address Translator](https://datatracker.ietf.org/doc/html/rfc3022)
 
-이전: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/) · [연재 목록](/study/network/) · 다음: [HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지](/study/network/http-headers-and-versions/)
+이전: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/) · [연재 목록](/study/network/) · 다음: [HTTP 메시지와 HTTP/1.x: 헤더·연결 재사용·HOL](/study/network/http-messages-and-http-1/)

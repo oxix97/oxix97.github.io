@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 18
+  order: 22
 ---
 
 요청이 급증해 응답 시간이 늘었다면 서버를 바로 늘리는 것이 정답일까? 먼저 어느 구간에서 대기가 쌓이는지 확인해야 한다. [네트워크 성능 지표](/study/network/network-performance-metrics/)와 [토폴로지의 병목](/study/network/topology-and-bottlenecks/)을 바탕으로, 측정 결과를 대응 방법에 연결해 본다.
@@ -82,4 +82,4 @@ sidebar:
 - [AWS Well-Architected: Throttle requests](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_throttle_requests.html)
 - [AWS Well-Architected: Implement graceful degradation](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html)
 
-이전: [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](/study/network/wired-lan-and-wifi/) · [연재 목록](/study/network/) · 다음: [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](/study/network/browser-security-boundaries/)
+이전: [REST API는 리소스를 어떻게 표현하고 연결하는가](/study/network/rest-api/) · [연재 목록](/study/network/) · 다음: [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](/study/network/browser-security-boundaries/)

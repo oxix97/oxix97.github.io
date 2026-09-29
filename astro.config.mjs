@@ -7,6 +7,12 @@ export default defineConfig({
   site: 'https://oxix97.github.io',
   output: 'static',
   trailingSlash: 'always',
+  redirects: {
+    '/study/network/tcp-udp-mtu-mss-pmtud':
+      '/study/network/tcp-udp-checksums-crc/',
+    '/study/network/http-headers-and-versions':
+      '/study/network/http-messages-and-http-1/',
+  },
   integrations: [
     starlight({
       title: 'oxix97의 개발 기록',

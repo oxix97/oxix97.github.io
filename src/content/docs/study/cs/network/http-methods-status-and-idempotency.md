@@ -9,10 +9,10 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 15
+  order: 20
 ---
 
-주문 API의 응답을 받기 전에 연결이 끊기면 같은 요청을 다시 보내도 될까? 이 질문에 답하려면 HTTP 메서드가 표현하는 의도와 서버가 실제로 보장하는 중복 방지를 나눠 봐야 한다. [HTTP 버전 글](/study/network/http-headers-and-versions/)이 메시지를 전달하는 방식을 다뤘다면, 여기서는 메시지의 의미를 살핀다.
+주문 API의 응답을 받기 전에 연결이 끊기면 같은 요청을 다시 보내도 될까? 이 질문에 답하려면 HTTP 메서드가 표현하는 의도와 서버가 실제로 보장하는 중복 방지를 나눠 봐야 한다. [HTTP/1 글](/study/network/http-messages-and-http-1/)과 [HTTP/2·3 글](/study/network/http-2-and-http-3/)이 메시지 전달 방식을 다뤘다면, 여기서는 메시지의 의미를 살핀다.
 
 ## 핵심 요약
 
@@ -59,7 +59,7 @@ GET이 URL에만 데이터를 넣고 POST가 본문에만 데이터를 넣는다
 
 이 흐름은 HTTP가 POST에 자동으로 제공하는 보장이 아니라 애플리케이션 설계 예시다. 키의 유효 기간, 같은 키에 다른 본문이 왔을 때의 거절 방식, 동시 요청의 원자성, 최종 DB 제약 조건까지 정해야 한다. 결제처럼 외부 시스템이 끼면 그 시스템의 중복 처리 계약도 확인해야 한다.
 
-REST도 단순히 URL에 명사를 쓰는 규칙으로 끝나지 않는다. 리소스를 식별하고, 표준 메서드의 의미와 응답 표현을 일관되게 사용하면 클라이언트와 중간 장치가 요청을 이해하기 쉬워진다. 특정 API가 REST라고 불리는지보다 **재시도와 캐시가 메서드의 의미를 어기지 않는지** 먼저 확인한다.
+REST도 단순히 URL에 명사를 쓰는 규칙으로 끝나지 않는다. [REST API 글](/study/network/rest-api/)에서 정리한 리소스 식별과 제약 조건을 함께 보고, 표준 메서드의 의미와 응답 표현을 일관되게 사용하면 클라이언트와 중간 장치가 요청을 이해하기 쉬워진다. 특정 API가 REST라고 불리는지보다 **재시도와 캐시가 메서드의 의미를 어기지 않는지** 먼저 확인한다.
 
 ## 장점과 한계
 
@@ -93,10 +93,9 @@ PUT은 지정한 리소스의 상태를 요청 표현으로 교체하려는 메�
 - [HTTP 상태코드 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=141380)
 - [HTTP 메서드: GET과 POST ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=141381)
 - [HTTP 메서드: PUT과 PATCH ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=141382)
-- [REST API ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116077)
 - [HTTP의 멱등성이 무엇인가요? ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=222647)
 - [HTTP 멱등성과 API 실습 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=222648)
 - [RFC 9110: HTTP Semantics](https://www.rfc-editor.org/rfc/rfc9110)
 - [RFC 5789: PATCH Method for HTTP](https://www.rfc-editor.org/rfc/rfc5789)
 
-이전: [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](/study/network/session-vs-token-authentication/) · [연재 목록](/study/network/) · 다음: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/)
+이전: [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](/study/network/session-vs-token-authentication/) · [연재 목록](/study/network/) · 다음: [REST API는 리소스를 어떻게 표현하고 연결하는가](/study/network/rest-api/)

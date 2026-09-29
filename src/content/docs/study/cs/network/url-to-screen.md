@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 20
+  order: 25
 ---
 
 주소창에 URL을 입력한 뒤 화면이 뜰 때까지를 한 문장으로 설명하기는 어렵다. DNS, 라우팅, 연결, HTTP, 렌더링이 서로 다른 단계이기 때문이다. 이 글은 앞선 네트워크 글을 덮고 흐름을 다시 설명해 보는 종합 복습 자료다.
@@ -31,18 +31,19 @@ URL 해석
   → 라우팅과 다음 홉 결정, 링크에서 프레임 전달
   → 새 연결 설정: TCP와 TLS 또는 HTTP/3용 QUIC
   → HTTP 요청 전송, 응답 헤더와 본문 수신
-  → HTML 파싱, 추가 리소스 요청, 스타일 계산·레이아웃·그리기
+  → HTML 파싱과 추가 리소스 요청
+  → 브라우저 렌더링으로 화면 표시
 ```
 
 DNS 리졸버는 캐시에서 답할 수도 있고 이름 서버에 질의할 수도 있다. DNS는 호스트 이름을 주소와 연결하지만, 요청할 최종 서버 인스턴스나 이후 연결의 성공까지 보장하지 않는다. 주소를 얻은 뒤 호스트는 [라우팅 테이블](/study/network/routing-and-routing-table/)로 다음 홉을 고른다. 같은 링크에서 [ARP와 MAC 주소](/study/network/ip-mac-arp-rarp/)가 필요한 상황도 있다. IPv6에서는 이더넷 IPv4 ARP와 다른 이웃 발견 절차를 사용한다.
 
-연결 단계에서는 프로토콜을 구분한다. HTTP/1.1과 HTTP/2를 TCP 위에서 HTTPS로 사용한다면 TCP 연결과 TLS 협상이 필요하다. HTTP/3는 QUIC을 사용한다. [HTTP 버전 글](/study/network/http-headers-and-versions/)과 [TLS 1.3 글](/study/network/https-tls-1-3-handshake/)에서 각각 전송 방식과 서버 인증·키 설정을 확인할 수 있다. **DNS 조회, TCP 핸드셰이크, TLS 핸드셰이크를 하나의 왕복 과정으로 합치지 않는다.**
+연결 단계에서는 프로토콜을 구분한다. HTTP/1.1과 HTTP/2를 TCP 위에서 HTTPS로 사용한다면 TCP 연결과 TLS 협상이 필요하다. HTTP/3는 QUIC을 사용한다. [HTTP/1.x 글](/study/network/http-messages-and-http-1/), [HTTP/2·3 글](/study/network/http-2-and-http-3/), [TLS 1.3 글](/study/network/https-tls-1-3-handshake/)에서 전달 방식과 서버 인증·키 설정을 확인할 수 있다. **DNS 조회, TCP 핸드셰이크, TLS 핸드셰이크를 하나의 왕복 과정으로 합치지 않는다.**
 
-## 응답을 받은 뒤 화면이 나오는 과정
+## 응답 뒤 브라우저가 화면을 표시한다
 
-서버는 요청의 메서드와 경로에 맞는 응답 상태, 필드, 본문을 보낸다. [HTTP 요청 의미 글](/study/network/http-methods-status-and-idempotency/)에서 읽은 상태 코드가 여기서 처리 결과를 알려 준다. 응답이 리다이렉트라면 브라우저는 위치를 바꿔 새 요청을 만들 수 있다.
+서버는 요청의 메서드와 경로에 맞는 상태, 필드, 본문을 보낸다. [HTTP 요청 글](/study/network/http-methods-status-and-idempotency/)에서 읽은 상태 코드가 처리 결과를 알려 준다. 리다이렉트 응답이면 브라우저가 위치를 바꿔 새 요청을 만들 수 있다.
 
-HTML을 받기 시작하면 브라우저가 문서를 파싱해 DOM을 만들고, 스타일 자료로 CSSOM을 구성한다. 필요한 스크립트와 이미지 등의 추가 요청도 시작된다. 렌더 트리, 레이아웃, 그리기 단계가 화면 표시로 이어진다. 스크립트와 스타일의 로딩 방식은 파싱과 첫 표시 시점에 영향을 줄 수 있다. 첫 화면이 보인 뒤에도 추가 리소스와 스크립트 처리는 계속될 수 있다.
+HTML을 받은 뒤 브라우저는 문서를 파싱하고 필요한 스크립트·이미지 등 추가 리소스를 요청한다. HTML은 도착했지만 화면이 늦다면 응답 이후의 스크립트 실행과 스타일·레이아웃 계산을 살펴본다. 렌더링 단계는 [브라우저 렌더링 글](/study/network/browser-rendering/)에서 자세히 설명한다.
 
 | 증상 | 먼저 구분할 단계 | 확인 예시 |
 | --- | --- | --- |
@@ -50,11 +51,18 @@ HTML을 받기 시작하면 브라우저가 문서를 파싱해 DOM을 만들고
 | 이름은 찾았지만 연결 실패 | 경로·연결 | 다음 홉, 포트, TCP 또는 QUIC 연결 |
 | 연결은 됐지만 인증서 경고 | TLS | 이름·신뢰 체인·유효 기간 |
 | 응답이 늦음 | 서버·전송 | TTFB, 서버 처리, 재전송과 대기 |
-| HTML은 왔지만 화면이 늦음 | 리소스·렌더링 | 차단 리소스, 스크립트, 스타일·레이아웃 |
+| HTML은 왔지만 화면이 늦음 | 리소스·렌더링 | 차단 리소스와 렌더링 기록 |
 
 ## 생략되거나 달라지는 단계
 
-DNS 답이 캐시에 있고 기존 연결을 재사용한다면 새 DNS 질의와 연결 설정이 보이지 않을 수 있다. HTTP 캐시나 서비스 워커가 응답을 제공할 수도 있다. 리다이렉트는 요청을 추가하고, 리소스마다 다른 호스트의 DNS와 연결이 필요할 수 있다. 따라서 위 화살표는 가능한 대표 경로이지 모든 탐색에서 반드시 실행되는 고정 절차가 아니다.
+DNS 답이 캐시에 있고 기존 연결을 재사용한다면 새 DNS 질의와 연결 설정이 보이지 않을 수 있다. HTTP 캐시나 서비스 워커가 응답을 제공할 수도 있다. 두 캐시는 저장하는 정보와 판단 기준이 다르다.
+
+| 캐시 | 저장하는 것 | 유효성 판단 |
+| --- | --- | --- |
+| DNS 캐시 | 이름과 주소의 응답 | DNS 레코드의 TTL 등 DNS 규칙 |
+| HTTP 캐시 | 요청에 대한 응답 표현 | `Cache-Control`, `Expires`, 검증자와 재검증 등 HTTP 규칙 |
+
+DNS 캐시에 주소가 있어도 HTTP 응답이 캐시됐다는 뜻은 아니며, HTTP 응답을 재사용해도 DNS 답의 유효 기간이 연장되는 것은 아니다. 리다이렉트는 요청을 추가하고, 리소스마다 다른 호스트의 DNS와 연결이 필요할 수 있다. 따라서 위 화살표는 가능한 대표 경로이지 모든 탐색에서 반드시 실행되는 고정 절차가 아니다.
 
 복습할 때는 “새 방문·캐시 없음·새 연결”을 먼저 가정하고 설명한 뒤, 캐시와 재사용 조건을 하나씩 넣어 어떤 단계가 사라지는지 말해 본다. 마지막으로 위 표의 증상 하나를 골라 확인 순서를 설명하면 개념을 장애 판단에 연결할 수 있다.
 
@@ -76,7 +84,7 @@ URL을 해석하고 필요한 경우 DNS로 주소를 확인합니다. 새 연�
 
 ### HTML 응답이 빨라도 화면 표시가 늦을 수 있는가?
 
-그럴 수 있습니다. HTML 파싱 뒤 스타일, 스크립트, 이미지 같은 추가 리소스가 필요하고, 스크립트 실행과 스타일 계산·레이아웃·그리기에도 시간이 듭니다. 네트워크 타이밍과 렌더링 작업을 나눠 조사해야 합니다.
+그럴 수 있습니다. HTML 파싱 뒤 스타일, 스크립트, 이미지 같은 추가 리소스가 필요하고 렌더링 작업도 남습니다. 네트워크 타이밍과 렌더링 기록을 나눠 조사해야 합니다.
 
 ## 복습 체크리스트
 
@@ -88,9 +96,8 @@ URL을 해석하고 필요한 경우 DNS로 주소를 확인합니다. 새 연�
 ## 참고 자료
 
 - [주소 입력 뒤 과정과 DNS ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116069)
-- [브라우저 렌더링 과정 ★★☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116074)
 - [RFC 1034: Domain Names — Concepts and Facilities](https://www.rfc-editor.org/rfc/rfc1034)
-- [MDN: How browsers work](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/How_browsers_work)
-- [MDN: Critical rendering path](https://developer.mozilla.org/en-US/docs/Web/Performance/Guides/Critical_rendering_path)
+- [RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111)
+- [브라우저 렌더링 글](/study/network/browser-rendering/)
 
-이전: [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](/study/network/browser-security-boundaries/) · [연재 목록](/study/network/)
+이전: [브라우저 렌더링: HTML에서 화면까지](/study/network/browser-rendering/) · [연재 목록](/study/network/)

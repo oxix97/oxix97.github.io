@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 19
+  order: 23
 ---
 
 브라우저에서 요청이 실패하거나 쿠키가 악용될 때 CORS, XSS, CSRF를 한 가지 문제로 묶어 설명하기 쉽다. 세 개는 공격 대상과 적용되는 경계가 다르다. [브라우저 저장소](/study/network/browser-storage-and-cookies/)와 [인증](/study/network/session-vs-token-authentication/)에서 배운 쿠키의 성질을 기준으로 구분해 보자.
@@ -93,4 +93,4 @@ XSS는 공격자 입력이 피해 사이트의 페이지에서 코드로 실행�
 - [OWASP: Cross Site Scripting Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html)
 - [OWASP: Cross-Site Request Forgery Prevention Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Cross-Site_Request_Forgery_Prevention_Cheat_Sheet.html)
 
-이전: [트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가](/study/network/traffic-overload-and-bottlenecks/) · [연재 목록](/study/network/) · 다음: [주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기](/study/network/url-to-screen/)
+이전: [트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가](/study/network/traffic-overload-and-bottlenecks/) · [연재 목록](/study/network/) · 다음: [브라우저 렌더링: HTML에서 화면까지](/study/network/browser-rendering/)

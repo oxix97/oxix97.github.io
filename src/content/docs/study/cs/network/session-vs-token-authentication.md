@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 14
+  order: 19
 ---
 
 세션 기반 인증과 토큰 기반 인증은 클라이언트가 보내는 값과 서버가 확인하는 상태의 위치가 다르다. 로그인 뒤의 같은 요청을 두 방식으로 처리하면 이 차이가 드러난다.

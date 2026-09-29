@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 6
+  order: 7
 ---
 
 TCP는 양방향 바이트 스트림을 제공하므로 연결 수립에서 두 시퀀스 공간을 동기화하고, 정상 종료에서는 각 방향을 따로 닫는다. 숫자를 `x`, `y`로 고정해 상태 전이를 따라가면 `CLOSE_WAIT`과 `TIME_WAIT`이 어느 종단에 남는지도 구분하기 쉽다.
@@ -142,4 +142,4 @@ TIME_WAIT은 마지막 ACK가 유실되어 상대가 FIN을 재전송했을 때 
 - [RFC 2018: TCP Selective Acknowledgment Options](https://www.rfc-editor.org/rfc/rfc2018)
 - [RFC 6528: Defending against Sequence Number Attacks](https://www.rfc-editor.org/rfc/rfc6528)
 
-이전: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/) · [연재 목록](/study/network/) · 다음: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/)
+이전: [MTU·MSS·PMTUD와 네이글 알고리즘](/study/network/mtu-mss-pmtud-nagle/) · [연재 목록](/study/network/) · 다음: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/)

@@ -15,6 +15,7 @@ type ImageContract = {
 
 type ArticleContract = {
   file: string;
+  slug?: string;
   title: string;
   order: number;
   publishedAt: string;
@@ -155,32 +156,44 @@ const articles: ArticleContract[] = [
   },
   {
     file: 'tcp-udp-mtu-mss-pmtud.md',
-    title: 'TCP와 UDP, 그리고 MTU·MSS·PMTUD',
+    slug: 'tcp-udp-checksums-crc',
+    title: 'TCP와 UDP는 오류를 어떻게 다루는가: 신뢰성·체크섬·CRC',
     order: 5,
     publishedAt: '2026-08-11',
-    tags: ['Network', 'TCP', 'UDP', 'PMTUD'],
+    tags: ['Network', 'TCP', 'UDP', 'Checksum'],
     units: [
       {
         title: 'TCP/IP 4계층 #4. 전송 계층(transport) ★★★',
         unitId: 132274,
       },
-      {
-        title: 'TCP/IP 4계층 #2. MTU와 MSS와 PMTUD ★★★',
-        unitId: 116686,
-      },
-      {
-        title: 'Q. 네이글 알고리즘이란 무엇인가요? ★☆☆',
-        unitId: 210101,
-      },
     ],
     sections: [
       '핵심 요약',
-      'TCP와 UDP의 선택 기준',
-      'TCP의 신뢰성을 구성하는 장치',
-      '작은 TCP 세그먼트를 모으는 이유',
-      'MTU와 MSS의 차이',
-      'PMTUD가 경로 크기를 찾는 방법',
-      '운영에서 확인할 실패 조건',
+      'TCP와 UDP는 서로 다른 전달 서비스를 제공한다',
+      '체크섬과 CRC는 손상을 검출한다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+    ],
+  },
+  {
+    file: 'mtu-mss-pmtud-nagle.md',
+    title: 'MTU·MSS·PMTUD와 네이글 알고리즘',
+    order: 6,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'MTU', 'MSS', 'PMTUD'],
+    units: [
+      { title: 'TCP/IP 4계층 #2. MTU와 MSS와 PMTUD ★★★', unitId: 116686 },
+      { title: 'Q. 네이글 알고리즘이란 무엇인가요? ★☆☆', unitId: 210101 },
+    ],
+    sections: [
+      '핵심 요약',
+      'MTU와 MSS는 서로 다른 범위를 센다',
+      'PMTUD는 경로에서 보낼 크기를 찾는다',
+      '작은 TCP 쓰기를 모으는 네이글 알고리즘',
       '장점과 한계',
       '기술면접 질문',
       '복습 체크리스트',
@@ -198,7 +211,7 @@ const articles: ArticleContract[] = [
   {
     file: 'tcp-connection-lifecycle.md',
     title: 'TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지',
-    order: 6,
+    order: 7,
     publishedAt: '2026-08-11',
     tags: ['Network', 'TCP', 'Handshake', 'TIME_WAIT'],
     units: [
@@ -235,7 +248,7 @@ const articles: ArticleContract[] = [
   {
     file: 'routing-and-routing-table.md',
     title: '라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블',
-    order: 7,
+    order: 8,
     publishedAt: '2026-08-13',
     tags: ['Network', 'Routing', 'Router', 'Backend'],
     units: [
@@ -264,7 +277,7 @@ const articles: ArticleContract[] = [
   {
     file: 'ip-mac-arp-rarp.md',
     title: 'IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP',
-    order: 8,
+    order: 9,
     publishedAt: '2026-08-13',
     tags: ['Network', 'IP', 'MAC', 'ARP'],
     units: [
@@ -288,7 +301,7 @@ const articles: ArticleContract[] = [
   {
     file: 'ipv4-ipv6-addressing.md',
     title: 'IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현',
-    order: 9,
+    order: 12,
     publishedAt: '2026-08-13',
     tags: ['Network', 'IPv4', 'IPv6', 'Addressing'],
     units: [
@@ -317,7 +330,7 @@ const articles: ArticleContract[] = [
   {
     file: 'classful-cidr-subnetting-nat.md',
     title: '클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법',
-    order: 10,
+    order: 13,
     publishedAt: '2026-08-13',
     tags: ['Network', 'CIDR', 'Subnetting', 'NAT'],
     units: [
@@ -349,10 +362,11 @@ const articles: ArticleContract[] = [
   },
   {
     file: 'http-headers-and-versions.md',
-    title: 'HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지',
-    order: 11,
+    slug: 'http-messages-and-http-1',
+    title: 'HTTP 메시지와 HTTP/1.x: 헤더·연결 재사용·HOL',
+    order: 14,
     publishedAt: '2026-08-14',
-    tags: ['Network', 'HTTP', 'HTTP2', 'HTTP3'],
+    tags: ['Network', 'HTTP', 'HTTP1'],
     units: [
       { title: 'HTTP 헤더(header) ★★★', unitId: 141046 },
       {
@@ -360,42 +374,43 @@ const articles: ArticleContract[] = [
           'DEEP DIVE : HTTP/1.0과 HTTP/1.1의 차이와 keep-alive, HOL까지 ★★★',
         unitId: 116070,
       },
-      {
-        title: 'DEEP DIVE : HTTP/2와 HTTP/3의 차이 ★★★',
-        unitId: 121644,
-      },
     ],
     sections: [
       '핵심 요약',
       'HTTP/1.1 메시지는 어떻게 생겼는가',
-      'DevTools의 `General`은 HTTP 헤더 묶음이 아니다',
-      'HTTP/1.0에서 HTTP/1.1로 바뀐 연결 방식',
-      'HTTP/2는 하나의 TCP 연결을 여러 스트림으로 나눈다',
-      'HTTP/3는 QUIC 스트림 위에서 HTTP를 전달한다',
-      'HTTP/1.1·2·3 비교',
+      'HTTP/1.0과 HTTP/1.1은 연결을 다르게 사용한다',
       '장점과 한계',
       '기술면접 질문',
       '복습 체크리스트',
       '참고 자료',
     ],
-    images: [
-      {
-        directory: 'http',
-        file: 'http-version-streams.svg',
-      },
+  },
+  {
+    file: 'http-2-and-http-3.md',
+    title: 'HTTP/2와 HTTP/3: 멀티플렉싱과 HOL의 변화',
+    order: 15,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'HTTP2', 'HTTP3', 'QUIC'],
+    units: [{ title: 'DEEP DIVE : HTTP/2와 HTTP/3의 차이 ★★★', unitId: 121644 }],
+    sections: [
+      '핵심 요약',
+      'HTTP/2는 스트림을 프레임으로 나눈다',
+      'HTTP/3는 QUIC 위에서 스트림을 전달한다',
+      '버전 선택은 환경과 구현을 함께 본다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
     ],
+    images: [{ directory: 'http', file: 'http-version-streams.svg' }],
   },
   {
     file: 'https-tls-1-3-handshake.md',
-    title: 'HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크',
-    order: 12,
+    title: 'TLS 1.3 핸드셰이크는 연결 키를 어떻게 만드는가',
+    order: 17,
     publishedAt: '2026-08-14',
-    tags: ['Network', 'HTTPS', 'TLS', 'Security'],
+    tags: ['Network', 'HTTPS', 'TLS', 'Handshake'],
     units: [
-      {
-        title: 'DEEP DIVE : HTTPS와 TLS #1. 암호화  ★★☆',
-        unitId: 116071,
-      },
       {
         title: 'DEEP DIVE : HTTPS와 TLS #2. TLS 핸드셰이크 ★★☆',
         unitId: 129789,
@@ -403,13 +418,9 @@ const articles: ArticleContract[] = [
     ],
     sections: [
       '핵심 요약',
-      'HTTPS에서 암호 기술이 맡는 역할',
-      'TLS 1.3 핸드셰이크가 확인하는 것',
-      '인증서 검증과 서버 인증',
-      'ECDHE와 HKDF로 트래픽 키를 만드는 과정',
-      'TLS 1.3 cipher suite를 읽는 방법',
-      '정적 RSA 키 교환과 ECDHE의 차이',
-      '0-RTT는 무엇을 줄이고 무엇을 포기하는가',
+      '핸드셰이크는 협상·인증·키 설정을 이어 간다',
+      '인증서 검증과 트래픽 키 파생',
+      '0-RTT는 지연과 replay 위험을 함께 가진다',
       '장점과 한계',
       '기술면접 질문',
       '복습 체크리스트',
@@ -423,10 +434,28 @@ const articles: ArticleContract[] = [
     ],
   },
   {
+    file: 'https-cryptography-and-certificates.md',
+    title: 'HTTPS 암호화와 인증서: 기밀성·키 합의·서버 인증',
+    order: 16,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'HTTPS', 'TLS', 'Certificate'],
+    units: [{ title: 'DEEP DIVE : HTTPS와 TLS #1. 암호화  ★★☆', unitId: 116071 }],
+    sections: [
+      '핵심 요약',
+      '대칭키는 실제 데이터 보호를 맡는다',
+      '공개키와 전자서명은 키 합의와 신원 검증을 돕는다',
+      '인증서는 공개키를 서버 이름에 연결한다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
     file: 'browser-storage-and-cookies.md',
     title:
       '브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교',
-    order: 13,
+    order: 18,
     publishedAt: '2026-08-25',
     tags: ['Network', 'WebStorage', 'Cookie', 'Browser'],
     units: [
@@ -472,7 +501,7 @@ const articles: ArticleContract[] = [
   {
     file: 'session-vs-token-authentication.md',
     title: '로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교',
-    order: 14,
+    order: 19,
     publishedAt: '2026-08-25',
     tags: ['Network', 'Authentication', 'Session', 'JWT'],
     units: [
@@ -515,23 +544,40 @@ const articles: ArticleContract[] = [
   {
     file: 'http-methods-status-and-idempotency.md',
     title: 'HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성',
-    order: 15,
+    order: 20,
     publishedAt: '2026-09-29',
     tags: ['Network', 'HTTP', 'REST', 'Idempotency'],
     units: [
       { title: 'HTTP 상태코드 ★★★', unitId: 141380 },
       { title: 'HTTP 메서드: GET과 POST ★★★', unitId: 141381 },
       { title: 'HTTP 메서드: PUT과 PATCH ★★★', unitId: 141382 },
-      { title: 'REST API ★★★', unitId: 116077 },
       { title: 'HTTP의 멱등성이 무엇인가요? ★★★', unitId: 222647 },
       { title: 'HTTP 멱등성과 API 실습 ★★★', unitId: 222648 },
     ],
     sections: ['핵심 요약', '메서드와 상태 코드는 서로 다른 질문에 답한다', 'GET·POST·PUT·PATCH의 선택 기준', '주문 요청을 재시도해야 한다면', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
   },
   {
+    file: 'rest-api.md',
+    title: 'REST API는 리소스를 어떻게 표현하고 연결하는가',
+    order: 21,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'HTTP', 'REST', 'API'],
+    units: [{ title: 'REST API ★★★', unitId: 116077 }],
+    sections: [
+      '핵심 요약',
+      'REST는 리소스와 표현을 구분한다',
+      '균일한 인터페이스가 API 연결을 단순하게 한다',
+      '다른 제약은 서버와 클라이언트의 책임을 나눈다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+  {
     file: 'network-devices-and-ethernet.md',
     title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
-    order: 16,
+    order: 10,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Ethernet', 'Switch', 'Router'],
     units: [
@@ -548,7 +594,7 @@ const articles: ArticleContract[] = [
   {
     file: 'wired-lan-and-wifi.md',
     title: '유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가',
-    order: 17,
+    order: 11,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Ethernet', 'WiFi', 'LAN'],
     units: [
@@ -562,7 +608,7 @@ const articles: ArticleContract[] = [
   {
     file: 'traffic-overload-and-bottlenecks.md',
     title: '트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가',
-    order: 18,
+    order: 22,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Performance', 'LoadBalancing', 'Reliability'],
     units: [
@@ -575,7 +621,7 @@ const articles: ArticleContract[] = [
   {
     file: 'browser-security-boundaries.md',
     title: '브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가',
-    order: 19,
+    order: 23,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Browser', 'CORS', 'XSS', 'CSRF'],
     units: [
@@ -588,19 +634,36 @@ const articles: ArticleContract[] = [
   {
     file: 'url-to-screen.md',
     title: '주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기',
-    order: 20,
+    order: 25,
     publishedAt: '2026-09-29',
     tags: ['Network', 'DNS', 'HTTP', 'Browser'],
     units: [
       { title: '주소 입력 뒤 과정과 DNS ★★★', unitId: 116069 },
-      { title: '브라우저 렌더링 과정 ★★☆', unitId: 116074 },
     ],
-    sections: ['핵심 요약', '한 번의 새 방문을 기준으로 따라가기', '응답을 받은 뒤 화면이 나오는 과정', '생략되거나 달라지는 단계', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+    sections: ['핵심 요약', '한 번의 새 방문을 기준으로 따라가기', '응답 뒤 브라우저가 화면을 표시한다', '생략되거나 달라지는 단계', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
   },
-];
+  {
+    file: 'browser-rendering.md',
+    title: '브라우저 렌더링: HTML에서 화면까지',
+    order: 24,
+    publishedAt: '2026-09-29',
+    tags: ['Browser', 'Rendering', 'DOM', 'CSS'],
+    units: [{ title: '브라우저 렌더링 과정 ★★☆', unitId: 116074 }],
+    sections: [
+      '핵심 요약',
+      'HTML과 CSS에서 DOM·CSSOM을 만든다',
+      '렌더 트리와 레이아웃을 계산한다',
+      '그리기와 합성으로 화면을 표시한다',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+  },
+].sort((a, b) => a.order - b.order);
 
 const articleRoute = (article: ArticleContract) =>
-  `/study/network/${article.file.replace(/\.md$/, '/')}`;
+  `/study/network/${article.slug ?? article.file.replace(/\.md$/, '')}/`;
 const readStudyFile = (path: string) => readFile(new URL(path, studyRoot), 'utf8');
 
 function parseScalar(value: string): boolean | number | string | string[] {
@@ -711,7 +774,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all twenty articles as exact links in reading order', async () => {
+  it('defines all twenty-five articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
@@ -721,9 +784,9 @@ describe('network Study series', () => {
 
     expect(frontmatter.title).toBe('CS 지식의 정석 - 네트워크');
     expect(links).toEqual(
-      articles.map(({ file, title }) => ({
+      articles.map(({ file, slug, title }) => ({
         title,
-        href: `./${file.replace(/\.md$/, '/')}`,
+        href: `./${slug ?? file.replace(/\.md$/, '')}/`,
       })),
     );
   });
@@ -797,7 +860,7 @@ describe('network Study series', () => {
 
   it('keeps the HTTP HOL boundary aligned with each transport', async () => {
     const markdown = await readStudyFile(
-      'cs/network/http-headers-and-versions.md',
+      'cs/network/http-2-and-http-3.md',
     );
 
     expect(markdown).toMatch(
@@ -836,6 +899,9 @@ describe('network Study series', () => {
       const frontmatter = parseFrontmatter(markdown);
 
       expect(frontmatter.title).toBe(article.title);
+      if (article.slug) {
+        expect(frontmatter.slug).toBe(`study/network/${article.slug}`);
+      }
       expect(frontmatter.contentType).toBe('study');
       expect(frontmatter.publishedAt).toBe(article.publishedAt);
       expect(frontmatter.tags).toEqual(article.tags);

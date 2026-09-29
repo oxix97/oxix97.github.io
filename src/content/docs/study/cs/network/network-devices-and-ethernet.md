@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 16
+  order: 10
 ---
 
 IP 주소를 알고 있어도 패킷이 곧바로 목적지 서버에 전달되지는 않는다. 호스트는 다음에 전달할 대상을 고르고, 같은 링크에서 그 대상의 주소로 프레임을 보낸다. [라우팅](/study/network/routing-and-routing-table/)과 [ARP](/study/network/ip-mac-arp-rarp/)에서 배운 결정을 실제 장치 경로에 놓아 보자.
@@ -41,7 +41,7 @@ IP 주소를 알고 있어도 패킷이 곧바로 목적지 서버에 전달되�
 | 페이로드 | IP 패킷 등 상위 계층 데이터를 싣는다 | MTU가 제한하는 범위는 어디인가? |
 | FCS | 프레임 오류를 검출한다 | 오류 검출이 종단 간 전달 보장과 같은가? |
 
-이 표는 일반적인 Ethernet II 프레임을 읽기 위한 개요다. VLAN 태그와 매체별 헤더 등 실제 형식은 달라질 수 있다. FCS는 손상 검출에 쓰이며, 그 자체가 TCP 같은 종단 간 재전송을 제공하지는 않는다. [MTU 글](/study/network/tcp-udp-mtu-mss-pmtud/)의 1500바이트 예시는 이더넷 헤더 전체가 아니라 IP 패킷에 허용된 크기를 가정한다.
+이 표는 일반적인 Ethernet II 프레임을 읽기 위한 개요다. VLAN 태그와 매체별 헤더 등 실제 형식은 달라질 수 있다. FCS는 손상 검출에 쓰이며, 그 자체가 TCP 같은 종단 간 재전송을 제공하지는 않는다. [MTU 글](/study/network/mtu-mss-pmtud-nagle/)의 1500바이트 예시는 이더넷 헤더 전체가 아니라 IP 패킷에 허용된 크기를 가정한다.
 
 ## 장치 이름을 계층과 연결하기
 
@@ -94,4 +94,4 @@ L2 스위치는 주로 프레임의 MAC 주소와 학습한 포트 정보를 사
 - [RFC 826: An Ethernet Address Resolution Protocol](https://www.rfc-editor.org/rfc/rfc826)
 - [IEEE 802.3 Ethernet Working Group](https://www.ieee802.org/3/)
 
-이전: [HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성](/study/network/http-methods-status-and-idempotency/) · [연재 목록](/study/network/) · 다음: [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](/study/network/wired-lan-and-wifi/)
+이전: [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](/study/network/ip-mac-arp-rarp/) · [연재 목록](/study/network/) · 다음: [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](/study/network/wired-lan-and-wifi/)

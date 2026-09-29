@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 7
+  order: 8
 ---
 
 라우팅, 라우터, 라우팅 테이블은 함께 등장하지만 가리키는 대상은 다르다. 경로를 고르는 과정과 그 일을 수행하는 장치, 판단에 사용하는 정보를 나눠 보면 패킷이 어디로 전달되는지 훨씬 구체적으로 설명할 수 있다.

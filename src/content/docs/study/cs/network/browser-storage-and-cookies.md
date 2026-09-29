@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 13
+  order: 18
 ---
 
 로컬스토리지, 세션스토리지, 쿠키는 모두 브라우저에 값을 남기지만 수명과 전달 방식은 다르다. 데이터가 살아 있는 시간과 공유 범위, 서버로 전송되는 방식을 기준으로 구분한다.
@@ -214,4 +214,4 @@ Web Storage는 애플리케이션이 문자열 키와 값을 직접 읽고 쓰�
 - [RFC 10025: Cookies: HTTP State Management Mechanism](https://www.rfc-editor.org/info/rfc10025)
 - [RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111)
 
-이전: [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](/study/network/https-tls-1-3-handshake/) · [연재 목록](/study/network/) · 다음: [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](/study/network/session-vs-token-authentication/)
+이전: [TLS 1.3 핸드셰이크는 연결 키를 어떻게 만드는가](/study/network/https-tls-1-3-handshake/) · [연재 목록](/study/network/) · 다음: [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](/study/network/session-vs-token-authentication/)

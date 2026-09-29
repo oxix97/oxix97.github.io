@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 8
+  order: 9
 ---
 
 IP 패킷에는 목적지 IP 주소가 있는데도 이더넷 프레임에는 목적지 MAC 주소가 필요하다. 두 주소가 쓰이는 범위와 ARP가 연결하는 지점을 나눠 보면, 원격 서버의 MAC 주소를 직접 찾는다는 오해를 피할 수 있다.
@@ -156,4 +156,4 @@ RARP는 자신의 하드웨어 주소만 아는 부팅 호스트가 RARP 서버�
 - [RFC 2131: Dynamic Host Configuration Protocol](https://www.rfc-editor.org/rfc/rfc2131)
 - [IEEE SA: MAC Addresses](https://standards.ieee.org/products-programs/regauth/mac/)
 
-이전: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/) · [연재 목록](/study/network/) · 다음: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/)
+이전: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/) · [연재 목록](/study/network/) · 다음: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/)

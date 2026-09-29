@@ -145,4 +145,4 @@ OSI 7계층은 통신 역할을 애플리케이션부터 물리 계층까지 세
 - [RFC 9000: QUIC: A UDP-Based Multiplexed and Secure Transport](https://www.rfc-editor.org/rfc/rfc9000)
 - [RFC 9114: HTTP/3](https://www.rfc-editor.org/rfc/rfc9114)
 
-이전: [유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준](/study/network/network-classification/) · [연재 목록](/study/network/) · 다음: [TCP와 UDP, 그리고 MTU·MSS·PMTUD](/study/network/tcp-udp-mtu-mss-pmtud/)
+이전: [유니캐스트부터 WAN까지: 네트워크를 구분하는 두 가지 기준](/study/network/network-classification/) · [연재 목록](/study/network/) · 다음: [TCP와 UDP는 오류를 어떻게 다루는가: 신뢰성·체크섬·CRC](/study/network/tcp-udp-checksums-crc/)

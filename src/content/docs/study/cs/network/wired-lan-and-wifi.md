@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 17
+  order: 11
 ---
 
 두 장치가 동시에 데이터를 보내려 하면 유선 LAN과 Wi-Fi에서 같은 일이 일어날까? 링크의 송수신 방향과 매체를 공유하는 방식을 나누면 CSMA/CD와 CSMA/CA가 왜 다른지 이해하기 쉽다.
@@ -89,4 +89,4 @@ sidebar:
 - [IEEE 802.11 Wireless LAN Working Group](https://www.ieee802.org/11/)
 - [IEEE 802.3 Ethernet Working Group](https://www.ieee802.org/3/)
 
-이전: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/) · [연재 목록](/study/network/) · 다음: [트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가](/study/network/traffic-overload-and-bottlenecks/)
+이전: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/) · [연재 목록](/study/network/) · 다음: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/)

@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 9
+  order: 12
 ---
 
 IPv4의 점으로 구분한 십진수와 IPv6의 콜론으로 구분한 16진수는 모양부터 다르다. 하지만 두 주소 모두 비트열을 사람이 읽기 편한 형태로 적은 것이다. 자릿값부터 확인하면 서브넷 마스크와 프리픽스 길이도 같은 기준으로 읽을 수 있다.
@@ -174,4 +174,4 @@ IPv4는 32비트를 8비트 옥텟 네 개로 나누어 표기합니다. 8비트
 - [RFC 8504: IPv6 Node Requirements](https://www.rfc-editor.org/rfc/rfc8504)
 - [RFC 4861: Neighbor Discovery for IP version 6](https://www.rfc-editor.org/rfc/rfc4861)
 
-이전: [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](/study/network/ip-mac-arp-rarp/) · [연재 목록](/study/network/) · 다음: [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](/study/network/classful-cidr-subnetting-nat/)
+이전: [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](/study/network/wired-lan-and-wifi/) · [연재 목록](/study/network/) · 다음: [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](/study/network/classful-cidr-subnetting-nat/)

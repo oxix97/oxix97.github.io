@@ -21,22 +21,29 @@ const expectedFiles = [
   'study/network/topology-and-bottlenecks/index.html',
   'study/network/network-classification/index.html',
   'study/network/tcp-ip-layers-and-encapsulation/index.html',
-  'study/network/tcp-udp-mtu-mss-pmtud/index.html',
+  'study/network/tcp-udp-checksums-crc/index.html',
+  'study/network/mtu-mss-pmtud-nagle/index.html',
   'study/network/tcp-connection-lifecycle/index.html',
   'study/network/routing-and-routing-table/index.html',
   'study/network/ip-mac-arp-rarp/index.html',
   'study/network/ipv4-ipv6-addressing/index.html',
   'study/network/classful-cidr-subnetting-nat/index.html',
-  'study/network/http-headers-and-versions/index.html',
+  'study/network/http-messages-and-http-1/index.html',
+  'study/network/http-2-and-http-3/index.html',
+  'study/network/https-cryptography-and-certificates/index.html',
   'study/network/https-tls-1-3-handshake/index.html',
   'study/network/browser-storage-and-cookies/index.html',
   'study/network/session-vs-token-authentication/index.html',
   'study/network/http-methods-status-and-idempotency/index.html',
+  'study/network/rest-api/index.html',
   'study/network/network-devices-and-ethernet/index.html',
   'study/network/wired-lan-and-wifi/index.html',
   'study/network/traffic-overload-and-bottlenecks/index.html',
   'study/network/browser-security-boundaries/index.html',
+  'study/network/browser-rendering/index.html',
   'study/network/url-to-screen/index.html',
+  'study/network/tcp-udp-mtu-mss-pmtud/index.html',
+  'study/network/http-headers-and-versions/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -52,6 +59,22 @@ const expectedFiles = [
 
 for (const relativePath of expectedFiles) {
   await access(new URL(relativePath, distUrl));
+}
+
+const legacyTcpArticle = await readFile(
+  new URL('study/network/tcp-udp-mtu-mss-pmtud/index.html', distUrl),
+  'utf8',
+);
+if (!legacyTcpArticle.includes('/study/network/tcp-udp-checksums-crc/')) {
+  throw new Error('legacy TCP/MTU URL does not redirect to the TCP and checksum article');
+}
+
+const legacyHttpArticle = await readFile(
+  new URL('study/network/http-headers-and-versions/index.html', distUrl),
+  'utf8',
+);
+if (!legacyHttpArticle.includes('/study/network/http-messages-and-http-1/')) {
+  throw new Error('legacy HTTP URL does not redirect to the HTTP/1.x article');
 }
 
 async function assertMissing(relativePath) {
@@ -174,8 +197,12 @@ const expectedNetworkLinks = [
     title: 'TCP/IP 4계층은 데이터를 어떻게 전달하는가',
   },
   {
-    href: './tcp-udp-mtu-mss-pmtud/',
-    title: 'TCP와 UDP, 그리고 MTU·MSS·PMTUD',
+    href: './tcp-udp-checksums-crc/',
+    title: 'TCP와 UDP는 오류를 어떻게 다루는가: 신뢰성·체크섬·CRC',
+  },
+  {
+    href: './mtu-mss-pmtud-nagle/',
+    title: 'MTU·MSS·PMTUD와 네이글 알고리즘',
   },
   {
     href: './tcp-connection-lifecycle/',
@@ -190,6 +217,14 @@ const expectedNetworkLinks = [
     title: 'IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP',
   },
   {
+    href: './network-devices-and-ethernet/',
+    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
+  },
+  {
+    href: './wired-lan-and-wifi/',
+    title: '유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가',
+  },
+  {
     href: './ipv4-ipv6-addressing/',
     title: 'IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현',
   },
@@ -198,12 +233,20 @@ const expectedNetworkLinks = [
     title: '클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법',
   },
   {
-    href: './http-headers-and-versions/',
-    title: 'HTTP는 버전이 바뀌며 무엇을 해결했는가: 헤더부터 HTTP/3까지',
+    href: './http-messages-and-http-1/',
+    title: 'HTTP 메시지와 HTTP/1.x: 헤더·연결 재사용·HOL',
+  },
+  {
+    href: './http-2-and-http-3/',
+    title: 'HTTP/2와 HTTP/3: 멀티플렉싱과 HOL의 변화',
+  },
+  {
+    href: './https-cryptography-and-certificates/',
+    title: 'HTTPS 암호화와 인증서: 기밀성·키 합의·서버 인증',
   },
   {
     href: './https-tls-1-3-handshake/',
-    title: 'HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크',
+    title: 'TLS 1.3 핸드셰이크는 연결 키를 어떻게 만드는가',
   },
   {
     href: './browser-storage-and-cookies/',
@@ -219,12 +262,8 @@ const expectedNetworkLinks = [
     title: 'HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성',
   },
   {
-    href: './network-devices-and-ethernet/',
-    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
-  },
-  {
-    href: './wired-lan-and-wifi/',
-    title: '유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가',
+    href: './rest-api/',
+    title: 'REST API는 리소스를 어떻게 표현하고 연결하는가',
   },
   {
     href: './traffic-overload-and-bottlenecks/',
@@ -233,6 +272,10 @@ const expectedNetworkLinks = [
   {
     href: './browser-security-boundaries/',
     title: '브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가',
+  },
+  {
+    href: './browser-rendering/',
+    title: '브라우저 렌더링: HTML에서 화면까지',
   },
   {
     href: './url-to-screen/',
