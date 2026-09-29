@@ -12,7 +12,7 @@ sidebar:
   order: 14
 ---
 
-세션 기반 인증과 토큰 기반 인증을 비교할 때 상태를 누가 보관하는지가 헷갈렸다. 로그인 뒤 클라이언트가 보내는 값과 서버가 확인하는 대상을 기준으로 두 방식을 다시 정리했다.
+세션 기반 인증과 토큰 기반 인증은 클라이언트가 보내는 값과 서버가 확인하는 상태의 위치가 다르다. 로그인 뒤의 같은 요청을 두 방식으로 처리하면 이 차이가 드러난다.
 
 같은 `/me` 요청을 두 방식으로 보낸다고 생각해 보자. 세션 방식에서는 브라우저가 세션 ID를 보내고 서버가 저장소를 찾는다. 자체 검증형 토큰 방식에서는 클라이언트가 Access Token을 보내고 서버가 서명과 조건을 검증한다. 뒤의 JWT와 Refresh Token은 이 기본 차이를 이해한 다음 읽는다.
 
@@ -152,6 +152,8 @@ Refresh Token을 도입했다고 서버가 항상 무상태가 되는 것은 아
 
 세션 ID를 쿠키에 넣을 수도 있고 Refresh Token을 쿠키에 넣을 수도 있다. 쿠키가 자동으로 전송되는 구조라면 `Secure`, `HttpOnly`, `SameSite`와 CSRF 방어를 함께 검토해야 한다.
 
+쿠키의 자동 전송이 왜 위조 요청과 연결되는지, CORS 오류와 CSRF 방어를 왜 같은 것으로 볼 수 없는지는 [브라우저 보안 경계 글](/study/network/browser-security-boundaries/)에서 이어서 살핀다.
+
 ## 장점과 한계
 
 세션 기반 인증은 서버가 상태를 직접 관리하므로 로그아웃과 강제 만료를 바로 반영하기 쉽다. 세션에 담긴 권한이 바뀌어도 다음 조회부터 적용할 수 있다. 반면 서버가 늘어나면 세션 저장소를 공유해야 하고, 저장소의 지연이나 장애가 인증 요청에 영향을 준다.
@@ -187,6 +189,7 @@ Access Token의 수명을 짧게 두면 탈취됐을 때 사용할 수 있는 �
 - [ ] Access Token과 Refresh Token의 수명을 나누는 이유를 설명할 수 있다.
 - [ ] Refresh Token 회전과 폐기 때문에 서버 상태가 필요할 수 있음을 설명할 수 있다.
 - [ ] 세션과 토큰을 로그아웃, 확장, 탈취 대응 기준으로 비교할 수 있다.
+- [ ] 쿠키로 전달하는 자격 증명에 CSRF 방어를 검토해야 하는 이유를 설명할 수 있다.
 
 ## 참고 자료
 
@@ -201,4 +204,4 @@ Access Token의 수명을 짧게 두면 탈취됐을 때 사용할 수 있는 �
 - [RFC 10025: Cookies: HTTP State Management Mechanism](https://www.rfc-editor.org/rfc/rfc10025)
 - [Express session middleware](https://expressjs.com/en/resources/middleware/session.html)
 
-이전: [브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교](/study/network/browser-storage-and-cookies/) · [연재 목록](/study/network/)
+이전: [브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교](/study/network/browser-storage-and-cookies/) · [연재 목록](/study/network/) · 다음: [HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성](/study/network/http-methods-status-and-idempotency/)

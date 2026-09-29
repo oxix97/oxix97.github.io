@@ -46,6 +46,14 @@ TCP는 연결을 설정할 때 두 종단이 초기 시퀀스 번호를 독립�
 
 RFC 9293이 설명하는 신뢰성은 연결 안에서 바이트 스트림을 순서대로 전달하는 범위다. ACK는 상대 TCP가 바이트를 수신했다는 뜻이지 상대 애플리케이션이 처리하거나 저장했다는 확인이 아니다. 연결이 재설정되면 애플리케이션은 어느 업무 동작까지 완료됐는지 TCP만으로 알 수 없다. 결제처럼 중복 실행이 위험한 작업은 멱등성 키와 업무 수준의 결과 확인을 별도로 둔다.
 
+## 작은 TCP 세그먼트를 모으는 이유
+
+애플리케이션이 아주 작은 데이터를 여러 번 쓰면 헤더에 비해 데이터가 적은 세그먼트가 연달아 생길 수 있다. 네이글 알고리즘은 확인되지 않은 데이터가 남아 있을 때 새로 생긴 작은 데이터를 모아, ACK가 오거나 충분한 데이터를 보낼 수 있을 때 전송한다. 목적은 작은 세그먼트의 수를 줄이는 것이다.
+
+대신 작은 쓰기가 즉시 네트워크로 나가지 않을 수 있다. 지연 ACK 등 상대의 확인 동작과 맞물리면 대화형 요청의 지연이 커질 수 있으므로, 실제 세그먼트와 지연을 측정한 뒤 해당 연결에서 비활성화할지 판단한다. 이 알고리즘은 TCP의 작은 쓰기를 다루며 UDP나 MTU 탐색 규칙은 아니다.
+
+**작은 패킷을 줄이는 이점과 응답 지연의 비용을 같은 연결에서 비교한다.**
+
 ## MTU와 MSS의 차이
 
 링크 MTU는 해당 인터페이스에서 단편화 없이 전달할 수 있는 IP 패킷의 최대 크기다. IP 헤더와 전송 계층 헤더, 데이터는 MTU 안에 들어가지만 Ethernet 헤더 같은 링크 계층 헤더는 포함하지 않는다. 경로 MTU(PMTU)는 현재 경로에 놓인 링크 MTU 중 가장 작은 값이다.
@@ -134,12 +142,12 @@ MTU는 해당 링크에서 단편화 없이 전달할 수 있는 IP 패킷 전�
 
 - [ ] TCP ACK가 상대 애플리케이션의 처리 완료를 보장하지 않음을 설명할 수 있다.
 - [ ] TCP의 신뢰성이 핸드셰이크뿐 아니라 시퀀스 번호, ACK, 재전송, 체크섬으로 구성됨을 설명할 수 있다.
+- [ ] 작은 TCP 쓰기가 이어질 때 네이글 알고리즘이 무엇을 모으고 어떤 지연을 만들 수 있는지 설명할 수 있다.
 - [ ] UDP에서 필요한 순서·재전송·중복 제거 보장을 애플리케이션이 설계할 수 있음을 설명할 수 있다.
 - [ ] 링크 MTU, 경로 MTU, TCP MSS 광고값을 구분할 수 있다.
 - [ ] MTU는 IP 패킷 전체, MSS는 TCP 데이터 크기의 상한임을 구분할 수 있다.
 - [ ] 1500·20·20·1460이 기본 Ethernet과 IPv4 및 TCP 헤더를 가정한 예시임을 설명할 수 있다.
 - [ ] MSS 옵션은 고정 헤더만 빼고 실제 데이터 길이는 옵션만큼 더 줄인다는 규칙을 설명할 수 있다.
-- [ ] IPv4 라우터 단편화와 IPv6 송신자 단편화의 차이를 설명할 수 있다.
 - [ ] IPv4 라우터 단편화와 IPv6 송신자 단편화의 차이 및 PMTUD의 ICMP 의존성을 설명할 수 있다.
 - [ ] 고전적 PMTUD와 ICMP에 의존하지 않는 PLPMTUD를 구분할 수 있다.
 
@@ -147,6 +155,8 @@ MTU는 해당 링크에서 단편화 없이 전달할 수 있는 IP 패킷 전�
 
 - [TCP/IP 4계층 #4. 전송 계층(transport) ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=132274)
 - [TCP/IP 4계층 #2. MTU와 MSS와 PMTUD ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=116686)
+- [Q. 네이글 알고리즘이란 무엇인가요? ★☆☆](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=210101)
+- [RFC 1122: Requirements for Internet Hosts — Communication Layers](https://www.rfc-editor.org/rfc/rfc1122)
 - [RFC 9293: Transmission Control Protocol](https://www.rfc-editor.org/rfc/rfc9293)
 - [RFC 768: User Datagram Protocol](https://www.rfc-editor.org/rfc/rfc768)
 - [RFC 8200: Internet Protocol, Version 6 Specification](https://www.rfc-editor.org/rfc/rfc8200)

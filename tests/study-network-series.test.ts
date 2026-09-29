@@ -168,11 +168,16 @@ const articles: ArticleContract[] = [
         title: 'TCP/IP 4계층 #2. MTU와 MSS와 PMTUD ★★★',
         unitId: 116686,
       },
+      {
+        title: 'Q. 네이글 알고리즘이란 무엇인가요? ★☆☆',
+        unitId: 210101,
+      },
     ],
     sections: [
       '핵심 요약',
       'TCP와 UDP의 선택 기준',
       'TCP의 신뢰성을 구성하는 장치',
+      '작은 TCP 세그먼트를 모으는 이유',
       'MTU와 MSS의 차이',
       'PMTUD가 경로 크기를 찾는 방법',
       '운영에서 확인할 실패 조건',
@@ -507,6 +512,91 @@ const articles: ArticleContract[] = [
       },
     ],
   },
+  {
+    file: 'http-methods-status-and-idempotency.md',
+    title: 'HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성',
+    order: 15,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'HTTP', 'REST', 'Idempotency'],
+    units: [
+      { title: 'HTTP 상태코드 ★★★', unitId: 141380 },
+      { title: 'HTTP 메서드: GET과 POST ★★★', unitId: 141381 },
+      { title: 'HTTP 메서드: PUT과 PATCH ★★★', unitId: 141382 },
+      { title: 'REST API ★★★', unitId: 116077 },
+      { title: 'HTTP의 멱등성이 무엇인가요? ★★★', unitId: 222647 },
+      { title: 'HTTP 멱등성과 API 실습 ★★★', unitId: 222648 },
+    ],
+    sections: ['핵심 요약', '메서드와 상태 코드는 서로 다른 질문에 답한다', 'GET·POST·PUT·PATCH의 선택 기준', '주문 요청을 재시도해야 한다면', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
+  {
+    file: 'network-devices-and-ethernet.md',
+    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
+    order: 16,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'Ethernet', 'Switch', 'Router'],
+    units: [
+      { title: '네트워크를 이루는 장치의 이해 ★☆☆', unitId: 121640 },
+      { title: '네트워크를 이루는 장치 #1 애플리케이션 계층 ★★★', unitId: 121641 },
+      { title: '네트워크를 이루는 장치 #2 전송 계층 ★☆☆', unitId: 121642 },
+      { title: '네트워크를 이루는 장치 #3 인터넷 계층 ★★★', unitId: 121643 },
+      { title: '네트워크를 이루는 장치 #4 데이터링크계층 ★★★', unitId: 121645 },
+      { title: '네트워크를 이루는 장치 #5 물리계층 ★☆☆', unitId: 121647 },
+      { title: '이더넷 프레임 구조 ★☆☆', unitId: 121646 },
+    ],
+    sections: ['핵심 요약', '같은 LAN과 외부 네트워크의 다음 홉', '이더넷 프레임에서 확인할 부분', '장치 이름을 계층과 연결하기', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
+  {
+    file: 'wired-lan-and-wifi.md',
+    title: '유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가',
+    order: 17,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'Ethernet', 'WiFi', 'LAN'],
+    units: [
+      { title: '유선 LAN #1 전이중화 통신과 CSMA/CD ★★☆', unitId: 121648 },
+      { title: '유선 LAN #2 케이블 ★☆☆', unitId: 121649 },
+      { title: '무선 LAN #1 CSMA/CA와 Wi-Fi ★★☆', unitId: 121650 },
+      { title: '무선 LAN #2 주파수 ★☆☆', unitId: 121651 },
+    ],
+    sections: ['핵심 요약', '유선 링크에서 전이중과 충돌을 구분하기', 'Wi-Fi에서 충돌을 피하려는 순서', '2.4GHz와 5GHz를 고르는 기준', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
+  {
+    file: 'traffic-overload-and-bottlenecks.md',
+    title: '트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가',
+    order: 18,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'Performance', 'LoadBalancing', 'Reliability'],
+    units: [
+      { title: '대규모 트래픽으로 인한 서버 과부화 해결방법 #1 ★★★', unitId: 129505 },
+      { title: '대규모 트래픽으로 인한 서버 과부화 해결방법 #2 ★★★', unitId: 129506 },
+      { title: '대규모 트래픽으로 인한 서버 과부화 해결방법 #3 ★★★', unitId: 141066 },
+    ],
+    sections: ['핵심 요약', '느리다는 증상을 구간으로 나누기', '측정 결과에 맞춰 대응하기', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
+  {
+    file: 'browser-security-boundaries.md',
+    title: '브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가',
+    order: 19,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'Browser', 'CORS', 'XSS', 'CSRF'],
+    units: [
+      { title: 'CORS란 무엇인가요? ★★★', unitId: 197977 },
+      { title: 'XSS가 무엇인가요? ★★★', unitId: 291041 },
+      { title: 'CSRF가 무엇인가요? ★★★', unitId: 291042 },
+    ],
+    sections: ['핵심 요약', '출처와 사이트를 먼저 구분한다', 'CORS는 응답 접근 권한을 조정한다', 'XSS는 데이터가 코드가 되는 경계다', 'CSRF는 자동 전송되는 인증 정보를 악용한다', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
+  {
+    file: 'url-to-screen.md',
+    title: '주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기',
+    order: 20,
+    publishedAt: '2026-09-29',
+    tags: ['Network', 'DNS', 'HTTP', 'Browser'],
+    units: [
+      { title: '주소 입력 뒤 과정과 DNS ★★★', unitId: 116069 },
+      { title: '브라우저 렌더링 과정 ★★☆', unitId: 116074 },
+    ],
+    sections: ['핵심 요약', '한 번의 새 방문을 기준으로 따라가기', '응답을 받은 뒤 화면이 나오는 과정', '생략되거나 달라지는 단계', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+  },
 ];
 
 const articleRoute = (article: ArticleContract) =>
@@ -621,7 +711,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all fourteen articles as exact links in reading order', async () => {
+  it('defines all twenty articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');

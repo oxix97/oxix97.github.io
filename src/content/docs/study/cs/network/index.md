@@ -1,15 +1,15 @@
 ---
 title: CS 지식의 정석 - 네트워크
-description: 네트워크 성능, 연결 구조, 분류 기준을 백엔드 관점에서 복습하고 기술면접 답변으로 연결합니다.
+description: 네트워크의 전달 구조부터 HTTP·브라우저 보안과 장애 판단까지 복습합니다.
 slug: study/network
 contentType: page
 sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 14편으로 정리했다.
-성능 지표·토폴로지·분류 기준에서 시작해 TCP/IP 계층과 전송 프로토콜, 라우팅과 IP 주소 체계, HTTP와 TLS, 브라우저 저장소와 로그인 인증으로 이어진다.
-각 글에서는 개념의 차이와 적용 범위를 구분하고, 장애·성능 판단에 필요한 기준을 함께 살핀다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 복습 질문에 맞춰 20편으로 정리했다.
+성능 지표와 전달 경로에서 시작해 HTTP·브라우저 보안·장애 판단으로 이어진다.
+각 글을 읽은 뒤에는 핵심 질문에 자료 없이 답하고, 막힌 부분의 흐름과 적용 조건을 다시 확인한다.
 
 ## 읽는 순서
 
@@ -27,5 +27,13 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 강의 흐름에 맞춰 14
 12. [HTTPS는 어떻게 안전한 연결을 만드는가: TLS 1.3 핸드셰이크](./https-tls-1-3-handshake/)
 13. [브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교](./browser-storage-and-cookies/)
 14. [로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교](./session-vs-token-authentication/)
+15. [HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성](./http-methods-status-and-idempotency/)
+16. [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](./network-devices-and-ethernet/)
+17. [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](./wired-lan-and-wifi/)
+18. [트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가](./traffic-overload-and-bottlenecks/)
+19. [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](./browser-security-boundaries/)
+20. [주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기](./url-to-screen/)
+
+마지막 글은 앞선 개념을 하나의 요청 경로로 설명하는 종합 복습이다. 캐시나 기존 연결이 있을 때 어느 단계가 생략되는지도 함께 확인한다.
 
 [CS 학습 영역으로 돌아가기](/study/cs/)

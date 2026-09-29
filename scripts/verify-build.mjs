@@ -31,6 +31,12 @@ const expectedFiles = [
   'study/network/https-tls-1-3-handshake/index.html',
   'study/network/browser-storage-and-cookies/index.html',
   'study/network/session-vs-token-authentication/index.html',
+  'study/network/http-methods-status-and-idempotency/index.html',
+  'study/network/network-devices-and-ethernet/index.html',
+  'study/network/wired-lan-and-wifi/index.html',
+  'study/network/traffic-overload-and-bottlenecks/index.html',
+  'study/network/browser-security-boundaries/index.html',
+  'study/network/url-to-screen/index.html',
   'blog/index.html',
   'blog/recording-technical-decisions/index.html',
   'blog/tags/engineering/index.html',
@@ -207,6 +213,30 @@ const expectedNetworkLinks = [
   {
     href: './session-vs-token-authentication/',
     title: '로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교',
+  },
+  {
+    href: './http-methods-status-and-idempotency/',
+    title: 'HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성',
+  },
+  {
+    href: './network-devices-and-ethernet/',
+    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
+  },
+  {
+    href: './wired-lan-and-wifi/',
+    title: '유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가',
+  },
+  {
+    href: './traffic-overload-and-bottlenecks/',
+    title: '트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가',
+  },
+  {
+    href: './browser-security-boundaries/',
+    title: '브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가',
+  },
+  {
+    href: './url-to-screen/',
+    title: '주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기',
   },
 ];
 const networkLinks = [
