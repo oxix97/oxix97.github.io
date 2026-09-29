@@ -1,6 +1,6 @@
 ---
 name: writing-review-blog
-description: Use when drafting, revising, or reviewing Korean technical study posts for oxix97's Dev Log, especially study series, interview-preparation articles, and posts that must match the repository's existing structure and voice.
+description: Use when drafting, revising, or reviewing Korean Study article prose for oxix97's Dev Log. Covers conceptual explanations and in-article interview answers, not index-only maintenance or standalone interview question collections.
 ---
 
 # Writing Review Blog Posts
@@ -13,11 +13,13 @@ Write accurate review posts without sounding like a generic reference manual. Gr
 
 Read [references/style-guide.md](references/style-guide.md) before editing prose. For new posts or structural repairs, also read [references/article-template.md](references/article-template.md). Inspect adjacent series posts for repository conventions.
 
+For diagram planning, creation, or authorized edits, read [references/diagram-guide.md](references/diagram-guide.md). For changes to series structure or navigation, use `study-series-maintenance` alongside this skill. Standalone interview collections use `interview-content-editor`. Do not apply the full article sequence to a hub, title-only change, or question collection.
+
 ## Workflow
 
 1. Classify the request as a new draft, existing-post revision, or review only.
 2. Inspect the target and neighboring series posts.
-3. Extract the requested scope, supplied sources, and author learning note.
+3. Extract the requested scope, intended reader, supplied sources, and any author learning note. For a new or substantially revised post, identify the central question the reader should be able to answer.
 4. Apply the personal learning-note gate.
 5. Verify technical claims with primary sources when verification is required.
 6. Draft or revise using the applicable contract below.
@@ -59,6 +61,8 @@ Do not add unverified citations or treat incorrect claims as acceptable for tone
 ## Final verification
 
 Evaluate each item in the style guide's final checklist for the requested mode and scope. For review only, report findings and proposed edits. For revisions, correct in-scope issues and compare preserved artifacts against the original; report out-of-scope findings separately. Mark non-applicable items accordingly. Do not expand the request to satisfy a checklist or claim unresolved issues are fixed. Remove draft-only sentinels before publication and verify that no unsupported personal claims were introduced.
+
+Verify that the article provides the explanation, example, and practice question needed for review. Only the reader can demonstrate their own recall or understanding; do not claim that their learning is complete or block delivery waiting for them to pass a quiz.
 
 ## References
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "GitHub Pages 반영 확인"
+  short_description: "커밋·원격 반영·배포·실제 화면을 구분해 GitHub Pages 변경을 확인합니다."
+  default_prompt: "$github-pages-release-check를 사용해 요청한 반영 범위를 수행하고 커밋·푸시·배포·공개 화면의 확인 상태를 알려주세요."

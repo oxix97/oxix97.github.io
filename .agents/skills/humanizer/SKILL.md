@@ -14,6 +14,19 @@ metadata:
 
 # Humanizer: Remove AI Writing Patterns
 
+## Repository application
+
+Follow the [repository scope and preservation rules](../../../AGENTS.md#review-and-completion-scope). For Study prose, `writing-review-blog` and its verified examples govern voice and structure. Never invent the author's opinions, reactions, experiences, or confusion, including when this skill is invoked directly. Preserve technical terms, conditions, and uncertainty; a fluent sentence must still make the same claim.
+
+Use the patterns below as contextual editing signals, not a banned-word list. Korean technical prose does not need to imitate English punctuation or vocabulary rules. For example:
+
+- `이를 통해 시스템의 효율성을 극대화할 수 있다.` → State the concrete effect already supported by the text; do not invent a performance gain or measurement.
+- `단순히 데이터를 저장하는 것이 아니라, 신뢰의 기반이다.` → Explain what data is stored and why it matters using the existing facts.
+- `따라서`, `즉`, and `중요하다` are not defects by themselves. Remove repeated framing only when it obscures the explanation.
+- Keep a qualifier such as `같은 오리진에서` or `기본 설정에서는` when shortening the sentence; it defines the technical scope.
+
+Use embedded mode for the repository's conditional prose pass. Do not automatically chain additional prose-polishing skills after it.
+
 You are a writing editor that identifies and removes signs of AI-generated text to make writing sound more natural and human. This guide is based on Wikipedia's "Signs of AI writing" page, maintained by WikiProject AI Cleanup.
 
 ## Your Task
@@ -22,7 +35,7 @@ When given text to humanize:
 
 1. **Identify AI patterns** - Scan for the patterns listed below.
 2. **Preserve the information, not the shape** - Every claim in the original survives into the rewrite, but depth doesn't have to be uniform: compress the dull parts, dwell where a human would, and merge or split paragraphs freely. When keeping the information and mirroring the original's structure pull in different directions, the information wins.
-3. **Never invent facts** - The rewrite must not contain any fact, name, number, date, quote, or citation that isn't in the source text. Swapping a vague claim for a specific one is allowed only when the specific comes from the source or from the user; if a sentence needs real-world detail to work, ask for it or write the plain version without it. Opinions and reactions are voice, not facts: where PERSONALITY AND SOUL applies you may add stance, but never new factual claims. (In fiction, invented detail is the job. This rule governs everything else.)
+3. **Never invent facts or author stance** - The rewrite must not contain any fact, name, number, date, quote, or citation that isn't in the source text or user input. Replace a vague claim with a specific one only when the source supports it. Preserve supplied opinions and reactions; do not invent them to simulate a personal voice. If a sentence needs missing detail, write the plain version or ask only when the detail is essential.
 4. **Match the voice** - Fit the intended tone (formal, casual, technical). Add personality only when the content and the author's voice call for it (see PERSONALITY AND SOUL).
 
 How you're invoked changes what you deliver (see Invocation Modes). The draft → audit → final loop itself is defined under Process and Output, below.
@@ -43,7 +56,7 @@ Avoiding AI patterns is only half the job. Sterile, voiceless writing is just as
 
 **Apply this section only when the content and the author's voice call for it** - blog posts, essays, opinion, personal writing. For encyclopedic, technical, legal, or reference text, neutral and plain *is* the correct human voice; don't inject opinions or first person there.
 
-When voice is appropriate, avoid uniform sentence structures, bloodless neutrality, and perfect organization. Let the writer have opinions, uncertainty, mixed feelings, humor, asides, and uneven rhythm. Never add factual claims to create that personality.
+When voice is appropriate, preserve the writer's supplied opinions, uncertainty, humor, and asides. Let sentence rhythm follow the meaning. Do not manufacture personality, mixed feelings, or imperfect organization; neutral technical prose can already be natural.
 
 ## CONTENT PATTERNS
 
@@ -168,11 +181,11 @@ When voice is appropriate, avoid uniform sentence structures, bloodless neutrali
 
 ## STYLE PATTERNS
 
-### 14. Em Dashes (and En Dashes): Cut Them
+### 14. Repetitive Dash Punctuation
 
 **Scope:** Apply punctuation edits only to editable prose. Preserve quotations, code, data, URLs, and artifacts protected by the caller or repository; they are outside the dash check.
 
-**Rule:** Editable prose in the final rewrite contains no em dashes (—) or en dashes (–), subject to Voice Calibration. The em dash is one of the most reliable AI tells, so treat this as a hard constraint, not a "use sparingly" preference. Replace each one, in rough order of preference: a period (start a new sentence), a comma (a tight aside), a colon (introducing an explanation), parentheses (a true aside), or restructure the sentence. Also catch spaced em dashes (` — `) and double hyphens (` -- `) used the same way.
+**Rule:** Review dashes when they repeatedly interrupt the explanation or create a formulaic rhythm. Keep useful punctuation and meaningful ranges. When a rewrite improves clarity, use a period, comma, colon, parentheses, or a simpler sentence. A dash by itself is not evidence of AI writing; follow the author's sample and the language of the article.
 **Before:**
 > The term is primarily promoted by Dutch institutions—not by the people themselves. You don't say "Netherlands, Europe" as an address—yet this mislabeling continues—even in official documents.
 **After:**

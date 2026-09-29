@@ -2,6 +2,8 @@
 
 Use this as a structural starting point for new posts or authorized structural work, then replace every angle-bracket placeholder from repository evidence or user input. Remove optional blocks that do not help the topic. Follow the [personal learning-note gate](../SKILL.md#personal-learning-note-gate); the template creates no additional question requirement. Never publish the `AUTHOR_INPUT_REQUIRED` marker.
 
+This template is for a full Study article, not a hub or standalone question collection. Set one central review question and use a consistent concrete example. Derive title numbering, slug, date, and navigation from the current series; do not copy placeholder metadata as defaults.
+
 ````markdown
 ---
 title: "<글 제목>"

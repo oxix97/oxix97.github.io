@@ -1,0 +1,4 @@
+interface:
+  display_name: "학습 연재 관리"
+  short_description: "학습 연재의 주제 구성과 번호·순서·탐색 링크를 함께 관리합니다."
+  default_prompt: "$study-series-maintenance를 사용해 요청한 연재 변경과 관련 링크·검증 항목을 함께 확인해 주세요."

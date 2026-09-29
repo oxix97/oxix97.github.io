@@ -14,6 +14,10 @@ For a new opening, explain in one or two sentences why the topic is worth review
 
 Build paragraphs in the order `판단 또는 정의 → 이유 → 짧은 예시`. Give each paragraph one main point.
 
+For beginners, start an explanation with a concrete situation before introducing the definition. Explain unfamiliar terms on first use, then connect the situation to the mechanism and its limits. Keep one central example across prose, code, and diagrams when it remains useful. Do not force a new example or rewrite an already clear passage.
+
+For review-oriented posts, organize the explanation around one central question. A nondeveloper should be able to follow the purpose and flow from prose and diagrams; a junior developer should be able to connect them to the code. State necessary prerequisites rather than hiding them behind unexplained jargon.
+
 Review sentences longer than roughly 15–20 words and split them when two conditions, causes, or consequences are packed together. Preserve a longer sentence when splitting would damage the meaning.
 
 Use one meaningful bold decision anchor around each major section when the section contains a practical distinction. Do not bold routine definitions merely to satisfy a count.
@@ -24,6 +28,8 @@ Example:
 - Review-like: `그래서 TIME_WAIT이 필요하다. 새 ISN과 함께, 예전 연결의 흔적이 새 연결에 섞이는 위험을 줄인다.`
 
 ## Required article sequence
+
+This sequence applies to full Study articles. Hubs and standalone interview collections have their own formats; a partial revision does not authorize adding missing sections.
 
 Keep this sequence unless the topic genuinely makes an optional supporting element irrelevant:
 
@@ -65,6 +71,8 @@ Keep useful tables and diagrams because they are scanning aids. Introduce them w
 Keep code examples minimal and runnable enough to illustrate the claim. Explain why each example matters instead of narrating every line.
 
 Reuse existing SVGs exactly during prose-only revisions. When a diagram changes for technical reasons, preserve accessible `alt` text and a concise caption.
+
+For diagram work, follow [diagram-guide.md](diagram-guide.md). Choose a visual for the question it answers, not a per-article image quota.
 
 ## Technical interview questions
 
@@ -109,3 +117,6 @@ Apply this checklist according to [review and completion scope](../../../../AGEN
 - [ ] Keep main prose in `-다` and interview answers in `-습니다`.
 - [ ] Compare protected artifacts against the original using the repository preservation contract.
 - [ ] Remove unsupported personal claims and draft-only sentinels before publication.
+- [ ] For new or substantially revised explanations, the central question, first-use term explanations, and consistent example fit the intended reader.
+- [ ] Review questions ask the reader to explain a flow, distinguish concepts, or apply a rule; they do not merely ask whether the text was read. Reader mastery remains unverified without reader evidence.
+- [ ] New or changed diagrams have been checked in the rendered article under the diagram guide; report any unverified visual checks.

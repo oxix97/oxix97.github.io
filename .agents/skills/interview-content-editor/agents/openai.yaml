@@ -1,0 +1,4 @@
+interface:
+  display_name: "면접 문항 편집"
+  short_description: "면접 질문과 답변을 주제별로 분류하고 기존 아코디언 형식으로 편집합니다."
+  default_prompt: "$interview-content-editor를 사용해 제공한 면접 문항을 기존 형식에 맞추고 누락·중복과 화면 동작을 확인해 주세요."

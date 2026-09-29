@@ -15,6 +15,19 @@ For drafting, revising, or reviewing files under `src/content/docs/study/`:
 
 Do not invoke `$humanizer` for one isolated stylistic pattern. The blog skill and verified repository examples override generic humanizer rules.
 
+## Task routing and execution
+
+Respond in Korean unless the user requests another language. Select skills by the actual task, not incidental keywords.
+
+- Ordinary article drafting, prose revisions, and title changes use the repository content workflow directly. Do not automatically start a Superpowers design/plan/approval cycle for these tasks. Use design planning when the user requests it or the work requires substantial architectural choices.
+- Reuse the execution method, scope, and approvals already supplied for the current task. Do not ask the user to approve the same decision again or present a generic integration menu after they have specified the destination. Ask only about unresolved material choices or genuinely new authorization.
+- Use `$study-series-maintenance` for series planning, splitting, merging, reordering, numbering, and navigation changes. Index-only and metadata-only work does not need the full article template or prose polishing.
+- Use `$interview-content-editor` for standalone question collections under `src/content/docs/interview/`; the Study article's three-question section is a different format.
+- Use `$github-pages-release-check` when asked to commit, push, publish, or diagnose missing deployed changes. Past main-branch pushes are not blanket authorization to publish future work.
+- For Study prose, `writing-review-blog` owns the style. Use one conditional humanizer pass; do not automatically stack `human-writing` and `write-like-me` on top. Explicit user requests for those skills still apply.
+
+Keep repository-specific preferences here and in repository skills rather than editing versioned plugin caches. Check current plugin behavior when diagnosing a conflict; do not assume an earlier plugin version's fixes still apply.
+
 ## Review and completion scope
 
 For review-only requests, report findings and proposed edits without changing files. For partial revisions, fix only issues within the requested scope and report other findings separately. Evaluate checklists as checks, not as permission to expand the task. Complete independent authorized work while any dependent question is pending, and state the remaining limitation rather than claiming an unresolved item is fixed.
