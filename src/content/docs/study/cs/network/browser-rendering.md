@@ -1,5 +1,5 @@
 ---
-title: "브라우저 렌더링: HTML에서 화면까지"
+title: "24. 브라우저 렌더링: HTML에서 화면까지"
 description: 브라우저가 DOM·CSSOM을 만들고 레이아웃·그리기·합성으로 화면을 표시하는 흐름을 정리합니다.
 slug: study/network/browser-rendering
 contentType: study

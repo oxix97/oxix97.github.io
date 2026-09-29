@@ -1,5 +1,5 @@
 ---
-title: "트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가"
+title: "22. 트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가"
 description: 지연·오류·자원 지표로 병목을 좁히고 분산, 제한, 차단, 캐시를 상황에 맞게 선택하는 순서를 정리합니다.
 slug: study/network/traffic-overload-and-bottlenecks
 contentType: study

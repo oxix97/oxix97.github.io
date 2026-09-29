@@ -1,5 +1,5 @@
 ---
-title: "유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가"
+title: "11. 유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가"
 description: 전이중 Ethernet과 공유 무선 채널의 차이를 CSMA/CD·CSMA/CA 및 주파수 선택 기준으로 정리합니다.
 slug: study/network/wired-lan-and-wifi
 contentType: study

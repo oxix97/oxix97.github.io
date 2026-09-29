@@ -1,5 +1,5 @@
 ---
-title: "HTTPS 암호화와 인증서: 기밀성·키 합의·서버 인증"
+title: "16. HTTPS 암호화와 인증서: 기밀성·키 합의·서버 인증"
 description: HTTPS에서 대칭키·공개키·전자서명·인증서가 나누어 맡는 역할을 정리합니다.
 slug: study/network/https-cryptography-and-certificates
 contentType: study

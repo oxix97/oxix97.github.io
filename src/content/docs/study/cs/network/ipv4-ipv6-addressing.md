@@ -1,5 +1,5 @@
 ---
-title: "IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현"
+title: "12. IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현"
 description: 이진수 계산을 바탕으로 IPv4와 IPv6 주소 표기를 읽고, 두 프로토콜의 주소 공간과 헤더 동작 차이를 정리합니다.
 slug: study/network/ipv4-ipv6-addressing
 contentType: study

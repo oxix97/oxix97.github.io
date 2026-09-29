@@ -1,5 +1,5 @@
 ---
-title: "HTTP/2와 HTTP/3: 멀티플렉싱과 HOL의 변화"
+title: "15. HTTP/2와 HTTP/3: 멀티플렉싱과 HOL의 변화"
 description: HTTP/2의 TCP 스트림과 HTTP/3의 QUIC 스트림이 HOL을 다루는 방식을 비교합니다.
 slug: study/network/http-2-and-http-3
 contentType: study

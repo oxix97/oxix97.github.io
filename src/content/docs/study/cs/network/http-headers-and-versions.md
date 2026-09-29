@@ -1,5 +1,5 @@
 ---
-title: "HTTP 메시지와 HTTP/1.x: 헤더·연결 재사용·HOL"
+title: "14. HTTP 메시지와 HTTP/1.x: 헤더·연결 재사용·HOL"
 description: HTTP 메시지의 구조와 HTTP/1.0·1.1의 연결 처리, 파이프라이닝의 HOL을 정리합니다.
 slug: study/network/http-messages-and-http-1
 contentType: study

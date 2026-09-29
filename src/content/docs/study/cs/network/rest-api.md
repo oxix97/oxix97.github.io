@@ -1,5 +1,5 @@
 ---
-title: "REST API는 리소스를 어떻게 표현하고 연결하는가"
+title: "21. REST API는 리소스를 어떻게 표현하고 연결하는가"
 description: REST의 제약과 HTTP 리소스·표현·메서드를 연결해 API 설계 기준을 정리합니다.
 slug: study/network/rest-api
 contentType: study

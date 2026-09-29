@@ -1,5 +1,5 @@
 ---
-title: "주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기"
+title: "25. 주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기"
 description: URL 입력 뒤 이름 확인, 경로 선택, 연결, HTTP 응답, 화면 표시를 하나의 조건부 흐름으로 복습합니다.
 slug: study/network/url-to-screen
 contentType: study

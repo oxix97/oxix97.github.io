@@ -1,5 +1,5 @@
 ---
-title: "HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성"
+title: "20. HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성"
 description: GET·POST·PUT·PATCH와 응답 상태의 의미를 구분하고 주문 API 재시도에서 멱등성이 필요한 이유를 정리합니다.
 slug: study/network/http-methods-status-and-idempotency
 contentType: study

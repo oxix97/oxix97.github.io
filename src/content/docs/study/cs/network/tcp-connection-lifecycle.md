@@ -1,5 +1,5 @@
 ---
-title: "TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지"
+title: "07. TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지"
 description: TCP의 연결 수립과 종료 과정에서 시퀀스 번호와 상태가 어떻게 바뀌며 TIME_WAIT이 왜 필요한지 정리합니다.
 slug: study/network/tcp-connection-lifecycle
 contentType: study

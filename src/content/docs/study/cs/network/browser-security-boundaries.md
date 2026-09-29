@@ -1,5 +1,5 @@
 ---
-title: "브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가"
+title: "23. 브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가"
 description: 교차 출처 응답 접근, 악성 스크립트 실행, 인증된 요청 위조를 구분하고 각 방어가 적용되는 위치를 정리합니다.
 slug: study/network/browser-security-boundaries
 contentType: study

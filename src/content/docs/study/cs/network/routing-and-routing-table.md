@@ -1,5 +1,5 @@
 ---
-title: "라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블"
+title: "08. 라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블"
 description: 라우팅과 라우터의 역할을 구분하고, 라우팅 테이블의 프리픽스·게이트웨이·인터페이스·메트릭을 읽어 패킷의 다음 경로가 선택되는 과정을 정리합니다.
 slug: study/network/routing-and-routing-table
 contentType: study

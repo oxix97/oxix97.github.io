@@ -1,5 +1,5 @@
 ---
-title: TCP/IP 4계층은 데이터를 어떻게 전달하는가
+title: "04. TCP/IP 4계층은 데이터를 어떻게 전달하는가"
 description: TCP/IP 네 계층의 책임과 PDU를 구분하고 TCP 기반 HTTP/1.1 데이터가 캡슐화·역캡슐화되는 과정을 정리합니다.
 slug: study/network/tcp-ip-layers-and-encapsulation
 contentType: study

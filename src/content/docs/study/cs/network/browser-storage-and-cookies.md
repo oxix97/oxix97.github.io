@@ -1,5 +1,5 @@
 ---
-title: "브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교"
+title: "18. 브라우저 저장소는 무엇이 다른가: 로컬스토리지·세션스토리지·쿠키 비교"
 description: 로컬스토리지와 세션스토리지, 쿠키의 저장 범위와 수명, 서버 전송 방식을 비교하고 HTTP 캐시와의 차이를 정리합니다.
 slug: study/network/browser-storage-and-cookies
 contentType: study

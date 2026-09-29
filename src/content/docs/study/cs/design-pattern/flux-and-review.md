@@ -1,5 +1,5 @@
 ---
-title: Flux 패턴과 디자인 패턴 총정리
+title: "08. Flux 패턴과 디자인 패턴 총정리"
 description: Flux의 단방향 상태 흐름과 MVC와의 선택 기준을 정리하고 연재의 패턴을 해결 문제 중심으로 복습합니다.
 slug: study/design-patterns/flux-and-review
 contentType: study

@@ -1,5 +1,5 @@
 ---
-title: "TCP와 UDP는 오류를 어떻게 다루는가: 신뢰성·체크섬·CRC"
+title: "05. TCP와 UDP는 오류를 어떻게 다루는가: 신뢰성·체크섬·CRC"
 description: TCP와 UDP의 전송 보장을 비교하고 체크섬과 CRC가 오류를 검출하는 범위를 정리합니다.
 slug: study/network/tcp-udp-checksums-crc
 contentType: study

@@ -1,5 +1,5 @@
 ---
-title: "로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교"
+title: "19. 로그인 상태는 어디에 저장되는가: 세션 인증과 토큰 인증 비교"
 description: 세션 기반 인증과 토큰 기반 인증의 상태 저장 위치, 요청 흐름, 로그아웃과 탈취 대응 방식을 비교합니다.
 slug: study/network/session-vs-token-authentication
 contentType: study

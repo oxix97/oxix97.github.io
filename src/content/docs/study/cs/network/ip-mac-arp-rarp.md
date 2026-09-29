@@ -1,5 +1,5 @@
 ---
-title: "IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP"
+title: "09. IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP"
 description: IP 주소와 MAC 주소의 역할을 구분하고, ARP가 같은 링크에서 목적지 또는 다음 홉의 MAC 주소를 찾는 과정을 정리합니다.
 slug: study/network/ip-mac-arp-rarp
 contentType: study

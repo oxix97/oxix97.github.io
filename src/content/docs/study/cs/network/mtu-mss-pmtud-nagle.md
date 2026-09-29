@@ -1,5 +1,5 @@
 ---
-title: "MTU·MSS·PMTUD와 네이글 알고리즘"
+title: "06. MTU·MSS·PMTUD와 네이글 알고리즘"
 description: 패킷 크기 한도와 경로 탐색, 작은 TCP 쓰기를 모으는 네이글 알고리즘을 정리합니다.
 slug: study/network/mtu-mss-pmtud-nagle
 contentType: study

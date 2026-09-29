@@ -1,5 +1,5 @@
 ---
-title: "TLS 1.3 핸드셰이크는 연결 키를 어떻게 만드는가"
+title: "17. TLS 1.3 핸드셰이크는 연결 키를 어떻게 만드는가"
 description: TLS 1.3이 키를 합의하고 서버를 인증해 암호화된 연결을 시작하는 흐름을 정리합니다.
 slug: study/network/https-tls-1-3-handshake
 contentType: study

@@ -1,5 +1,5 @@
 ---
-title: 옵저버 패턴과 프록시 패턴
+title: "06. 옵저버 패턴과 프록시 패턴"
 description: 상태 변경을 구독자에게 알리는 옵저버와 대상 접근을 중간에서 제어하는 프록시를 Java·Spring 예시로 구분합니다.
 slug: study/design-patterns/observer-and-proxy
 contentType: study

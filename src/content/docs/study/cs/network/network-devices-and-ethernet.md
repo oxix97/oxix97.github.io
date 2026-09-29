@@ -1,5 +1,5 @@
 ---
-title: "네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가"
+title: "10. 네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가"
 description: 같은 LAN과 외부 네트워크의 전달 경로를 비교하며 스위치·라우터·로드밸런서와 이더넷 프레임의 역할을 정리합니다.
 slug: study/network/network-devices-and-ethernet
 contentType: study

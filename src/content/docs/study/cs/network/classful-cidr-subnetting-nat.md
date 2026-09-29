@@ -1,5 +1,5 @@
 ---
-title: "클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법"
+title: "13. 클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법"
 description: 클래스풀 주소 체계의 한계부터 CIDR·서브네팅 계산과 사설 주소·NAT의 동작 및 한계까지 정리합니다.
 slug: study/network/classful-cidr-subnetting-nat
 contentType: study
