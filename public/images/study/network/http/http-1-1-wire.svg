@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 628" role="img" aria-labelledby="title desc">
+<title id="title">HTTP/1.1 · 응답 순서 대기</title>
+<desc id="desc">위에서 아래로 시간이 흐른다. 하나의 지속 TCP 연결에서 GET A와 GET B를 파이프라이닝한다. B가 먼저 준비되어도 응답 A를 모두 전송한 뒤 B를 보낸다. 화살표는 TCP 세그먼트의 전송 예시이며 실제 캡처가 아니다.</desc>
+<style>text{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;fill:#0f172a;font-size:24px}.title{font-size:28px;font-weight:750}.note{font-size:23px}.axis{stroke:#94a3b8;stroke-width:2;stroke-dasharray:6 6}.wire{stroke-width:3;fill:none}.blue{stroke:#1d4ed8}.red{stroke:#b91c1c}.green{stroke:#047857}</style>
+<defs><marker id="blue" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#1d4ed8" stroke-width="2"/></marker><marker id="green" markerWidth="9" markerHeight="9" refX="8" refY="4" orient="auto"><path d="M0 0 8 4 0 8" fill="none" stroke="#047857" stroke-width="2"/></marker></defs>
+<rect width="600" height="628" rx="18" fill="#f8fafc"/>
+<text class="title" x="300" y="40" text-anchor="middle">HTTP/1.1 · 응답 순서 대기</text>
+<text x="85" y="86" text-anchor="middle">클라이언트</text>
+<text x="515" y="86" text-anchor="middle">서버</text>
+<path class="axis" d="M85 100V562M515 100V562"/>
+<path class="wire blue" d="M85 140L515 168" marker-end="url(#blue)"/>
+<text x="300" y="128" text-anchor="middle">GET A → GET B</text>
+<rect x="98" y="181" width="404" height="34" rx="7" fill="#e2e8f0"/>
+<text class="note" x="300" y="206" text-anchor="middle">요청 두 개를 연속 전송</text>
+<path class="wire blue" d="M515 252L85 280" marker-end="url(#blue)"/>
+<text x="300" y="240" text-anchor="middle">TCP · 응답 A 앞부분</text>
+<rect x="98" y="293" width="404" height="34" rx="7" fill="#e2e8f0"/>
+<text class="note" x="300" y="318" text-anchor="middle">B 준비 완료 · 아직 전송 대기</text>
+<path class="wire blue" d="M515 364L85 392" marker-end="url(#blue)"/>
+<text x="300" y="352" text-anchor="middle">TCP · 응답 A 나머지</text>
+<rect x="98" y="405" width="404" height="34" rx="7" fill="#e2e8f0"/>
+<text class="note" x="300" y="430" text-anchor="middle">응답 A 전송 완료</text>
+<path class="wire green" d="M515 476L85 504" marker-end="url(#green)"/>
+<text x="300" y="464" text-anchor="middle">TCP · 응답 B</text>
+<rect x="98" y="517" width="404" height="34" rx="7" fill="#e2e8f0"/>
+<text class="note" x="300" y="542" text-anchor="middle">이제 B 응답 전송 가능</text>
+<text class="note" x="300" y="606" text-anchor="middle">시간 ↓ · 연결 수립·ACK·TLS 생략</text>
+</svg>
