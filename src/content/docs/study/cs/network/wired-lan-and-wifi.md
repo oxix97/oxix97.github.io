@@ -89,4 +89,4 @@ sidebar:
 - [IEEE 802.11 Wireless LAN Working Group](https://www.ieee802.org/11/)
 - [IEEE 802.3 Ethernet Working Group](https://www.ieee802.org/3/)
 
-이전: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/) · [연재 목록](/study/network/) · 다음: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/)
+이전: [네트워크 장치는 패킷을 어떻게 전달하는가: L2 스위치부터 L7 로드밸런서까지](/study/network/network-devices-and-ethernet/) · [연재 목록](/study/network/) · 다음: [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](/study/network/ipv4-ipv6-addressing/)

@@ -156,4 +156,4 @@ RARP는 자신의 하드웨어 주소만 아는 부팅 호스트가 RARP 서버�
 - [RFC 2131: Dynamic Host Configuration Protocol](https://www.rfc-editor.org/rfc/rfc2131)
 - [IEEE SA: MAC Addresses](https://standards.ieee.org/products-programs/regauth/mac/)
 
-이전: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/) · [연재 목록](/study/network/) · 다음: [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](/study/network/network-devices-and-ethernet/)
+이전: [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](/study/network/routing-and-routing-table/) · [연재 목록](/study/network/) · 다음: [네트워크 장치는 패킷을 어떻게 전달하는가: L2 스위치부터 L7 로드밸런서까지](/study/network/network-devices-and-ethernet/)

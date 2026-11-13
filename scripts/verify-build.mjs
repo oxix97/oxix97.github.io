@@ -218,7 +218,7 @@ const expectedNetworkLinks = [
   },
   {
     href: './network-devices-and-ethernet/',
-    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
+    title: '네트워크 장치는 패킷을 어떻게 전달하는가: L2 스위치부터 L7 로드밸런서까지',
   },
   {
     href: './wired-lan-and-wifi/',

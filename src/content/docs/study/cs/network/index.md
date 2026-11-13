@@ -21,7 +21,7 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 핵심 질문에 따라 25
 7. [TCP 연결의 생명주기: 3-way에서 TIME_WAIT까지](./tcp-connection-lifecycle/)
 8. [라우터는 다음 경로를 어떻게 고르는가: 라우팅과 라우팅 테이블](./routing-and-routing-table/)
 9. [IP 주소를 알면 MAC 주소는 어떻게 찾는가: ARP와 RARP](./ip-mac-arp-rarp/)
-10. [네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가](./network-devices-and-ethernet/)
+10. [네트워크 장치는 패킷을 어떻게 전달하는가: L2 스위치부터 L7 로드밸런서까지](./network-devices-and-ethernet/)
 11. [유선 LAN과 Wi-Fi는 전송 매체를 어떻게 공유하는가](./wired-lan-and-wifi/)
 12. [IPv4와 IPv6 주소는 어떻게 읽는가: 이진수와 주소 표현](./ipv4-ipv6-addressing/)
 13. [클래스풀에서 CIDR과 NAT까지: IPv4 주소 부족을 다루는 방법](./classful-cidr-subnetting-nat/)

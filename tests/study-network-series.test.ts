@@ -576,7 +576,7 @@ const articles: ArticleContract[] = [
   },
   {
     file: 'network-devices-and-ethernet.md',
-    title: '네트워크 장치와 이더넷: 패킷은 어느 장치를 거치는가',
+    title: '네트워크 장치는 패킷을 어떻게 전달하는가: L2 스위치부터 L7 로드밸런서까지',
     order: 10,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Ethernet', 'Switch', 'Router'],
@@ -589,7 +589,7 @@ const articles: ArticleContract[] = [
       { title: '네트워크를 이루는 장치 #5 물리계층 ★☆☆', unitId: 121647 },
       { title: '이더넷 프레임 구조 ★☆☆', unitId: 121646 },
     ],
-    sections: ['핵심 요약', '같은 LAN과 외부 네트워크의 다음 홉', '이더넷 프레임에서 확인할 부분', '장치 이름을 계층과 연결하기', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
+    sections: ['핵심 요약', '요청 경로와 계층별 장치', '같은 LAN과 외부 네트워크의 다음 홉', 'L2 스위치는 MAC 주소를 어떻게 학습하는가', '라우터와 L3 스위치는 다음 경로를 어떻게 고르는가', '이더넷 프레임에서 확인할 부분', 'L4와 L7 로드밸런서는 무엇을 보고 분산하는가', '백엔드 요청과 ALB 헬스 체크', '물리 신호와 NIC·리피터·AP', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
   },
   {
     file: 'wired-lan-and-wifi.md',
