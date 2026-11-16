@@ -19,7 +19,8 @@ sidebar:
 - 요청률, 지연 분포, 오류율, 처리량을 함께 보고 정상 시점과 비교한다.
 - 병목이 CPU·메모리·DB·외부 의존성 중 어디에 있는지 확인한 뒤 용량 확장이나 요청 제한을 선택한다.
 - 로드밸런싱과 자동 확장은 용량을 늘릴 수 있지만 공유 DB나 외부 API가 병목이면 효과가 제한된다.
-- 서킷 브레이커와 우아한 기능 축소는 느린 의존성이 전체 서비스로 장애를 퍼뜨리는 일을 줄인다.
+- 필요한 데이터만 조회하고 CDN·캐시·압축으로 요청과 전송량을 줄이는 방법도 고려한다.
+- 서킷 브레이커는 느린 의존성을 차단하고, 우아한 기능 축소는 과부하 때 핵심 기능을 보존한다.
 
 ## 느리다는 증상을 구간으로 나누기
 
@@ -47,9 +48,19 @@ sidebar:
 
 로드밸런서는 정상 대상에게 요청을 나누고 헬스 체크로 문제가 있는 대상을 제외할 수 있다. 그러나 모든 인스턴스가 하나의 DB에 몰리면 웹 서버만 늘려도 병목은 남는다. 자동 확장도 감지와 새 자원 준비에 시간이 걸린다. 급격한 과부하에는 한도를 정한 요청 거절과 부하 완화가 필요할 수 있다.
 
-서킷 브레이커는 의존성이 실패하는 동안 호출을 일시적으로 막고, 제한된 시험 호출로 회복을 확인한다. 모든 오류를 무조건 숨기는 장치는 아니다. 핵심 기능을 유지하면서 부가 기능을 생략하는 우아한 기능 축소도 어떤 기능을 포기해도 되는지 미리 정해야 한다.
+### 요청과 응답에서 처리할 일을 줄이기
 
-캐시와 CDN은 반복 조회의 원본 부하를 줄일 수 있다. 하지만 캐시 미스가 한꺼번에 몰리거나 오래된 데이터를 허용할 수 없는 요청에는 별도 정책이 필요하다. 응답 압축도 전송량을 줄이는 대신 CPU 비용을 만든다.
+서버를 늘리는 것과 별개로 요청 하나가 옮기고 계산하는 데이터도 줄일 수 있다. 강의 #3의 다섯 전략을 상품 목록 API에 적용하면 다음과 같다.
+
+1. **필요한 데이터만 조회하고 응답한다.** 목록에 상품명과 가격만 필요하다면 `SELECT name, price FROM products`처럼 필요한 컬럼을 선택하고 DTO Projection으로 필요한 필드만 응답한다. DB에서 애플리케이션으로 전달하는 데이터와 응답 크기를 줄일 수 있다. `SELECT *`가 항상 DB 조회를 느리게 하는 것은 아니다. 행·열의 크기, 인덱스와 실행 계획을 함께 확인한다.
+2. **정적 파일은 CDN으로 제공한다.** 상품 이미지, CSS, JavaScript처럼 여러 사용자에게 같은 파일을 주는 경우 엣지 캐시 적중 시 원본 서버까지 요청하지 않고 전달할 수 있다. 캐시 미스나 동적 콘텐츠는 원본으로 이어지므로 모든 요청이 사라지는 것은 아니다.
+3. **캐시 위치마다 줄이는 비용을 구분한다.** 상품 이미지처럼 공개적으로 재사용할 수 있는 리소스는 예를 들어 `Cache-Control: public, max-age=3600`으로 브라우저나 공유 캐시가 최대 3,600초 동안 신선하게 다루도록 할 수 있다. 이 값은 콘텐츠 변경 주기에 맞춰 정한다. 개인별 응답을 공유할 수 없다면 `public`을 적용하지 않는다. Redis의 cache-aside 방식은 반복 DB 조회를 줄일 수 있지만 애플리케이션으로 들어오는 API 요청 자체를 없애지는 않는다. 캐시 만료와 무효화 정책도 함께 정한다.
+4. **텍스트 콘텐츠를 압축한다.** 클라이언트가 허용한 `gzip`이나 Brotli로 HTML·CSS·JavaScript·JSON을 전송하면 응답 바이트를 줄일 수 있다. 압축과 해제에는 CPU가 들고, 이미 압축된 이미지나 영상은 추가 효과가 작을 수 있으므로 실제 크기와 CPU 사용량을 비교한다.
+5. **우아한 기능 축소로 핵심을 남긴다.** 과부하 때 상품 추천이나 동영상 미리보기 같은 부가 기능을 줄이고 핵심 정보를 우선 제공할 수 있다. 가격이나 주문 상태처럼 최신성이 중요한 값은 오래된 캐시를 정상 데이터처럼 보여 주지 않는다. 무엇을 줄여도 되는지와 어떤 기능을 보존할지는 미리 정한다.
+
+이 방법들은 서로 다른 비용을 줄인다. 브라우저 캐시와 CDN은 원본 요청을, Redis 캐시는 반복 DB 작업을, 압축은 전송 바이트를 줄인다. 적용 뒤에는 원본 요청 수, DB 조회량, 응답 크기와 CPU 사용량을 다시 비교한다.
+
+서킷 브레이커는 느린 의존성 호출을 일시적으로 막고 제한된 시험 호출로 회복을 확인한다. 모든 오류를 무조건 숨기는 장치는 아니다. **서킷 브레이커는 의존성 호출 경계를 보호하고, 우아한 기능 축소는 서비스의 부가 작업을 줄인다.** 상태와 설정은 [23번 글](/study/network/circuit-breaker-and-failure-isolation/)에서 이어서 볼 수 있다.
 
 장애 때 처음 대응 절차를 만들면 복구가 늦어진다. 감지 즉시 영향받는 서비스와 사용자 범위를 확인하고, 지표·로그·추적으로 원인을 좁힌다. 담당자에게 상황을 공유한 뒤 부하 제한, 부가 기능 중단, 롤백, 용량 확장처럼 원인에 맞는 완화 조치를 선택한다. 복구 후 사후 분석에서 발생 시각, 영향, 원인, 대응 시간과 후속 조치를 기록해 재발 방지로 연결한다.
 
@@ -77,6 +88,7 @@ sidebar:
 
 - [ ] 느린 요청을 구간별 지연과 오류 지표로 좁히는 순서를 설명할 수 있다.
 - [ ] 확장, 요청 제한, 서킷 브레이커, 캐시가 각각 어떤 병목에 맞는지 판단할 수 있다.
+- [ ] 필요한 데이터 조회, CDN·HTTP·서버 캐시, 압축과 우아한 기능 축소가 줄이는 비용을 구분할 수 있다.
 - [ ] 서버 확장만으로 공유 DB 병목을 해결할 수 없는 이유를 설명할 수 있다.
 - [ ] 대응 후 어떤 지표로 효과와 부작용을 재확인할지 말할 수 있다.
 
@@ -86,6 +98,11 @@ sidebar:
 - [대규모 트래픽으로 인한 서버 과부화 해결방법 #2 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=129506)
 - [대규모 트래픽으로 인한 서버 과부화 해결방법 #3 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=141066)
 - [RFC 9110: 504 Gateway Timeout](https://www.rfc-editor.org/rfc/rfc9110#name-504-gateway-timeout)
+- [RFC 9110: Content Codings](https://www.rfc-editor.org/rfc/rfc9110#section-8.4)
+- [RFC 7932: Brotli Compressed Data Format](https://www.rfc-editor.org/rfc/rfc7932)
+- [RFC 9111: HTTP Caching](https://www.rfc-editor.org/rfc/rfc9111)
+- [Amazon CloudFront: How CloudFront Delivers Content](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/HowCloudFrontWorks.html)
+- [Redis: Cache-aside](https://redis.io/docs/latest/develop/use-cases/cache-aside/)
 - [Amazon CloudWatch 사용 설명서](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)
 - [AWS Well-Architected: Throttle requests](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_throttle_requests.html)
 - [AWS Well-Architected: Implement graceful degradation](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html)

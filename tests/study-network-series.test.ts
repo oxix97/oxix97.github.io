@@ -836,6 +836,19 @@ describe('network Study series', () => {
     expect(markdown).toMatch(/504 Gateway Timeout[\s\S]*과부하/);
   });
 
+  it('covers the lecture #3 workload-reduction strategies', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/traffic-overload-and-bottlenecks.md',
+    );
+
+    expect(markdown).toContain('SELECT name, price FROM products');
+    expect(markdown).toContain('Cache-Control: public, max-age=3600');
+    expect(markdown).toMatch(/CDN[\s\S]*캐시 미스/);
+    expect(markdown).toMatch(/Redis[\s\S]*API 요청/);
+    expect(markdown).toMatch(/gzip[\s\S]*Brotli/);
+    expect(markdown).toMatch(/우아한 기능 축소[\s\S]*추천/);
+  });
+
   it('keeps the Resilience4j sample scoped to recoverable dependency errors', async () => {
     const markdown = await readStudyFile(
       'cs/network/circuit-breaker-and-failure-isolation.md',
