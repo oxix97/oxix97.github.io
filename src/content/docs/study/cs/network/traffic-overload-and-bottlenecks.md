@@ -25,12 +25,16 @@ sidebar:
 
 예를 들어 평소보다 주문 조회 요청이 두 배 늘고 p95 지연과 5xx도 함께 증가했다고 하자. 평균 응답 시간 하나만으로는 네트워크 왕복 시간이 늘었는지, 애플리케이션 대기열이 찼는지, DB 쿼리가 밀리는지 알 수 없다.
 
+`504 Gateway Timeout`은 게이트웨이나 프록시가 정해진 시간 안에 상위 서버의 응답을 받지 못했다는 뜻이다. 과부하가 원인일 수 있지만, 네트워크 문제나 상위 서버 지연도 같은 응답을 만들 수 있다. **504만 보고 과부하로 결론 내리지 말고 요청 경로의 지연과 오류를 함께 본다.**
+
 ```text
 클라이언트 → DNS·연결 → 로드밸런서 → 애플리케이션 → DB·외부 API
                        각 구간의 지연·오류·대기량을 비교한다
 ```
 
 먼저 요청률, 성공·오류 비율, p50·p95·p99 지연을 같은 시간축에 놓는다. 이어 CPU·메모리, 스레드나 연결 풀의 대기, DB 활성 연결과 느린 쿼리, 외부 API 타임아웃을 본다. 애플리케이션과 네트워크 구간을 측정하지 않았다면 임의로 원인을 단정하지 않는다. **처리량이 떨어진 지점과 대기가 시작된 지점을 찾아야 대응 방법을 고를 수 있다.**
+
+모니터링 도구는 서버 자원과 애플리케이션 요청 지표를 모으고, 운영자가 정한 임계치에 경보를 연결한다. 예를 들어 CPU 사용률이 5분 동안 80%를 넘으면 알리도록 설정할 수 있지만, 이 값은 예시일 뿐 서비스의 평소 부하와 용량을 기준으로 정해야 한다. CPU 경보만으로 자동 확장하기보다 같은 시간대의 요청 지연·오류율과 DB·외부 의존성 지표를 함께 확인한다. CloudWatch나 Netdata는 지표를 관찰하는 도구이고, Slack은 경보를 전달하는 채널로 연동할 수 있다.
 
 ## 측정 결과에 맞춰 대응하기
 
@@ -46,6 +50,8 @@ sidebar:
 서킷 브레이커는 의존성이 실패하는 동안 호출을 일시적으로 막고, 제한된 시험 호출로 회복을 확인한다. 모든 오류를 무조건 숨기는 장치는 아니다. 핵심 기능을 유지하면서 부가 기능을 생략하는 우아한 기능 축소도 어떤 기능을 포기해도 되는지 미리 정해야 한다.
 
 캐시와 CDN은 반복 조회의 원본 부하를 줄일 수 있다. 하지만 캐시 미스가 한꺼번에 몰리거나 오래된 데이터를 허용할 수 없는 요청에는 별도 정책이 필요하다. 응답 압축도 전송량을 줄이는 대신 CPU 비용을 만든다.
+
+장애 때 처음 대응 절차를 만들면 복구가 늦어진다. 감지 즉시 영향받는 서비스와 사용자 범위를 확인하고, 지표·로그·추적으로 원인을 좁힌다. 담당자에게 상황을 공유한 뒤 부하 제한, 부가 기능 중단, 롤백, 용량 확장처럼 원인에 맞는 완화 조치를 선택한다. 복구 후 사후 분석에서 발생 시각, 영향, 원인, 대응 시간과 후속 조치를 기록해 재발 방지로 연결한다.
 
 ## 장점과 한계
 
@@ -79,7 +85,9 @@ sidebar:
 - [대규모 트래픽으로 인한 서버 과부화 해결방법 #1 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=129505)
 - [대규모 트래픽으로 인한 서버 과부화 해결방법 #2 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=129506)
 - [대규모 트래픽으로 인한 서버 과부화 해결방법 #3 ★★★](https://www.inflearn.com/courses/lecture?courseId=328823&unitId=141066)
+- [RFC 9110: 504 Gateway Timeout](https://www.rfc-editor.org/rfc/rfc9110#name-504-gateway-timeout)
+- [Amazon CloudWatch 사용 설명서](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/WhatIsCloudWatch.html)
 - [AWS Well-Architected: Throttle requests](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_throttle_requests.html)
 - [AWS Well-Architected: Implement graceful degradation](https://docs.aws.amazon.com/wellarchitected/latest/reliability-pillar/rel_mitigate_interaction_failure_graceful_degradation.html)
 
-이전: [REST API는 리소스를 어떻게 표현하고 연결하는가](/study/network/rest-api/) · [연재 목록](/study/network/) · 다음: [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](/study/network/browser-security-boundaries/)
+이전: [REST API는 리소스를 어떻게 표현하고 연결하는가](/study/network/rest-api/) · [연재 목록](/study/network/) · 다음: [느린 의존성은 어떻게 격리하는가: 서킷 브레이커와 연쇄 장애](/study/network/circuit-breaker-and-failure-isolation/)

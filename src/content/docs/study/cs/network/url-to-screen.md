@@ -1,5 +1,5 @@
 ---
-title: "25. 주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기"
+title: "26. 주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기"
 description: URL 입력 뒤 이름 확인, 경로 선택, 연결, HTTP 응답, 화면 표시를 하나의 조건부 흐름으로 복습합니다.
 slug: study/network/url-to-screen
 contentType: study
@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 25
+  order: 26
 ---
 
 주소창에 URL을 입력한 뒤 화면이 뜰 때까지를 한 문장으로 설명하기는 어렵다. DNS, 라우팅, 연결, HTTP, 렌더링이 서로 다른 단계이기 때문이다. 이 글은 앞선 네트워크 글을 덮고 흐름을 다시 설명해 보는 종합 복습 자료다.

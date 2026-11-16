@@ -619,9 +619,34 @@ const articles: ArticleContract[] = [
     sections: ['핵심 요약', '느리다는 증상을 구간으로 나누기', '측정 결과에 맞춰 대응하기', '장점과 한계', '기술면접 질문', '복습 체크리스트', '참고 자료'],
   },
   {
+    file: 'circuit-breaker-and-failure-isolation.md',
+    title: '느린 의존성은 어떻게 격리하는가: 서킷 브레이커와 연쇄 장애',
+    order: 23,
+    publishedAt: '2026-11-16',
+    tags: ['Network', 'Reliability', 'CircuitBreaker', 'Spring'],
+    units: [
+      { title: '대규모 트래픽으로 인한 서버 과부화 해결방법 #2 ★★★', unitId: 129506 },
+    ],
+    sections: [
+      '핵심 요약',
+      '느린 의존성이 장애를 전파하는 과정',
+      '서킷 브레이커의 상태 전이',
+      'Spring Boot와 Resilience4j로 격리하기',
+      '장점과 한계',
+      '기술면접 질문',
+      '복습 체크리스트',
+      '참고 자료',
+    ],
+    images: [
+      { directory: 'reading', file: 'cascading-failure.svg' },
+      { directory: 'reading', file: 'circuit-breaker-states.svg' },
+      { directory: 'reading', file: 'circuit-breaker-request-flow.svg' },
+    ],
+  },
+  {
     file: 'browser-security-boundaries.md',
     title: '브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가',
-    order: 23,
+    order: 24,
     publishedAt: '2026-09-29',
     tags: ['Network', 'Browser', 'CORS', 'XSS', 'CSRF'],
     units: [
@@ -634,7 +659,7 @@ const articles: ArticleContract[] = [
   {
     file: 'url-to-screen.md',
     title: '주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기',
-    order: 25,
+    order: 26,
     publishedAt: '2026-09-29',
     tags: ['Network', 'DNS', 'HTTP', 'Browser'],
     units: [
@@ -645,7 +670,7 @@ const articles: ArticleContract[] = [
   {
     file: 'browser-rendering.md',
     title: '브라우저 렌더링: HTML에서 화면까지',
-    order: 24,
+    order: 25,
     publishedAt: '2026-09-29',
     tags: ['Browser', 'Rendering', 'DOM', 'CSS'],
     units: [{ title: '브라우저 렌더링 과정 ★★☆', unitId: 116074 }],
@@ -774,7 +799,7 @@ describe('network Study series', () => {
     expect(studyIndex).toContain('[CS 지식의 정석 - 네트워크](/study/network/)');
   });
 
-  it('defines all twenty-five articles as exact links in reading order', async () => {
+  it('defines all twenty-six articles as exact links in reading order', async () => {
     const hub = await readStudyFile('cs/network/index.md');
     const frontmatter = parseFrontmatter(hub);
     const readingOrder = extractSection(hub, '읽는 순서');
@@ -798,6 +823,93 @@ describe('network Study series', () => {
         expectedNavigation(index),
       );
     }
+  });
+
+  it('distinguishes overload signals and gateway timeouts', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/traffic-overload-and-bottlenecks.md',
+    );
+
+    expect(markdown).toMatch(/모니터링 도구[\s\S]*임계치/);
+    expect(markdown).toContain('CPU 사용률이 5분 동안 80%를 넘으면');
+    expect(markdown).toMatch(/감지 즉시[\s\S]*사후 분석/);
+    expect(markdown).toMatch(/504 Gateway Timeout[\s\S]*과부하/);
+  });
+
+  it('keeps the Resilience4j sample scoped to recoverable dependency errors', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/circuit-breaker-and-failure-isolation.md',
+    );
+
+    expect(markdown).toContain('resilience4j-spring-boot4:2.4.0');
+    expect(markdown).toContain('spring-boot-starter-restclient');
+    expect(markdown).toContain('spring-boot-starter-aspectj');
+    expect(markdown).toContain('minimumNumberOfCalls: 5');
+    expect(markdown).toContain('setConnectTimeout');
+    expect(markdown).toContain('setReadTimeout');
+    expect(markdown).toContain('@CircuitBreaker(name = "catalog"');
+    expect(markdown).toContain('CallNotPermittedException');
+    expect(markdown).toContain('HttpClientErrorException');
+    expect(markdown).toContain('SocketTimeoutException');
+    expect(markdown).toContain('hasCause(cause, SocketTimeoutException.class)');
+    expect(markdown).toContain('throw cause;');
+  });
+
+  it('explains half-open recovery using both configured rate thresholds', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/circuit-breaker-and-failure-isolation.md',
+    );
+    const diagram = await readPublicFile(
+      'images/study/network/reading/circuit-breaker-states.svg',
+    );
+
+    expect(markdown).toMatch(/실패율과 느린 호출 비율이 모두 기준 미만/);
+    expect(markdown).toMatch(/둘 중 하나라도 기준 이상/);
+    expect(diagram).toContain('기준 이상');
+    expect(diagram).toContain('대기 후 제한 시험 호출');
+    expect(diagram).toContain('실패율·느린 호출률 기준 이상 → OPEN');
+  });
+
+  it('matches circuit-breaker figure dimensions to each SVG viewBox', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/circuit-breaker-and-failure-isolation.md',
+    );
+
+    for (const file of [
+      'cascading-failure.svg',
+      'circuit-breaker-states.svg',
+      'circuit-breaker-request-flow.svg',
+    ]) {
+      const assetPath = `images/study/network/reading/${file}`;
+      const svg = await readPublicFile(assetPath);
+      const viewBox = svg.match(/viewBox="0 0 (\d+(?:\.\d+)?) (\d+(?:\.\d+)?)"/);
+      const sourceIndex = markdown.indexOf(`src="/${assetPath}"`);
+      const figureStart = markdown.lastIndexOf(
+        '<figure class="study-diagram">',
+        sourceIndex,
+      );
+      const figureEnd = markdown.indexOf('</figure>', sourceIndex);
+      const figure =
+        sourceIndex >= 0 && figureStart >= 0 && figureEnd >= 0
+          ? markdown.slice(figureStart, figureEnd)
+          : undefined;
+      const dimensions = figure?.match(/width="(\d+)"[\s\S]*?height="(\d+)"/);
+
+      expect(viewBox, file).not.toBeNull();
+      expect(dimensions, file).not.toBeNull();
+      expect(Number(dimensions?.[1]) / Number(dimensions?.[2]), file).toBeCloseTo(
+        Number(viewBox?.[1]) / Number(viewBox?.[2]),
+      );
+    }
+  });
+
+  it('states that the read timeout is not a whole-request deadline', async () => {
+    const markdown = await readStudyFile(
+      'cs/network/circuit-breaker-and-failure-isolation.md',
+    );
+
+    expect(markdown).toMatch(/전체 요청.*deadline|deadline.*전체 요청/);
+    expect(markdown).toMatch(/SocketTimeoutException.*RestClientException|RestClientException.*SocketTimeoutException/);
   });
 
   it('keeps exactly three interview answers with exactly three sentences', async () => {

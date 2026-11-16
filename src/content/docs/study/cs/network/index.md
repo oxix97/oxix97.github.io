@@ -1,13 +1,13 @@
 ---
 title: CS 지식의 정석 - 네트워크
-description: 네트워크 전달 구조부터 HTTP·브라우저와 장애 판단까지 25편으로 복습합니다.
+description: 네트워크 전달 구조부터 HTTP·브라우저와 장애 판단까지 26편으로 복습합니다.
 slug: study/network
 contentType: page
 sidebar:
   order: 1
 ---
 
-Inflearn `CS 지식의 정석` 네트워크 섹션을 핵심 질문에 따라 25편으로 정리했다. 성능 지표와 전달 경로에서 시작해 HTTP·브라우저 보안·장애 판단으로 이어진다.
+Inflearn `CS 지식의 정석` 네트워크 섹션을 핵심 질문에 따라 26편으로 정리했다. 성능 지표와 전달 경로에서 시작해 HTTP·브라우저 보안·장애 판단으로 이어진다.
 각 글을 읽은 뒤에는 핵심 질문에 자료 없이 답하고, 막힌 부분의 흐름과 적용 조건을 다시 확인한다.
 
 ## 읽는 순서
@@ -34,9 +34,10 @@ Inflearn `CS 지식의 정석` 네트워크 섹션을 핵심 질문에 따라 25
 20. [HTTP 요청은 무엇을 뜻하는가: 메서드·상태 코드·멱등성](./http-methods-status-and-idempotency/)
 21. [REST API는 리소스를 어떻게 표현하고 연결하는가](./rest-api/)
 22. [트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가](./traffic-overload-and-bottlenecks/)
-23. [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](./browser-security-boundaries/)
-24. [브라우저 렌더링: HTML에서 화면까지](./browser-rendering/)
-25. [주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기](./url-to-screen/)
+23. [느린 의존성은 어떻게 격리하는가: 서킷 브레이커와 연쇄 장애](./circuit-breaker-and-failure-isolation/)
+24. [브라우저 보안 경계: CORS·XSS·CSRF는 무엇이 다른가](./browser-security-boundaries/)
+25. [브라우저 렌더링: HTML에서 화면까지](./browser-rendering/)
+26. [주소 입력부터 화면까지: DNS·연결·요청·렌더링 이어 보기](./url-to-screen/)
 
 마지막 글은 앞선 개념을 하나의 요청 경로로 연결하는 종합 복습이다. DNS·HTTP 캐시와 기존 연결이 있을 때 생략되거나 달라지는 단계도 함께 확인한다.
 

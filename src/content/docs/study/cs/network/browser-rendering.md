@@ -1,5 +1,5 @@
 ---
-title: "24. 브라우저 렌더링: HTML에서 화면까지"
+title: "25. 브라우저 렌더링: HTML에서 화면까지"
 description: 브라우저가 DOM·CSSOM을 만들고 레이아웃·그리기·합성으로 화면을 표시하는 흐름을 정리합니다.
 slug: study/network/browser-rendering
 contentType: study
@@ -9,7 +9,7 @@ series: CS 지식의 정석 - 네트워크
 topic: Network
 difficulty: intermediate
 sidebar:
-  order: 24
+  order: 25
 ---
 
 서버 응답이 도착했다고 화면이 곧바로 완성되지는 않는다. HTML 파싱과 스타일 계산, 레이아웃과 그리기가 어떤 순서로 이어지는지 보면 응답 시간과 화면 표시 지연을 구분하기 쉽다.

@@ -39,6 +39,7 @@ const expectedFiles = [
   'study/network/network-devices-and-ethernet/index.html',
   'study/network/wired-lan-and-wifi/index.html',
   'study/network/traffic-overload-and-bottlenecks/index.html',
+  'study/network/circuit-breaker-and-failure-isolation/index.html',
   'study/network/browser-security-boundaries/index.html',
   'study/network/browser-rendering/index.html',
   'study/network/url-to-screen/index.html',
@@ -268,6 +269,10 @@ const expectedNetworkLinks = [
   {
     href: './traffic-overload-and-bottlenecks/',
     title: '트래픽이 늘어 응답이 느려질 때 무엇부터 확인하는가',
+  },
+  {
+    href: './circuit-breaker-and-failure-isolation/',
+    title: '느린 의존성은 어떻게 격리하는가: 서킷 브레이커와 연쇄 장애',
   },
   {
     href: './browser-security-boundaries/',
